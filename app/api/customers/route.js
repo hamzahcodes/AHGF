@@ -2,7 +2,8 @@ import Customer from "@/models/Customer"
 import { connectToDB } from "@/utils/database"
 import { NextResponse, NextRequest } from "next/server";
 
-
+// to get all customers meant for customers page
+// also when particular customer is clicked then its details api is added
 export const GET = async (request, res) => {
     try {
         const { searchParams } = new URL(request.url)
@@ -24,6 +25,7 @@ export const GET = async (request, res) => {
     }
 }
 
+// create customer 
 export const POST = async (req, res) => {
     // accepting request in the form of JSON only
     // console.log(req);
@@ -62,6 +64,11 @@ export const POST = async (req, res) => {
     }
 }
 
+
+
+// 2 functionalities required:
+//  a. update details of customer (not sure we keep this)
+//  b. append another goat_detail OR financial details
 export const PUT = async (req, res) => {
     // accepting request in the form of JSON only
     const { basic_details, financial_details, goat_details } = await req.json()
@@ -75,6 +82,29 @@ export const PUT = async (req, res) => {
         if(!id) return NextResponse.json({ message: 'ID required to delete!!' }, { status: 404 })
 
         await connectToDB()
+
+        // appending only financial details array to existing customer
+        if(financial_details && !basic_details && !goat_details) {
+            const filter = { _id: id }
+            const update = { $push: { financial_details: financial_details }}
+            const updatedFinance = await Customer.findOneAndUpdate( filter, update, { new: true})
+
+            if(updatedFinance) return NextResponse.json({ message: updatedFinance }, { status: 200 })
+            return NextResponse.json({ message: 'Finance details not updated' }, { status: 404 }) 
+        }
+
+        // appending only goat details array to existing customer
+        if(goat_details && !basic_details && !financial_details) {
+            const filter = { _id: id }
+            const update = { $push: { goat_details: goat_details }}
+            const updatedGoatDetail = await Customer.findOneAndUpdate( filter, update, { new: true})
+
+            if(updatedGoatDetail) return NextResponse.json({ message: updatedGoatDetail }, { status: 200 })
+            return NextResponse.json({ message: 'Finance details not updated' }, { status: 404 }) 
+        }
+
+
+        // in doubt whether we even require this API as we will deal with addition of goat or financial details only
         const updateCustomer = ({
             basic_details: {
                 username: basic_details.username,
@@ -104,6 +134,7 @@ export const PUT = async (req, res) => {
     }
 }
 
+// delete particular customer
 export const DELETE = async (req, res) => {
     try {
         // to fetch unique ID of customers and delete them
