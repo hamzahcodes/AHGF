@@ -64,8 +64,6 @@ export const POST = async (req, res) => {
     }
 }
 
-
-
 // 2 functionalities required:
 //  a. update details of customer (not sure we keep this)
 //  b. append another goat_detail OR financial details
