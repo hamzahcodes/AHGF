@@ -30,9 +30,7 @@ export const POST = async (req, res) => {
     // accepting request in the form of JSON only
     // console.log(req);
     const { basic_details, financial_details, goat_details } = await req.json()
-    console.log('Basic_details', basic_details);
-    console.log('Finance_details', financial_details);
-    console.log('Goat_details', goat_details);
+    
     try {
         await connectToDB()
 

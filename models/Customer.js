@@ -15,7 +15,10 @@ const customerSchema = new Schema({
     // array of financial_details as there are multiple of them
     financial_details: [{
         amount: Number,
-        pay_date: Date,
+        pay_date: {
+            type: Date,
+            default: () => Date.now()
+        },
         balance: Number,
     }],
 
@@ -25,7 +28,7 @@ const customerSchema = new Schema({
         palaai_type: String,
         on_boarding: {
             type: Date,
-            default: new Date()
+            default: () => Date.now()
         },
         off_boarding: Date,
     }]
