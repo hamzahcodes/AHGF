@@ -3,10 +3,20 @@ import Staff from "@/models/Staff"
 import { NextResponse } from "next/server"
 
 export const GET = async (req, res) => {
+
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('staffID') 
+
     try {
         await connectToDB();
-        const staff = await Staff.find({})
-        return NextResponse.json({ message: staff }, { status: 200 })
+
+        if(id) {
+            const oneStaff = await Staff.find({ _id: id })
+            return NextResponse.json({ message: oneStaff }, { status: 200 })
+        } else {
+            const staff = await Staff.find({})
+            return NextResponse.json({ message: staff }, { status: 200 })
+        }
     } catch (error) {
         console.log(error.message);
         return NextResponse.json({ message: error.message }, { status: 500 })
@@ -42,9 +52,9 @@ export const PUT = async (req, res) => {
         await connectToDB()
 
         const updatedStaff = await Staff.findByIdAndUpdate(id, {
-            name: name,
-            phone: phone,
-            salary: salary
+            name: (name != null && name.length != 0) && name,
+            phone: (phone != null && phone.length != 0) && phone,
+            salary: (salary != null && salary.length != 0) && salary
         })
 
         if(updatedStaff) return NextResponse.json({ message: updatedStaff }, { status: 200 })

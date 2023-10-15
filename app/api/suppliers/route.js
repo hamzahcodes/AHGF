@@ -24,15 +24,21 @@ export const GET = async (req, res) => {
 
 export const POST = async (req, res) => {
     const { supplierName, supplierPhone, financialTransactions } = await req.json()
-    console.log(financialTransactions);
+    
     try {
         await connectToDB()
-        const newSupplier = new Supplier({
+        const newSupplier = (financialTransactions == undefined)
+        ?
+        new Supplier({
+            supplierName: supplierName,
+            supplierPhone: supplierPhone
+        })
+        :
+        new Supplier({
             supplierName: supplierName,
             supplierPhone: supplierPhone,
             financialTransactions: [{
                 payment: financialTransactions.payment,
-                paymentDate: financialTransactions.paymentDate,
                 balance: financialTransactions.balance
             }]
         })
