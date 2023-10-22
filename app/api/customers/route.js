@@ -34,23 +34,32 @@ export const POST = async (req, res) => {
     try {
         await connectToDB()
 
-        const newCustomer = new Customer({
-            basic_details: {
-                username: basic_details.username,
-                phone_no: basic_details.phone_no
-            },
-            financial_details: [{
-                amount: financial_details.amount,
-                pay_date: financial_details.pay_date,
-                balance: financial_details.balance,
-            }],
-            goat_details: [{
-                goat_type: goat_details.goat_type,
-                palaai_type: goat_details.palaai_type,
-                on_boarding: goat_details.on_boarding,
-                off_boarding: goat_details.off_boarding,
-            }]
-        })
+        const newCustomer = 
+            (financial_details === undefined && goat_details === undefined)
+            ?
+                new Customer({
+                    basic_details: {
+                        username: basic_details.username,
+                        phone_no: basic_details.phone_no
+                    }
+                })
+            :
+            new Customer({
+                basic_details: {
+                    username: basic_details.username,
+                    phone_no: basic_details.phone_no
+                },
+                financial_details: [{
+                    amount: financial_details.amount,
+                    pay_date: financial_details.pay_date,
+                }],
+                goat_details: [{
+                    goat_type: goat_details.goat_type,
+                    palaai_type: goat_details.palaai_type,
+                    total_amount: goat_details.total_amount,
+                    off_boarding: goat_details.off_boarding,
+                }]
+            })
 
         const createdCustomer = await Customer.create(newCustomer)
 
