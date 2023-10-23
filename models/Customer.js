@@ -18,14 +18,14 @@ const customerSchema = new Schema({
         pay_date: {
             type: Date,
             default: () => Date.now()
-        },
-        balance: Number,
+        }
     }],
 
     // a single customer can have multiple goats
     goat_details: [{
         goat_type: String,
         palaai_type: String,
+        total_amount: Number,
         on_boarding: {
             type: Date,
             default: () => Date.now()
