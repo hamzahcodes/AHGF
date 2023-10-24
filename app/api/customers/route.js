@@ -1,15 +1,15 @@
 import Customer from "@/models/Customer"
 import { connectToDB } from "@/utils/database"
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server"
 
 // to get all customers meant for customers page
 // also when particular customer is clicked then its details api is added
-export const GET = async (request, res) => {
+export const GET = async (req, res) => {
     try {
-        const { searchParams } = new URL(request.url)
+        const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
 
-        await connectToDB();
+        await connectToDB(); 
         if(!id) {
             const customers = await Customer.find({})
             return NextResponse.json({ message: customers }, { status: 200 })
@@ -17,8 +17,7 @@ export const GET = async (request, res) => {
             console.log(id);
             const customer = await Customer.findById(id)
             return NextResponse.json({ message: customer }, { status: 200 })
-        }
-
+        } 
     } catch (error) {
         console.log(error.message);
         return NextResponse.json({ message: error.message }, { status: 500 })
