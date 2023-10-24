@@ -1,7 +1,7 @@
 'use client'
 
-import CustomerHero from '@/app/components/customers/customerHero';
-import Layout from '@/app/components/layout';
+import CustomerHero from '@/components/customers/customerHero';
+import Layout from '@/components/layout';
 import React , {useEffect , useState} from 'react'
 
 const CustomerId = ({params}) => {

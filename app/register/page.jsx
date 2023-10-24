@@ -1,15 +1,16 @@
-import Image from 'next/image'
-import LoginForm from '@components/Authentication/LoginForm'
+import RegisterForm from '@app/components/Authentication/RegisterForm'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { authOptions } from '@app/api/auth/[...nextauth]/route'
 
-export default async function Home() {
+const page = async () => {
+
   const session = await getServerSession(authOptions)
 
   if(session) redirect("/customers")
-
   return (
-      <LoginForm />
+    <RegisterForm />
   )
 }
+
+export default page

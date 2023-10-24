@@ -4,34 +4,42 @@ import { connectToDB } from '@utils/database'
 import User from '@models/User'
 import bcrypt from "bcrypt"
 
-const handler = NextAuth({
+export const authOptions = {
+    pages: { signIn: "/" },
     providers: [
         CredentialsProvider({
             name: "Credentials",
-            credentials: {
-                // phoneNumber: { label: "Phone Number", type: "text", placeholder: "Your Phone" },
-                // password: { label: "Password", type: "password" }
-            },
             async authorize(credentials) {
                 const { phoneNumber, password } = credentials
                 try {
                     await connectToDB()
-                    const existingUser = await User.findOne({ phoneNumber })
-                    if(!existingUser) return null
+                    const user1 = await User.findOne({ phoneNumber })
+                    if(!user1) return null
 
-                    const validPassword = await bcrypt.compare(password, existingUser.password)
-                    if(!validPassword) return null
-
-                    return existingUser
+                    const validPassword = await bcrypt.compare(password, user1.password)
+                    if(validPassword) {
+                        console.log(user1);
+                        const user = {
+                            email: {
+                                username: user1.username,
+                                _id: user1._id,
+                                phone: user1.phoneNumber
+                            },
+                        }
+                        return user
+                    }
+                    
+                    return null
                 } catch (error) {
                     console.log(error.message);
                 }
             }
         })
     ],
-    session: { strategy: "jwt" },
-    secret: process.env.NEXTAUTH_SECRET,
-    pages: { signIn: "/" }
-})
+    session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
+    secret: process.env.NEXTAUTH_SECRET
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

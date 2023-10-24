@@ -1,13 +1,16 @@
 'use client'
 import React , {useEffect , useState} from 'react'
-import Layout from '../components/layout'
-import CustomerList from '../components/customers/customerList'
-
+import Layout from '@components/layout'
+import CustomerList from '@components/customers/customerList'
+import { useSession } from 'next-auth/react'
 
 
 const Page = () => {
     const [customerData, setCustomerData] = useState(null);
 
+    const { data: session } = useSession()
+    console.log(session, "in page.js of customers");
+    
     useEffect(() => {
         getAllCustomers()
        
