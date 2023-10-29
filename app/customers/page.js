@@ -13,7 +13,7 @@ const Page = () => {
 
     const getAllCustomers =async () =>{
         try {
-            const response = await fetch(`/api/customers/?userID=`)
+            const response = await fetch(`/api/customers`)
             const resp = await response.json();
             console.log(resp)
             if(response.status === 200){

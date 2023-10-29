@@ -7,10 +7,7 @@ export function middleware(request) {
   const isPublicPath = (path === '/register' || path === '/')
   
   const token = request.cookies.get("token")?.value || ''
-  
-  // console.log("Path: ", path);
-    // console.log("Token: ",token.length);
-    // console.log("Is Public Path: " ,isPublicPath);
+
   if(isPublicPath && token) {
     return NextResponse.redirect(new URL('/customers', request.nextUrl))
   }

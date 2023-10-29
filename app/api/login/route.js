@@ -20,7 +20,7 @@ export const POST = async (req, res) => {
         const tokenData = {
             id: existingUser._id,
             username: existingUser.username,
-            phoneNumber: existingUser.phoneNumber
+            phoneNumber: existingUser.phoneNumber 
         }
         // console.log("token data: ", tokenData);
         const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: "1d"})
