@@ -31,7 +31,13 @@ const customerSchema = new Schema({
             default: () => Date.now()
         },
         off_boarding: Date,
-    }]
+    }],
+
+    user_id: { 
+        type: Schema.Types.ObjectId,
+        ref: 'User' 
+    }, 
+
 })
 
 const Customer = models.Customer || new model('Customer', customerSchema)

@@ -8,14 +8,15 @@ export const GET = async (req, res) => {
     try {
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
+        const userID = searchParams.get('userID')
 
         await connectToDB(); 
         if(!id) {
-            const customers = await Customer.find({})
+            const customers = await Customer.find({ user_id: userID })
             return NextResponse.json({ message: customers }, { status: 200 })
         } else {
             console.log(id);
-            const customer = await Customer.findById(id)
+            const customer = await Customer.find({ _id: id, user_id: userID })
             return NextResponse.json({ message: customer }, { status: 200 })
         } 
     } catch (error) {
@@ -29,7 +30,8 @@ export const POST = async (req, res) => {
     // accepting request in the form of JSON only
     // console.log(req);
     const { basic_details, financial_details, goat_details } = await req.json()
-    
+    const { searchParams } = new URL(req.url)
+    const userID = searchParams.get('userID')
     try {
         await connectToDB()
 
@@ -40,7 +42,8 @@ export const POST = async (req, res) => {
                     basic_details: {
                         username: basic_details.username,
                         phone_no: basic_details.phone_no
-                    }
+                    }, 
+                    user_id: userID
                 })
             :
             new Customer({
@@ -57,9 +60,11 @@ export const POST = async (req, res) => {
                     palaai_type: goat_details.palaai_type,
                     total_amount: goat_details.total_amount,
                     off_boarding: goat_details.off_boarding,
-                }]
+                }],
+                user_id: userID
             })
 
+        console.log(newCustomer);
         const createdCustomer = await Customer.create(newCustomer)
 
         return NextResponse.json({ message: createdCustomer }, { status: 201 })
@@ -81,6 +86,7 @@ export const PUT = async (req, res) => {
          // to fetch unique ID of customers and update them
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
+        const userID = searchParams.get('userID')
 
         // check before DB gets involved
         if(!id) return NextResponse.json({ message: 'ID required to delete!!' }, { status: 404 })
@@ -89,7 +95,7 @@ export const PUT = async (req, res) => {
 
         // appending only financial details array to existing customer
         if(financial_details && !basic_details && !goat_details) {
-            const filter = { _id: id }
+            const filter = { _id: id, user_id: userID }
             const update = { $push: { financial_details: financial_details }}
             const updatedFinance = await Customer.findOneAndUpdate( filter, update, { new: true})
 
@@ -99,7 +105,7 @@ export const PUT = async (req, res) => {
 
         // appending only goat details array to existing customer
         if(goat_details && !basic_details && !financial_details) {
-            const filter = { _id: id }
+            const filter = { _id: id, user_id: userID }
             const update = { $push: { goat_details: goat_details }}
             const updatedGoatDetail = await Customer.findOneAndUpdate( filter, update, { new: true})
 
@@ -144,11 +150,12 @@ export const DELETE = async (req, res) => {
         // to fetch unique ID of customers and delete them
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
+        const userID = searchParams.get('userID')
 
         // check before DB gets involved
         if(!id) return NextResponse.json({ message: 'ID required to delete!!' }, { status: 404 })
 
-        const deleted = await Customer.findByIdAndDelete(id);
+        const deleted = await Customer.deleteOne({ _id: id, user_id: userID });
 
         if(deleted) return NextResponse.json({ message: 'Customer deleted successfully' }, { status: 200 })
         return NextResponse.json({ message: 'Failed to delete customer' }, { status: 404 })
