@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect} from 'react'
 
 const CustomerHero = ({ customerData }) => {
-    let total =  customerData?.goat_details.map(record => record.total_amount).reduce((total, amount) => total + amount, 0) ;
-    let recieved = customerData?.financial_details.map(record => record.amount).reduce((total, amount) => total + amount, 0)
+    let total =  customerData?.goat_details?.map(record => record.total_amount).reduce((total, amount) => total + amount, 0) ;
+    let recieved = customerData?.financial_details?.map(record => record.amount).reduce((total, amount) => total + amount, 0);
+    console.log({customerData})
+    useEffect(() => {
+      
+    }, [customerData]);
+
+
+
+
     return (
         <>
-            {customerData && (
+            {customerData ?.basic_details ? (
 
                 <div class="rounded-xl mx-4 mt-4   bg-gradient-to-r from-[#659999] to-[#f4791f] flex justify-between px-2">
                     <div className='  w-[45%] flex items-center justify-center gap-4 py-4 '>
@@ -47,6 +55,8 @@ const CustomerHero = ({ customerData }) => {
 
                 </div>
 
+            ):(
+                <h1>Loading...</h1>
             )}
 
         </>

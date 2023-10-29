@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
-
+import React,{useState , useContext} from 'react'
+import AuthContext from '@store/auth-context';
 const AddCustomerDialog = () => {
+    const context = useContext(AuthContext);
     const [customerPayload, setCustomerPayload] = useState({name:'',phone:''});
 
     const submitHandler = async () => {
@@ -17,6 +18,10 @@ const AddCustomerDialog = () => {
 
             // Adding method type
             method: "POST",
+            headers: {
+                'Authorization': 'Bearer ' + context.isLoggedIn.token,
+                "Content-type": "application/json"
+            },
 
             // Adding body or contents to send
             body: JSON.stringify({
@@ -35,9 +40,10 @@ const AddCustomerDialog = () => {
         )
 
         const resp = await response.json();
-        // console.log(resp)
-        if (resp.status === 200) {
-            authContext.loginHandler(true, resp.message.token)
+        console.log(response)
+        if (response.ok) {
+           alert("Customer Added Successfully!!");
+            document.getElementById('my_modal_5').close()
 
 
 

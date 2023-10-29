@@ -18,7 +18,17 @@ const Page = () => {
 
     const getAllCustomers =async () =>{
         try {
-            const response = await fetch(`/api/customers`)
+            const response = await fetch(`/api/customers`, {
+
+                // Adding method type
+                method: "GET",
+                headers: {
+                    'Authorization': 'Bearer ' + context.isLoggedIn.token,
+                    "Content-type": "application/json"
+                },
+
+
+            })
             const resp = await response.json();
             console.log(resp)
             if(response.status === 200){
