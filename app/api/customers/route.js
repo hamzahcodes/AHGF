@@ -1,6 +1,7 @@
 import Customer from "@/models/Customer"
 import { connectToDB } from "@/utils/database"
 import { NextResponse, NextRequest } from "next/server"
+import { getDataFromToken } from "@helper/getDataFromToken"
 
 // to get all customers meant for customers page
 // also when particular customer is clicked then its details api is added
@@ -8,7 +9,7 @@ export const GET = async (req, res) => {
     try {
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
-        const userID = searchParams.get('userID')
+        const userID = await getDataFromToken(req)
 
         await connectToDB(); 
         if(!id) {
@@ -31,7 +32,7 @@ export const POST = async (req, res) => {
     // console.log(req);
     const { basic_details, financial_details, goat_details } = await req.json()
     const { searchParams } = new URL(req.url)
-    const userID = searchParams.get('userID')
+    const userID = await getDataFromToken(req)
     try {
         await connectToDB()
 
@@ -86,7 +87,7 @@ export const PUT = async (req, res) => {
          // to fetch unique ID of customers and update them
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
-        const userID = searchParams.get('userID')
+        const userID = await getDataFromToken(req)
 
         // check before DB gets involved
         if(!id) return NextResponse.json({ message: 'ID required to delete!!' }, { status: 404 })
@@ -150,7 +151,7 @@ export const DELETE = async (req, res) => {
         // to fetch unique ID of customers and delete them
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
-        const userID = searchParams.get('userID')
+        const userID = await getDataFromToken(req)
 
         // check before DB gets involved
         if(!id) return NextResponse.json({ message: 'ID required to delete!!' }, { status: 404 })

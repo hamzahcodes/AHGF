@@ -3,9 +3,6 @@ import Link from 'next/link'
 const CustomerList = ({customerData}) => {
     const [paidAmount, setPaidAmount] = useState('');
 
-
-
-
   return (
     <div className='flex w-full flex-col'>
 
