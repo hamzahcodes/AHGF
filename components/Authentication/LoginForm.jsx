@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useState } from "react"
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
@@ -16,19 +15,23 @@ const LoginForm = () => {
     const handleLoginSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await signIn("credentials", {
-                redirect: false,
-                phoneNumber: phone,
+          const res = await fetch('/api/login', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                phoneNumber: phone, 
                 password: password
             })
+        })
 
-            console.log("Response: ");
-            if(res.error) {
-                setError("Invalid Credentials")
-                return
+            console.log("Response: ", res);
+            if(res.status === 200) {
+              router.push("/customers")
             }
 
-            router.replace("customers")
+
         } catch (error) {
             console.log(error);
         }
@@ -93,7 +96,7 @@ const LoginForm = () => {
                 Don’t have an account yet?{" "}
                 <Link
                   href={"/register"}
-                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up
                 </Link>

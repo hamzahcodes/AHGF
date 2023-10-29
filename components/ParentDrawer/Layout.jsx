@@ -1,15 +1,44 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState} from 'react'
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
-import { useSession } from 'next-auth/react'
-// import { getServerSession } from 'next-auth'
-// import { authOptions } from '@app/api/auth/[...nextauth]/route'
+import { useRouter } from 'next/navigation'
 
-
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
     
+    const router = useRouter()
+    const handleSignOut = async () => {
+        try {
+            const res = await fetch('/api/logout', {
+                method: "GET",
+            })
+
+            if(res.status === 200) {
+                router.push("/")
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    const [ user, setUser ] = useState({})
+    const getUserDetails = async () => {
+        const res = await fetch('/api/userdetail', {
+            method: "GET"
+        })
+        const data = await res.json()
+        console.log("after receiving data: ", data.data);
+        setUser(data.data)
+
+        if(res.status === 500) {
+            router.replace("/")
+        }
+    }
+
+    useEffect(() => {
+        getUserDetails()
+    }, [])
+
     return (
         <div className="drawer">
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -25,10 +54,11 @@ const Layout = ({children}) => {
                     <div className="flex-none hidden lg:block">
                         <ul className="menu menu-horizontal">
                             {/* Navbar menu content here */}
+                            <li><div>Welcome {user && user.username}</div></li>
                             <li><Link href='/customers'>Customers</Link></li>
                             <li><Link href='/suppliers'>Suppliers</Link></li>
                             <li><Link href='/staff'>Staff</Link></li>
-                            <li onClick={() => signOut()}><div>Sign Out</div></li>
+                            <li onClick={() => handleSignOut()}><div>Sign Out</div></li>
                         </ul>
                     </div>
                 </div>
@@ -39,10 +69,11 @@ const Layout = ({children}) => {
                 <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu p-4 w-80 min-h-full bg-base-200">
                     {/* Sidebar content here */}
+                    <li><div>Welcome {user && user.username}</div></li>
                     <li><Link href='/customers'>Customers</Link></li>
                     <li><Link href='/suppliers'>Suppliers</Link></li>
                     <li><Link href='/staff'>Staff</Link></li>
-                    <li onClick={() => signOut()}><div>Sign Out</div></li>
+                    <li onClick={() => handleSignOut()}><div>Sign Out</div></li>
                 </ul>
             </div>
         </div>
