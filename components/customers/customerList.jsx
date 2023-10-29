@@ -6,14 +6,14 @@ const CustomerList = ({customerData}) => {
   return (
     <div className='flex w-full flex-col'>
 
-    {customerData?.map(data => {
+    {customerData?.map((data,key) => {
         let paid = data.financial_details.map(record => record.amount).reduce((total, amount) => total + amount, 0);
         let total = data.goat_details.map(record => record.total_amount).reduce((total, amount) => total + amount, 0);
 
         return (
-            <Link href={`/customers/${data._id}`}>
+            <Link key={key} href={`/customers/${data._id}`}>
                 <div key={data._id} className='w-full flex items-center justify-around py-4 border-b-[0.1px] border-[gray]'>
-                    <div className={`bg-[purple] sm:w-[60px] w-[40px] h-[40px] sm:h-[60px] rounded-[100%] flex justify-center items-center text-white sm:text-[2.4rem] `}>
+                    <div className={`bg-[#37D39A] sm:w-[60px] w-[40px] h-[40px] sm:h-[60px] rounded-[100%] flex justify-center items-center text-white sm:text-[2.4rem] `}>
                         {data.basic_details.username[0]}
                     </div>
 
