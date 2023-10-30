@@ -1,8 +1,23 @@
 import React,{useState , useContext} from 'react'
 import AuthContext from '@store/auth-context';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@helper/http';
+import { addCustomer } from '@helper/http';
 const AddCustomerDialog = () => {
     const context = useContext(AuthContext);
     const [customerPayload, setCustomerPayload] = useState({name:'',phone:''});
+
+
+    const {mutate} = useMutation({
+        mutationFn:addCustomer,
+        onSuccess:()=> { queryClient.invalidateQueries({queryKey:['customers']})}
+    })
+
+
+    
+
+
+
 
     const submitHandler = async () => {
         if (customerPayload.name === '') {
@@ -14,44 +29,7 @@ const AddCustomerDialog = () => {
             return
         }
 
-        const response = await fetch("/api/customers", {
-
-            // Adding method type
-            method: "POST",
-            headers: {
-                'Authorization': 'Bearer ' + context.isLoggedIn.token,
-                "Content-type": "application/json"
-            },
-
-            // Adding body or contents to send
-            body: JSON.stringify({
-                "basic_details": {
-                    "username": customerPayload.name,
-                    "phone_no": customerPayload.phone
-                }
-            }),
-
-            // Adding headers to the request
-            headers: {
-                "Content-type": "application/json"
-            }
-        }
-
-        )
-
-        const resp = await response.json();
-        console.log(response)
-        if (response.ok) {
-           alert("Customer Added Successfully!!");
-            document.getElementById('my_modal_5').close()
-
-
-
-        } else {
-            setError(resp.message)
-        }
-
-
+        mutate({customerPayload:customerPayload,token:context.isLoggedIn.token});
 
 
 

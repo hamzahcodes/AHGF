@@ -41,7 +41,7 @@ const Layout = ({ children }) => {
    
 
     useEffect(() => {
-        getUserDetails()
+        !context.isLoggedIn.status && getUserDetails()
     }, [])
 
     return (

@@ -41,7 +41,7 @@ const ProfileStats = ({customerData}) => {
             
     
         ):(
-            <h2>loadfing</h2>
+            <h2>loading</h2>
 
         )}
 

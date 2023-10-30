@@ -8,50 +8,30 @@ import ProfileStats from '@components/customers/profileStats';
 import GoatList from '@components/customers/goatList';
 import TransactionList from '@components/customers/transactionList';
 import LoadingSpinner from '@components/ui/loadingSpinner';
+import { getCustomerById } from '@helper/http';
+import { useQuery } from '@tanstack/react-query';
 
 const CustomerId = ({params}) => {
   const [customerData, setCustomerData] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
   const context = useContext(AuthContext);
 
-  useEffect(() => {
-    getCustomerById(params.customerId)
-    
-  }, []);
+  const {data , error , isPending , isError} = useQuery({
+    queryKey:['customer'],
+    queryFn:()=> getCustomerById({token:context.isLoggedIn.token,id:params.customerId})
+  })
 
-  const getCustomerById = async (id) => {
-    try {
-      const response = await fetch('/api/customers/?custID=' + id, {
+ 
 
-        // Adding method type
-        method: "GET",
-        headers: {
-          'Authorization': 'Bearer ' + context.isLoggedIn.token,
-          "Content-type": "application/json"
-        },
-
-
-      })
-      const resp = await response.json();
-      console.log(resp,"___")
-      if (response.status === 200) {
-        setCustomerData(resp.message)
-
-      }
-
-    } catch (error) {
-      console.log(error)
-
-    }
-  }
+  
   
   return (
     <Layout>
     {
-      customerData !== null ? (
+      !isPending ? (
         <>
-            <ProfileStats customerData={customerData && customerData[0]} />
-            {/* <CustomerHero customerData={customerData && customerData[0]} /> */}
+            <ProfileStats customerData={data && data[0]} />
+          
             <div>
               <div className="tabs tabs-boxed w-full">
                 <div onClick={() => { setActiveTab(0) }} className={`tab w-[50%] ${!activeTab && 'tab-active'}`}>Transaction Details</div>
@@ -61,10 +41,10 @@ const CustomerId = ({params}) => {
 
             {
               activeTab ? (
-                <GoatList data={customerData && customerData[0].goat_details} />
+                <GoatList data={data && data[0].goat_details} />
               ) :
                 (
-                  <TransactionList data={customerData && customerData[0].financial_details} />
+                  <TransactionList data={data && data[0].financial_details} />
                 )
             }
         </>

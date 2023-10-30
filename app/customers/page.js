@@ -7,57 +7,33 @@ import Link from 'next/link'
 import AddCustomerDialog from '@components/customers/addCustomerDialog'
 import Stats from '@components/customers/stats'
 import LoadingSpinner from '@components/ui/loadingSpinner'
+import { useQuery } from '@tanstack/react-query'
+import { getAllCustomers } from '@helper/http'
+
+
+
 const Page = () => {
     const [customerData, setCustomerData] = useState(null);
     const context = useContext(AuthContext);
+
+    const {data , error , isPending , isError} = useQuery({
+         queryKey: ['customers'], 
+         queryFn: () => getAllCustomers({token:context.isLoggedIn.token})
+        })
    
-
-    useEffect(() => {
-        console.log(context,"@@")
-       context.isLoggedIn.status &&  getAllCustomers()
-    }, [context.isLoggedIn]);
-
-
-    const getAllCustomers =async () =>{
-        try {
-            const response = await fetch(`/api/customers`, {
-
-                // Adding method type
-                method: "GET",
-                headers: {
-                    'Authorization': 'Bearer ' + context.isLoggedIn.token,
-                    "Content-type": "application/json"
-                },
-
-
-            })
-            const resp = await response.json();
-            console.log(resp)
-            if(response.status === 200){
-                setCustomerData(resp.message)
-
-            }
-            
-        } catch (error) {
-            console.log(error)
-            
-        }
-    }
-
-
 
     return (
         <>
             <Layout>
             {
-                customerData ? (
+                !isPending ? (
                         <div className='relative'>
                             <div className='sticky left-0 w-full top-0 ]'>
                                 <Stats />
 
                             </div>
 
-                            <CustomerList customerData={customerData} />
+                            <CustomerList customerData={data} />
 
 
                         </div>
