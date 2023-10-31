@@ -88,8 +88,58 @@ export async function addCustomer({customerPayload,token}) {
     const resp = await response.json();
     console.log(response)
     if (response.ok) {
-        alert("Customer Added Successfully!!");
+       
         document.getElementById('my_modal_5').close()
+
+
+
+    } else {
+        setError(resp.message)
+    }
+}
+
+export async function editCustomer({ customerPayload, token , id ,isPayment }) {
+
+    let payload = isPayment ? {
+        "financial_details": {
+            "pay_date": customerPayload.payout_date,
+            "amount": customerPayload.amount,
+            
+        }
+    } : {
+        "goat_details": {
+            "goat_type": customerPayload.goat_type,
+            "palaai_type": customerPayload.palaai_type,
+            "total_amount": customerPayload.amount,
+            "off_boarding": null
+        }
+    }
+    const response = await fetch("/api/customers/?custID=" + id, {
+
+        // Adding method type
+        method: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            "Content-type": "application/json"
+        },
+
+        // Adding body or contents to send
+        body: JSON.stringify(payload),
+
+        // Adding headers to the request
+        headers: {
+            "Content-type": "application/json"
+        }
+    }
+
+    )
+
+
+    const resp = await response.json();
+    console.log(response)
+    if (response.ok) {
+      
+        
 
 
 

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ProfileStats = ({customerData}) => {
+const ProfileStats = ({customerData , total , recieved}) => {
+    console.log(total)
 
-    let total = customerData?.goat_details?.map(record => record.total_amount).reduce((total, amount) => total + amount, 0);
-    let recieved = customerData?.financial_details?.map(record => record.amount).reduce((total, amount) => total + amount, 0);
+   
   return (
     <>
         {customerData ? (

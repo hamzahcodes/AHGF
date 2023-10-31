@@ -15,11 +15,15 @@ const CustomerId = ({params}) => {
   const [customerData, setCustomerData] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
   const context = useContext(AuthContext);
-
+  
   const {data , error , isPending , isError} = useQuery({
     queryKey:['customer'],
     queryFn:()=> getCustomerById({token:context.isLoggedIn.token,id:params.customerId})
   })
+
+  let total = data && data[0]?.goat_details?.map(record => record.total_amount).reduce((total, amount) => total + amount, 0);
+  let recieved = data && data[0]?.financial_details?.map(record => record.amount).reduce((total, amount) => total + amount, 0);
+
 
  
 
@@ -30,7 +34,7 @@ const CustomerId = ({params}) => {
     {
       !isPending ? (
         <>
-            <ProfileStats customerData={data && data[0]} />
+            <ProfileStats customerData={data && data[0]} total={total} recieved={recieved}/>
           
             <div>
               <div className="tabs tabs-boxed w-full">
@@ -41,10 +45,10 @@ const CustomerId = ({params}) => {
 
             {
               activeTab ? (
-                <GoatList data={data && data[0].goat_details} />
+                <GoatList data={data && data[0].goat_details} id={params.customerId}/>
               ) :
                 (
-                  <TransactionList data={data && data[0].financial_details} />
+                  <TransactionList data={data && data[0].financial_details} id={params.customerId} total={total}/>
                 )
             }
         </>
