@@ -10,22 +10,22 @@ import TransactionList from '@components/customers/transactionList';
 import LoadingSpinner from '@components/ui/loadingSpinner';
 import { getCustomerById } from '@helper/http';
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 const CustomerId = ({params}) => {
   const [customerData, setCustomerData] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
   const context = useContext(AuthContext);
-  
+  const router = useRouter()
+
   const {data , error , isPending , isError} = useQuery({
     queryKey:['customer'],
-    queryFn:()=> getCustomerById({token:context.isLoggedIn.token,id:params.customerId})
+    queryFn:()=> (context.isLoggedIn.status) && getCustomerById({token:context.isLoggedIn.token,id:params.customerId})
   })
 
   let total = data && data[0]?.goat_details?.map(record => record.total_amount).reduce((total, amount) => total + amount, 0);
   let recieved = data && data[0]?.financial_details?.map(record => record.amount).reduce((total, amount) => total + amount, 0);
 
-
- 
 
   
   

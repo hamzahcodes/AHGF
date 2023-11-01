@@ -18,7 +18,7 @@ const Page = () => {
 
     const {data , error , isPending , isError} = useQuery({
          queryKey: ['customers'], 
-         queryFn: () => getAllCustomers({token:context.isLoggedIn.token})
+         queryFn: () => (context.isLoggedIn.status) && getAllCustomers({token:context.isLoggedIn.token})
         })
    
 

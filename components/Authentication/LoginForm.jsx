@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useRouter } from "next/navigation";
+import AuthContext from '@store/auth-context'
+import jwt from "jsonwebtoken"
 
 const LoginForm = () => {
 
@@ -11,6 +13,16 @@ const LoginForm = () => {
     const [ error, setError ] = useState("")
 
     const router = useRouter()
+    const context = useContext(AuthContext);
+
+    const getUserDetails = async () => {
+      const res = await fetch('/api/userdetail', {
+          method: "GET"
+      })
+      const data = await res.json()
+      console.log("after receiving data: ", data.data);
+      context.loginHandler(true, data.data._id, data.data.username)
+  }
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault()
@@ -27,7 +39,9 @@ const LoginForm = () => {
         })
 
             console.log("Response: ", res);
+            console.log(res);
             if(res.status === 200) {
+              getUserDetails()
               router.push("/customers")
             }
 

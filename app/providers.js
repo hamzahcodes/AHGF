@@ -14,10 +14,10 @@ import { queryClient } from '@helper/http'
 
 const Providers = ({ children }) => {
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState({ status: false, token: '' });
-  const loginHandler = (status, token) => {
+  const [isLoggedIn, setIsLoggedIn] = useState({ status: false, token: '', username: '' });
+  const loginHandler = (status, token, username) => {
     console.log(status, token, "&^")
-    setIsLoggedIn({ status: status, token: token })
+    setIsLoggedIn({ status: status, token: token, username: username })
     // localStorage.setItem('token', token)
     // router.replace('/')
   }
