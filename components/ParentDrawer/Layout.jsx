@@ -2,15 +2,12 @@
 
 import React, { useEffect, useState , useContext} from 'react'
 import Link from 'next/link'
-import { getDataFromToken } from '@helper/getDataFromToken'
 import { useRouter } from 'next/navigation'
 import AuthContext from '@store/auth-context'
 const Layout = ({ children }) => {
   
     const context = useContext(AuthContext);
 
-
-    
     const router = useRouter()
     const handleSignOut = async () => {
         try {
@@ -20,7 +17,7 @@ const Layout = ({ children }) => {
 
             if(res.status === 200) {
                 router.push("/")
-                context.loginHandler(false, "")
+                context.loginHandler(false, null, "")
             }
         } catch (error) {
             console.log(error.message);
@@ -29,7 +26,8 @@ const Layout = ({ children }) => {
 
 
     useEffect(() => {
-        !context.isLoggedIn.status && router.push("/") 
+        console.log("#32 ", context.isLoggedIn.status);
+        (context.isLoggedIn.status === false) && router.replace("/") 
     }, [])
 
     return (
