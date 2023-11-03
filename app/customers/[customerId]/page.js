@@ -19,7 +19,7 @@ const CustomerId = ({params}) => {
   const router = useRouter()
 
   const {data , error , isPending , isError} = useQuery({
-    queryKey:['customer'],
+    queryKey:['customer', context.isLoggedIn.token],
     queryFn:()=> (context.isLoggedIn.status) && getCustomerById({token:context.isLoggedIn.token,id:params.customerId})
   })
 
@@ -32,7 +32,7 @@ const CustomerId = ({params}) => {
   return (
     <Layout>
     {
-      !isPending ? (
+      data ? (
         <>
             <ProfileStats customerData={data && data[0]} total={total} recieved={recieved}/>
           

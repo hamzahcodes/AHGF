@@ -17,7 +17,7 @@ const Page = () => {
     const context = useContext(AuthContext);
 
     const {data , error , isPending , isError} = useQuery({
-         queryKey: ['customers'], 
+         queryKey: ['customers', context.isLoggedIn.token], 
          queryFn: () => (context.isLoggedIn.status) && getAllCustomers({token:context.isLoggedIn.token})
         })
    
@@ -26,7 +26,7 @@ const Page = () => {
         <>
             <Layout>
             {
-                !isPending ? (
+                data ? (
                         <div className='relative'>
                             <div className='sticky left-0 w-full top-0 ]'>
                                 <Stats />

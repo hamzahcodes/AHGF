@@ -16,7 +16,7 @@ const Providers = ({ children }) => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState({ status: false, token: '', username: '' });
   const loginHandler = (status, token, username) => {
-    console.log(status, token, "&^")
+    console.log(status, token, username)
     setIsLoggedIn({ status: status, token: token, username: username })
     // localStorage.setItem('token', token)
     // router.replace('/')

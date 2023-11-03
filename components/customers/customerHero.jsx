@@ -15,7 +15,7 @@ const CustomerHero = ({ customerData }) => {
         <>
             {customerData ?.basic_details ? (
 
-                <div class="rounded-xl mx-4 mt-4   bg-gradient-to-r from-[#659999] to-[#f4791f] flex justify-between px-2">
+                <div className="rounded-xl mx-4 mt-4   bg-gradient-to-r from-[#659999] to-[#f4791f] flex justify-between px-2">
                     <div className='  w-[45%] flex items-center justify-center gap-4 py-4 '>
                         <div className={`bg-[gray]  sm:w-[60px] w-[40px] h-[40px] sm:h-[60px] rounded-[100%] flex justify-center items-center text-white sm:text-[2.4rem] `}>
                             {customerData.basic_details.username[0]}

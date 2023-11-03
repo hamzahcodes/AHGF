@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useContext } from "react"
 import { useRouter } from "next/navigation";
 import AuthContext from '@store/auth-context'
+import { getUserDetails } from "@helper/getUserDetails";
 
 const LoginForm = () => {
 
@@ -13,19 +14,6 @@ const LoginForm = () => {
 
     const router = useRouter()
     const context = useContext(AuthContext);
-
-    const getUserDetails = async (prevResp) => {
-      const res = await fetch('/api/userdetail', {
-          method: "GET",
-          headers: {
-            'Authorization': 'Bearer ' + prevResp.token,
-            "Content-type": "application/json"
-        },
-      })
-      const data = await res.json()
-      context.loginHandler(prevResp.success, prevResp.token, data.data.username)
-      console.log("after receiving data: ", data.data);
-  }
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault()
@@ -46,7 +34,10 @@ const LoginForm = () => {
             const resp = await res.json()
             console.log(resp);
             if(res.status === 200) {
-              getUserDetails(resp)
+              const username = await getUserDetails(resp)
+              console.log(username);
+              localStorage.setItem("token", resp.token)
+              context.loginHandler(resp.success, resp.token, username)
               router.push("/customers")
             }
 

@@ -52,7 +52,7 @@ const AddCustomerDialog = () => {
                     <form method="dialog" className='flex flex-col w-full'>
                         {/* if there is a button in form, it will close the modal */}
                         <div className=" w-full text-left">
-                            <label className="control-label font-[600] " htmlFor="Email">Customer Name</label>
+                            <label className="control-label font-[600] " >Customer Name</label>
 
                             <div className="">
                                 <input className="border-2 w-full sm:text-md mt-2 px-4 py-2" data-val="true" data-val-required="The UserName field is required." id="UserName" name="UserName" type="text" onChange={(e) => { setCustomerPayload({ ...customerPayload, name: e.target.value }) }} />
@@ -62,10 +62,10 @@ const AddCustomerDialog = () => {
                         </div>
 
                         <div className=" w-full text-left">
-                            <label className="control-label font-[600] " for="Password">Contact No.</label>
+                            <label className="control-label font-[600] ">Contact No.</label>
                             <div className="">
-                                <input className="border-2 w-full sm:text-md mt-2 px-4 py-2" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" type="number" onChange={(e) => { setCustomerPayload({ ...customerPayload, phone: e.target.value }) }} />
-                                {customerPayload.phone === false && <span className="text-[red]" data-valmsg-for="UserName" data-valmsg-replace="true">Contact No is required</span>}
+                                <input className="border-2 w-full sm:text-md mt-2 px-4 py-2" id="Password" name="Password" type="number" onChange={(e) => { setCustomerPayload({ ...customerPayload, phone: e.target.value }) }} />
+                                {customerPayload.phone === false && <span className="text-[red]"  >Contact No is required</span>}
 
 
                             </div>

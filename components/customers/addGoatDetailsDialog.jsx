@@ -74,7 +74,7 @@ const AddGoatDetailsDialog = ({id}) => {
                         </div>
 
                         <div className=" w-full text-left">
-                            <label className="control-label font-[600] " for="Amount">Total Amount</label>
+                            <label className="control-label font-[600] " >Total Amount</label>
                             <div className="">
                                 <input className="border-2 w-full sm:text-md mt-2 px-4 py-2" data-val="true" id="Amount" name="Amount" type="number" onChange={(e) => { setCustomerPayload({ ...customerPayload, amount: e.target.value }) }} />
                                 {customerPayload.amount === false && <span className="text-[red]" data-valmsg-for="UserName" >Amount is Required</span>}

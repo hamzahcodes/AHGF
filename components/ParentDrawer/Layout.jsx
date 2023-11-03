@@ -1,9 +1,12 @@
 "use client"
 
-import React, { useEffect, useState , useContext} from 'react'
+import React, { useEffect , useContext} from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AuthContext from '@store/auth-context'
+import { getUserDetails } from '@helper/getUserDetails'
+
+
 const Layout = ({ children }) => {
   
     const context = useContext(AuthContext);
@@ -17,6 +20,7 @@ const Layout = ({ children }) => {
 
             if(res.status === 200) {
                 router.push("/")
+                localStorage.setItem("token", "")
                 context.loginHandler(false, null, "")
             }
         } catch (error) {
@@ -26,11 +30,15 @@ const Layout = ({ children }) => {
 
 
     useEffect(() => {
-        console.log("#32 ", context.isLoggedIn.status);
-        (context.isLoggedIn.status === false) && router.replace("/") 
+        if(localStorage.getItem("token") === "") {
+            router.replace("/")
+        } else {
+            context.loginHandler(true, localStorage.getItem("token"), (context.isLoggedIn.username.length !== 0) ? context.isLoggedIn.username : "Guest")
+        }
     }, [])
 
     return (
+
        
 
             <div className="drawer">
