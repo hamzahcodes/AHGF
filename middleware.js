@@ -7,12 +7,15 @@ export function middleware(request) {
   const isPublicPath = (path === '/register' || path === '/')
   
   const token = request.cookies.get("token")?.value || ''
+  // console.log(token);
 
   if(isPublicPath && token) {
+    console.log("Verified");
     return NextResponse.redirect(new URL('/customers', request.nextUrl))
   }
 
   if(!isPublicPath && token.length === 0) {
+    console.log("Unverified");
     return NextResponse.redirect(new URL('/', request.nextUrl))
   }
 

@@ -17,6 +17,11 @@ const LoginForm = () => {
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault()
+
+        if(!phone || !password) {
+          setError("All fields are mandatory")
+          return
+        }
         try {
           const res = await fetch('/api/login', {
             method: "POST",
@@ -29,10 +34,12 @@ const LoginForm = () => {
             })
         })
 
-            console.log("Response: ", res);
-            console.log(res);
             const resp = await res.json()
             console.log(resp);
+            if(res.status === 400) {
+              setError("Invalid Credentials")
+              return 
+            }
             if(res.status === 200) {
               const username = await getUserDetails(resp)
               console.log(username);

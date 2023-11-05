@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect , useContext} from 'react'
+import React, { useEffect , useContext, useState} from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AuthContext from '@store/auth-context'
@@ -19,9 +19,9 @@ const Layout = ({ children }) => {
             })
 
             if(res.status === 200) {
-                router.push("/")
-                localStorage.setItem("token", "")
+                localStorage.removeItem("token")
                 context.loginHandler(false, null, "")
+                router.push("/")
             }
         } catch (error) {
             console.log(error.message);
@@ -30,9 +30,12 @@ const Layout = ({ children }) => {
 
 
     useEffect(() => {
-        if(localStorage.getItem("token") === "") {
-            router.replace("/")
+        const token = localStorage.getItem("token")
+        if(!token) {
+            console.log("In layout useEffect If");
+            router.push("/")
         } else {
+            console.log("In layout useEffect else");
             context.loginHandler(true, localStorage.getItem("token"), (context.isLoggedIn.username.length !== 0) ? context.isLoggedIn.username : "Guest")
         }
     }, [])
