@@ -18,7 +18,9 @@ const Layout = ({ children }) => {
                 method: "GET",
             })
 
-            if(res.status === 200) {
+            const resp = await res.json()
+            console.log(resp);
+            if(resp.success === true) {
                 localStorage.removeItem("token")
                 context.loginHandler(false, null, "")
                 router.push("/")
