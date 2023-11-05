@@ -23,6 +23,8 @@ const Layout = ({ children }) => {
             if(resp.success === true) {
                 localStorage.removeItem("token")
                 context.loginHandler(false, null, "")
+
+                console.log(localStorage.getItem("token"), "Token after logout");
                 router.push("/")
             }
         } catch (error) {
