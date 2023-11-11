@@ -12,6 +12,7 @@ import { getCustomerById , getSupplierById } from '@helper/http';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import SupplierTransactionList from '@components/suppliers/supplierTransactionList';
+import SupplierStats from '@components/suppliers/supplierStats';
 
 const SupplierId = ({ params }) => {
     const [customerData, setCustomerData] = useState(null);
@@ -35,7 +36,7 @@ const SupplierId = ({ params }) => {
             {
                 data ? (
                     <>
-                        <ProfileStats supplierData={data} total={total} recieved={recieved} />
+                        <SupplierStats supplierData={data} total={total} recieved={recieved} />
 
                         {/* <div>
                             <div className="tabs tabs-boxed w-full">
