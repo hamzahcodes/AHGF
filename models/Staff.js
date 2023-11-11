@@ -3,7 +3,11 @@ import { Schema, model, models } from "mongoose"
 const staffSchema = new Schema({
     name: String,
     phone: Number,
-    salary: Number
+    salary: Number,
+    user_id: { 
+        type: Schema.Types.ObjectId,
+        ref: 'User' 
+    }, 
 })
 
 const Staff = models.Staff || new model("Staff", staffSchema)

@@ -1,20 +1,21 @@
 import { connectToDB } from "@/utils/database"
 import Staff from "@/models/Staff"
 import { NextResponse } from "next/server"
+import { getDataFromToken } from "@helper/getDataFromToken"
 
 export const GET = async (req, res) => {
 
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('staffID') 
-
+    const userID = await getDataFromToken(req)
     try {
         await connectToDB();
 
         if(id) {
-            const oneStaff = await Staff.find({ _id: id })
+            const oneStaff = await Staff.find({ _id: id, user_id: userID })
             return NextResponse.json({ message: oneStaff }, { status: 200 })
         } else {
-            const staff = await Staff.find({})
+            const staff = await Staff.find({ user_id: userID })
             return NextResponse.json({ message: staff }, { status: 200 })
         }
     } catch (error) {
@@ -26,15 +27,17 @@ export const GET = async (req, res) => {
 export const POST = async (req, res) => {
     const { name, phone, salary } = await req.json()
     try {
+        const userID = await getDataFromToken(req)
         await connectToDB()
 
         const newStaff = new Staff({
             name: name,
             phone: phone,
-            salary: salary
+            salary: salary,
+            user_id: userID
         })
         const createdStaff = await Staff.create(newStaff)
-        return NextResponse.json({ message: newStaff }, { status: 201 })
+        return NextResponse.json({ message: createdStaff }, { status: 201 })
     } catch (error) {
         console.log(error.message);
         return NextResponse.json({ message: error.message }, { status: 500 })
@@ -46,6 +49,7 @@ export const PUT = async (req, res) => {
     const id = searchParams.get('staffID')
 
     const { name, phone, salary } = await req.json()
+    const userID = await getDataFromToken(req)
 
     // console.log(staffUpdate)
     try {
@@ -54,7 +58,8 @@ export const PUT = async (req, res) => {
         const updatedStaff = await Staff.findByIdAndUpdate(id, {
             name: (name != null && name.length != 0) && name,
             phone: (phone != null && phone.length != 0) && phone,
-            salary: (salary != null && salary.length != 0) && salary
+            salary: (salary != null && salary.length != 0) && salary,
+            user_id: userID
         })
 
         if(updatedStaff) return NextResponse.json({ message: updatedStaff }, { status: 200 })
