@@ -56,7 +56,7 @@ export const PUT = async (req, res) => {
         await connectToDB()
 
         const updatedStaff = await Staff.findByIdAndUpdate(id, {
-            name: (name != null && name.length != 0) && name,
+            // name: (name != null && name.length != 0) && name,
             phone: (phone != null && phone.length != 0) && phone,
             salary: (salary != null && salary.length != 0) && salary,
             user_id: userID
