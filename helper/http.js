@@ -285,3 +285,116 @@ export async function editSupplier({ supplierPayload, token, id, }) {
         setError(resp.message)
     }
 }
+
+
+// STAFF Api's
+export async function getAllStaff({ token }) {
+
+    const response = await fetch(`/api/staff`, {
+
+        // Adding method type
+        method: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            "Content-type": "application/json"
+        },
+
+
+    })
+    const resp = await response.json();
+    console.log(resp)
+    if (!response.ok) {
+        const error = new Error('An error occured while fetching customers');
+        error.code = response.status;
+        error.message = await response.json()
+        throw error
+
+    }
+    return resp.message
+
+
+}
+
+export async function addStaff({ staffPayload, token }) {
+    const response = await fetch("/api/staff", {
+
+        // Adding method type
+        method: "POST",
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            "Content-type": "application/json"
+        },
+
+        // Adding body or contents to send
+        body: JSON.stringify({
+
+            "name": staffPayload.name,
+            "phone": staffPayload.phone,
+            "salary":staffPayload.salary
+
+        }),
+
+        // Adding headers to the request
+        headers: {
+            "Content-type": "application/json"
+        }
+    }
+
+    )
+
+
+    const resp = await response.json();
+    console.log(response)
+    if (response.ok) {
+
+        document.getElementById('add_staff_modal').close()
+
+
+
+    } else {
+        setError(resp.message)
+    }
+}
+
+export async function editStaff({ staffPayload, token, id, }) {
+
+    let payload = {
+        
+            "phone": staffPayload.phone,
+            "salary": staffPayload.salary,
+
+        
+    }
+    const response = await fetch("/api/staff/?staffID=" + id, {
+
+        // Adding method type
+        method: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            "Content-type": "application/json"
+        },
+
+        // Adding body or contents to send
+        body: JSON.stringify(payload),
+
+        // Adding headers to the request
+        headers: {
+            "Content-type": "application/json"
+        }
+    }
+
+    )
+
+
+    const resp = await response.json();
+    console.log(response)
+    if (response.ok) {
+
+
+
+
+
+    } else {
+        setError(resp.message)
+    }
+}
