@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect , useContext, useState} from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AuthContext from '@store/auth-context'
@@ -8,8 +8,9 @@ import { getUserDetails } from '@helper/getUserDetails'
 
 
 const Layout = ({ children }) => {
-  
+
     const context = useContext(AuthContext);
+    const [activeTab, setActiveTab] = useState('home');
 
     const router = useRouter()
     const handleSignOut = async () => {
@@ -20,7 +21,7 @@ const Layout = ({ children }) => {
 
             const resp = await res.json()
             console.log(resp);
-            if(resp.success === true) {
+            if (resp.success === true) {
                 localStorage.removeItem("token")
                 context.loginHandler(false, null, "")
 
@@ -32,10 +33,14 @@ const Layout = ({ children }) => {
         }
     }
 
+    useEffect(() => {
+        setActiveTab(window.location.pathname)
+    }, []);
+
 
     useEffect(() => {
         const token = localStorage.getItem("token")
-        if(!token) {
+        if (!token) {
             console.log("In layout useEffect If");
             router.push("/")
         } else {
@@ -45,49 +50,70 @@ const Layout = ({ children }) => {
     }, [])
 
     return (
+        <div>
+            <div>
+                {children}
 
-       
+            </div>
+            <div>
+                <div className="btm-nav">
+                    <Link href='/home' className={`${activeTab.includes('/home') && 'active border-[#6419E6] text-[#6419E6]'}`}>
 
-            <div className="drawer">
-                <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content flex flex-col">
-                    {/* Navbar */}
-                    <div className="w-full navbar bg-base-300">
-                        <div className="flex-none lg:hidden">
-                            <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                            </label>
-                        </div>
-                        <div className="flex-1 px-2 mx-2">AHGF</div>
-                        <div className="flex-none hidden lg:block">
-                            <ul className="menu menu-horizontal">
-                                {/* Navbar menu content here */}
-                                <li><div>Welcome {context.isLoggedIn.username}</div></li>
-                                <li><Link href='/customers'>Customers</Link></li>
-                                <li><Link href='/suppliers'>Suppliers</Link></li>
-                                <li><Link href='/staff'>Staff</Link></li>
-                                <li onClick={() => handleSignOut()}><div>Sign Out</div></li>
-                            </ul>
-                        </div>
-                    </div>
-                    {/* Page content here */}
-                    {children}
-                </div>
-                <div className="drawer-side">
-                    <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 min-h-full bg-base-200">
-                        {/* Sidebar content here */}
-                        <li><div>Welcome {context.isLoggedIn.username}</div></li>
-                        <li><Link href='/customers'>Customers</Link></li>
-                        <li><Link href='/suppliers'>Suppliers</Link></li>
-                        <li><Link href='/staff'>Staff</Link></li>
-                        <li onClick={() => handleSignOut()}><div>Sign Out</div></li>
-                    </ul>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                        <span className="btm-nav-label text-sm">Home</span>
+
+
+                    </Link>
+
+                    <Link href='/customers' className={`${activeTab.includes('/customers') && 'active border-[#6419E6] text-[#6419E6]'}`}>
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <span className="btm-nav-label text-sm">CUS</span>
+
+
+                    </Link>
+
+                    <Link href='../suppliers' className={`${activeTab.includes('/suppliers') && 'active border-[#6419E6] text-[#6419E6]'}`}>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="20.5" r="1" /><circle cx="18" cy="20.5" r="1" /><path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1" /></svg>
+                        <span className="btm-nav-label text-sm">SUPPL</span>
+
+
+                    </Link>
+
+                    <Link href='/stock' className={`${activeTab.includes('/stock') && 'active border-[#6419E6] text-[#6419E6]'}`}>
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                        <span className="btm-nav-label text-sm">Stock</span>
+
+
+                    </Link>
+
+                    <Link href='/staff' className={`${activeTab.includes('/staff') && 'active border-[#6419E6] text-[#6419E6]'}`}>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                        <span className="btm-nav-label text-sm">Staff</span>
+
+
+                    </Link>
+
+
+
+
+
                 </div>
             </div>
+        </div>
 
-      
-       
+
+
+
+
+
+
+
     )
 }
 

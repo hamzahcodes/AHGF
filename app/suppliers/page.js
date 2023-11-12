@@ -52,7 +52,7 @@ const Page = () => {
 
 
               {/* Open the modal using document.getElementById('ID').showModal() method */}
-              <button onClick={() => document.getElementById('add_supplier_modal').showModal()} className='text-5xl fixed bottom-[3%] right-[5%] w-[80px] h-[80px] rounded-full bg-[#0096D6] text-[#fff]'>+</button>
+              <button onClick={() => document.getElementById('add_supplier_modal').showModal()} className='text-5xl fixed bottom-[10%] right-[5%] w-[70px] h-[70px] rounded-full bg-[#0096D6] text-[#fff]'>+</button>
 
               <AddSupplierDialog />
 
