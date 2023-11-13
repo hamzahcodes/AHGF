@@ -4,7 +4,6 @@ import React, { useEffect, useContext, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AuthContext from '@store/auth-context'
-import { getUserDetails } from '@helper/getUserDetails'
 
 
 const Layout = ({ children }) => {

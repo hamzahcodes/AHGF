@@ -8,7 +8,7 @@ import { editSupplier, queryClient } from '@helper/http';
 const AddSuppliersTransactionDialog = ({ id }) => {
 
     const context = useContext(AuthContext);
-    const [supplierPayload, setSupplierPayload] = useState({ payment: '', balance: '' });
+    const [supplierPayload, setSupplierPayload] = useState({ payment: '' });
 
 
     const { mutate } = useMutation({
@@ -32,11 +32,11 @@ const AddSuppliersTransactionDialog = ({ id }) => {
         if (supplierPayload.payment === '' || supplierPayload.payment === false) {
             setSupplierPayload({ ...supplierPayload, payment: false })
             return
-
-        } else if (supplierPayload.balance === '' || supplierPayload.balance === false) {
-            setSupplierPayload({ ...supplierPayload, balance: false })
-            return
         }
+        // } else if (supplierPayload.balance === '' || supplierPayload.balance === false) {
+        //     setSupplierPayload({ ...supplierPayload, balance: false })
+        //     return
+        // }
 
         mutate({ supplierPayload: supplierPayload, token: context.isLoggedIn.token, id: id });
 
@@ -65,7 +65,7 @@ const AddSuppliersTransactionDialog = ({ id }) => {
 
 
 
-                        <div className=" w-full text-left">
+                        {/* <div className=" w-full text-left">
                             <label className="control-label font-[600] " >Balance</label>
                             <div className="">
                                 <input className="border-2 w-full sm:text-md mt-2 px-4 py-2" data-val="true" id="Amount" name="Amount" type="number" onChange={(e) => { setSupplierPayload({ ...supplierPayload, balance: e.target.value }) }} />
@@ -73,7 +73,7 @@ const AddSuppliersTransactionDialog = ({ id }) => {
 
 
                             </div>
-                        </div>
+                        </div> */}
 
 
                     </form>

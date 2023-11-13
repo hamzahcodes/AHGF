@@ -20,6 +20,10 @@ const Page = () => {
          queryKey: ['customers', context.isLoggedIn.token], 
          queryFn: () => (context.isLoggedIn.status) && getAllCustomers({token:context.isLoggedIn.token})
         })
+
+    if(isError) {
+        console.log('error in fetching all customers');
+    }
    
 
     return (

@@ -25,30 +25,39 @@ const SupplierId = ({ params }) => {
         queryFn: () => (context.isLoggedIn.status) && getSupplierById({ token: context.isLoggedIn.token, id: params.supplierId })
     })
 
-    let total = data && data.financialTransactions?.map(record => record.balance).reduce((total, amount) => total + amount, 0);
-    let recieved = data && data.financialTransactions?.map(record => record.payment).reduce((total, amount) => total + amount, 0);
+    console.log(data);
+    let total = data && data[0].stockDetails?.map(record => record.price).reduce((total, price) => total + price, 0);
+    let paymentMade = data && data[0].financialTransactions?.map(record => record.payment).reduce((total, payment) => total + payment, 0);
 
 
 
 
     return (
         <Layout>
+            {console.log(total, paymentMade)}
             {
                 data ? (
                     <>
-                        <SupplierStats supplierData={data} total={total} recieved={recieved} />
+                        <SupplierStats supplierData={data} total={total} paymentMade={paymentMade} />
 
-                        {/* <div>
+                        <div>
                             <div className="tabs tabs-boxed w-full">
                                 <div onClick={() => { setActiveTab(0) }} className={`tab w-[50%] ${!activeTab && 'tab-active'}`}>Transaction Details</div>
-                                <div onClick={() => { setActiveTab(1) }} className={`tab w-[50%] ${activeTab && 'tab-active'}`}>Goat Specifities</div>
+                                <div onClick={() => { setActiveTab(1) }} className={`tab w-[50%] ${activeTab && 'tab-active'}`}>Stock Specifities</div>
                             </div>
-                        </div> */}
+                        </div>
 
                        
                                 
-                    <SupplierTransactionList data={data && data.financialTransactions} id={params.supplierId}  />
-                                
+                    {
+                        activeTab ? (
+                            // goat list to be changed with stock list
+                            <GoatList data={data && data[0].stockDetails} id={params.supplierId} />
+                        ) :
+                        (
+                            <SupplierTransactionList data={data && data[0].financialTransactions} id={params.supplierId}  />    
+                        )
+                    }   
                         
                     </>
 

@@ -9,14 +9,22 @@ const supplierSchema = new Schema({
         type: Number,
         required: [true, 'Supplier Phone no. is required']
     },
+    stockDetails: [{
+        name: String,
+        quantity: Number,
+        price: Number
+    }],
     financialTransactions: [{
         payment: Number,
         paymentDate: {
             type: Date,
             default: () => Date.now(),
         },
-        balance: Number
-    }]
+    }],
+    user_id: { 
+        type: Schema.Types.ObjectId,
+        ref: 'User' 
+    }, 
 })
 
 const Supplier = models.Supplier || new model('Supplier', supplierSchema)

@@ -12,7 +12,7 @@ const SupplierTransactionList = ({ data, id, total }) => {
                     <div className='w-[80%] flex justify-between'>
                         <h2 className='min-w-[30%]'>Payout Date</h2>
 
-                        <h3 className=''>Balance</h3>
+                        {/* <h3 className=''>Balance</h3> */}
                         <h3 className=''>Payment</h3>
 
                     </div>
@@ -30,9 +30,9 @@ const SupplierTransactionList = ({ data, id, total }) => {
 
                             <div className='w-[80%] flex justify-between'>
 
-                                <h2 className='min-w-[30%]'>{new Date(data.pay_date).toLocaleDateString().toString()}</h2>
+                                <h2 className='min-w-[30%]'>{new Date(data.paymentDate).toLocaleDateString().toString()}</h2>
 
-                                <h3 className='text-[crimson]'>{data.balance}</h3>
+                                {/* <h3 className='text-[crimson]'>{data.balance}</h3> */}
                                 <h3 className='text-[seagreen]'>{data.payment}</h3>
 
                             </div>

@@ -10,8 +10,8 @@ const SupplierList = ({ supplierData }) => {
         <div className='flex w-full flex-col'>
 
             {supplierData?.map((data, key) => {
-                {/* let paid = data.financial_details.map(record => record.amount).reduce((total, amount) => total + amount, 0);
-                let total = data.goat_details.map(record => record.total_amount).reduce((total, amount) => total + amount, 0); */}
+                let paid = data.financialTransactions.map(record => record.payment).reduce((total, payment) => total + payment, 0);
+                let total = data.stockDetails.map(record => record.price).reduce((total, price) => total + price, 0); 
 
                 return (
                     <Link key={key} href={`/suppliers/${data._id}`}>
@@ -22,9 +22,9 @@ const SupplierList = ({ supplierData }) => {
 
                             <div className='w-[80%] flex justify-between'>
                                 <h2 className='min-w-[30%]'>{data.supplierName}</h2>
-{/* 
+
                                 <h3 className='text-[seagreen]'>+₹{paid}</h3>
-                                <h3 className='text-[red]'>₹{total - paid}</h3> */}
+                                <h3 className='text-[red]'>₹{total - paid}</h3>
                             </div>
 
 
