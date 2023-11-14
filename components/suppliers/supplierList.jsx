@@ -7,7 +7,7 @@ const SupplierList = ({ supplierData }) => {
     console.log('====================================');
 
     return (
-        <div className='flex w-full flex-col'>
+        <div className='scrollList flex w-full flex-col'>
 
             {supplierData?.map((data, key) => {
                 {/* let paid = data.financial_details.map(record => record.amount).reduce((total, amount) => total + amount, 0);

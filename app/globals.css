@@ -17,9 +17,16 @@
 }
 *{
    font-family: 'Poppins', sans-serif !important;
+   scroll-behavior: smooth;
   }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: base
+  background: base,
+  
+}
+
+.scrollList{
+  overflow-y: scroll;
+  height: calc(100vh - 275px);
 }

@@ -33,7 +33,7 @@ const Page = () => {
               {
                   data ? (
                       <div className='relative'>
-                          <div className='sticky left-0 w-full top-0 ]'>
+                          <div className='w-full ]'>
                               <Stats />
 
                           </div>
