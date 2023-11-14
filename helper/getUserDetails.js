@@ -1,4 +1,5 @@
 export const getUserDetails = async ({ token }) => {
+  console.log(token);
     const res = await fetch('/api/userdetail', {
         method: "GET",
         headers: {

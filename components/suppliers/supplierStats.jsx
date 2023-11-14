@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SupplierStats = ({ supplierData, total, recieved }) => {
+const SupplierStats = ({ supplierData, total, paymentMade }) => {
     console.log(total)
 
 
@@ -21,10 +21,10 @@ const SupplierStats = ({ supplierData, total, recieved }) => {
                             <div className="stat-title text-primary">{supplierData.supplierName}</div>
                             <div className="stat-title">{supplierData.supplierPhone}</div>
                         </div>
-                        <div className="stat-value">₹{total - recieved}</div>
+                        <div className="stat-value">₹{total - paymentMade}</div>
                         <div className="stat-title">↑Due Amount</div>
 
-                        <div className="stat-value text-secondary text-sm">+  ₹{recieved} <br /> Amount paid</div>
+                        <div className="stat-value text-secondary text-sm">+  ₹{paymentMade} <br /> Amount paid</div>
 
                         <div className="stat-value text-primary text-sm">₹{total} <br />Net Payable</div>
 

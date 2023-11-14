@@ -5,8 +5,9 @@ export const GET = async(req, res) => {
         const response = NextResponse.json({
             message: "Logout Successfull", success: true
         })
-        response.cookies.set("token", null, {
-            httpOnly: true
+        response.cookies.set("token", false, {
+            httpOnly: true,
+            expires: new Date(0) 
         })
         return response
     } catch (error) {

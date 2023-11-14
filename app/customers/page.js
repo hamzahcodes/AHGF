@@ -16,11 +16,15 @@ const Page = () => {
     const [customerData, setCustomerData] = useState(null);
     const context = useContext(AuthContext);
 
-    const { data, error, isPending, isError } = useQuery({
-        queryKey: ['customers', context.isLoggedIn.token],
-        queryFn: () => (context.isLoggedIn.status) && getAllCustomers({ token: context.isLoggedIn.token })
-    })
+    const {data , error , isPending , isError} = useQuery({
+         queryKey: ['customers', context.isLoggedIn.token], 
+         queryFn: () => (context.isLoggedIn.status) && getAllCustomers({token:context.isLoggedIn.token})
+        })
 
+    if(isError) {
+        console.log('error in fetching all customers');
+    }
+   
 
     return (
         <>

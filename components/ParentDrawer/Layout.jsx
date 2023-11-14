@@ -4,7 +4,6 @@ import React, { useEffect, useContext, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AuthContext from '@store/auth-context'
-import { getUserDetails } from '@helper/getUserDetails'
 
 
 const Layout = ({ children }) => {
@@ -57,9 +56,9 @@ const Layout = ({ children }) => {
                         <a className="btn btn-ghost normal-case text-xl">Al Hadi Goat Farm</a>
                     </div>
                     <div className="flex-none gap-2">
-                        {/* <div className="form-control">
-                            <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
-                        </div> */}
+                        <div className="form-control">
+                            <button onClick={handleSignOut} type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" >Sign Out</button>
+                        </div>
                         <div className="dropdown dropdown-end">
                             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                 <div className="w-10 rounded-full">

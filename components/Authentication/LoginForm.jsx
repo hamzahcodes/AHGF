@@ -45,7 +45,8 @@ const LoginForm = () => {
               console.log(username);
               localStorage.setItem("token", resp.token)
               context.loginHandler(resp.success, resp.token, username)
-              router.push("/customers")
+              console.log('pushed to customers');
+              router.push("/home")
             }
 
 

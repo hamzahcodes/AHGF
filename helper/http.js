@@ -248,8 +248,7 @@ export async function editSupplier({ supplierPayload, token, id, }) {
     let payload = {
         "financialTransactions": {
             "payment": supplierPayload.payment,
-            "balance": supplierPayload.balance,
-
+            // "balance": supplierPayload.balance,
         }
     } 
     const response = await fetch("/api/suppliers/?supplierID=" + id, {
