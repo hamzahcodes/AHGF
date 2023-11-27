@@ -13,7 +13,7 @@ import { getAllCustomers } from '@helper/http'
 
 
 const Page = () => {
-    const [customerData, setCustomerData] = useState(null);
+    const [searchList, setSearchList] = useState([]);
     const context = useContext(AuthContext);
 
     const {data , error , isPending , isError} = useQuery({
@@ -24,14 +24,51 @@ const Page = () => {
     if(isError) {
         console.log('error in fetching all customers');
     }
+    let flag = true,deTimeout;
+
+
+    const debounce = (e) => {
+        // console.log('====================================');
+        // console.log(e.target.value);
+        // console.log('====================================');
+        const searchWord = e.target.value;
+        const newFilter = data.filter((value) => {
+            return value.basic_details.username.toLowerCase().includes(searchWord.toLowerCase());
+        })
+        if (searchWord == '') {
+            setSearchList([])
+        }
+        setSearchList(newFilter);
+
+    }
    
+
+    const searchHandler = (e) =>{
+        flag = false;
+        clearTimeout(deTimeout)
+       
+       deTimeout = setTimeout(() => {
+            flag=true
+            if (flag){
+                debounce(e)
+
+            }
+            
+            
+        },500);
+
+       
+      
+
+    }
 
     return (
         <>
             <Layout>
 
-            <div>
-                    <button onClick={() => document.getElementById('sort_modal').showModal()} className='bg-[pink] p-6 rounded-xl'>Sort</button>
+            <div className='flex justify-center items-center'>
+            <input onChange={searchHandler} placeholder='search by name...' className='rounded-xl p-2 my-4 w-[90%] ' type="text" />
+                    {/* <button onClick={() => document.getElementById('sort_modal').showModal()} className='bg-primary p-2 rounded-xl'>Search</button> */}
                     {/* Open the modal using document.getElementById('ID').showModal() method */}
                   
                     <dialog id="sort_modal" className="modal">
@@ -80,7 +117,7 @@ const Page = () => {
 
                             </div>
 
-                            <CustomerList customerData={data} />
+                            <CustomerList customerData={searchList.length > 0 ? searchList : data} />
 
 
                         </div>
