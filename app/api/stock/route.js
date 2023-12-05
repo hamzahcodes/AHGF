@@ -14,10 +14,10 @@ export const GET = async (req, res) => {
         await connectToDB();
 
         if(id) {
-            const stock = await Supplier.find({ _id: id, user_id: userID }).select("stockDetails")            
+            const stock = await Supplier.find({ _id: id, user_id: userID }).select("stockDetails").select("supplierName")            
             return NextResponse.json({ message: stock }, { status : 200} )
         } else {
-            const stock = await Supplier.find({ user_id: userID }).select("stockDetails")
+            const stock = await Supplier.find({ user_id: userID }).select("stockDetails").select("supplierName")
             return NextResponse.json({ message: stock}, { status : 200})
         }   
 
