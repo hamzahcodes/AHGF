@@ -69,7 +69,7 @@ const Page = () => {
 
                 <div className='flex justify-center items-center w-full'>
                     <div className='flex justify-center items-center w-full flex-col relative '>
-                        <input onChange={searchHandler} placeholder='search by name...' className='rounded-xl p-2 my-4 w-[90%] ' type="text" />
+                        <input onChange={searchHandler} placeholder='search by name...' className='rounded-xl p-2 my-4 w-[90%] border-secondary border-2' type="text" />
                         <div className='bg-[grey] rounded-xl w-[90%] absolute top-[100%] z-[1]'>
                             {searchList.length > 0 && searchList.map((data, key) => {
                                 let paid = data.financial_details.map(record => record.amount).reduce((total, amount) => total + amount, 0);
@@ -167,7 +167,7 @@ const Page = () => {
 
 
                 {/* Open the modal using document.getElementById('ID').showModal() method */}
-                <button onClick={() => document.getElementById('my_modal_5').showModal()} className='text-5xl fixed bottom-[10%] right-[5%] w-[70px] h-[70px] rounded-full bg-[#0096D6] text-[#fff]'>+</button>
+                <button onClick={() => document.getElementById('my_modal_5').showModal()} className='text-5xl fixed bottom-[10%] right-[5%] w-[70px] h-[70px] rounded-full bg-accent text-[#fff]'>+</button>
 
                 <AddCustomerDialog />
 

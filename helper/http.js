@@ -397,3 +397,33 @@ export async function editStaff({ staffPayload, token, id, }) {
         setError(resp.message)
     }
 }
+
+
+// STOCKS API
+
+export async function getAllStocks({ token }) {
+
+    const response = await fetch(`/api/stock`, {
+
+        // Adding method type
+        method: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            "Content-type": "application/json"
+        },
+
+
+    })
+    const resp = await response.json();
+    console.log(resp)
+    if (!response.ok) {
+        const error = new Error('An error occured while fetching customers');
+        error.code = response.status;
+        error.message = await response.json()
+        throw error
+
+    }
+    return resp.message
+
+
+}

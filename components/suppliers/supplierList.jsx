@@ -16,7 +16,7 @@ const SupplierList = ({ supplierData }) => {
                 return (
                     <Link key={key} href={`/suppliers/${data._id}`}>
                         <div key={data._id} className='w-full flex items-center justify-around py-4 border-b-[0.1px] border-[gray]'>
-                            <div className={`bg-[#37D39A] sm:w-[60px] w-[40px] h-[40px] sm:h-[60px] rounded-[100%] flex justify-center items-center text-white sm:text-[2.4rem] `}>
+                            <div className={`bg-secondary sm:w-[60px] w-[40px] h-[40px] sm:h-[60px] rounded-[100%] flex justify-center items-center text-white sm:text-[2.4rem] `}>
                                 {data.supplierName[0]}
                             </div>
 
