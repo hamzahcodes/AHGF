@@ -38,7 +38,7 @@ const AddGoatDetailsDialog = ({id}) => {
             return
         }
 
-        mutate({ customerPayload: customerPayload, token: context.isLoggedIn.token , id:id });
+        mutate({ customerPayload: customerPayload, id:id });
 
 
 

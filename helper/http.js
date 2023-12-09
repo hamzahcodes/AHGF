@@ -5,14 +5,14 @@ export const queryClient = new QueryClient()
 
 // CUSTOMERS API's
 
-export async function getAllCustomers({token}) {
+export async function getAllCustomers() {
     
         const response = await fetch(`/api/customers`, {
 
             // Adding method type
             method: "GET",
             headers: {
-                'Authorization': 'Bearer ' + token,
+                // 'Authorization': 'Bearer ' + token,
                 "Content-type": "application/json"
             },
 
@@ -32,15 +32,15 @@ export async function getAllCustomers({token}) {
    
 }
 
-export async function getCustomerById({token,id}) {
-    console.log(token,id)
-  
+export async function getCustomerById({id}) {
+    console.log({id})
+    
         const response = await fetch('/api/customers/?custID=' + id, {
 
             // Adding method type
             method: "GET",
             headers: {
-                'Authorization': 'Bearer ' + token,
+                // 'Authorization': 'Bearer ' + token,
                 "Content-type": "application/json"
             },
 
@@ -58,13 +58,13 @@ export async function getCustomerById({token,id}) {
   
 }
 
-export async function addCustomer({customerPayload,token}) {
+export async function addCustomer({customerPayload}) {
     const response = await fetch("/api/customers", {
 
         // Adding method type
         method: "POST",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -98,7 +98,7 @@ export async function addCustomer({customerPayload,token}) {
     }
 }
 
-export async function editCustomer({ customerPayload, token , id ,isPayment }) {
+export async function editCustomer({ customerPayload , id ,isPayment }) {
 
     let payload = isPayment ? {
         "financial_details": {
@@ -119,7 +119,7 @@ export async function editCustomer({ customerPayload, token , id ,isPayment }) {
         // Adding method type
         method: "PUT",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -150,14 +150,14 @@ export async function editCustomer({ customerPayload, token , id ,isPayment }) {
 
 // SUPPLIERS API's
 
-export async function getAllSuppliers({ token }) {
+export async function getAllSuppliers() {
 
     const response = await fetch(`/api/suppliers`, {
 
         // Adding method type
         method: "GET",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -177,15 +177,15 @@ export async function getAllSuppliers({ token }) {
 
 }
 
-export async function getSupplierById({ token, id }) {
-    console.log(token, id)
+export async function getSupplierById({ id }) {
+    console.log({id})
 
     const response = await fetch('/api/suppliers/?supplierID=' + id, {
 
         // Adding method type
         method: "GET",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -203,13 +203,13 @@ export async function getSupplierById({ token, id }) {
 
 }
 
-export async function addSupplier({ supplierPayload, token }) {
+export async function addSupplier({ supplierPayload }) {
     const response = await fetch("/api/suppliers", {
 
         // Adding method type
         method: "POST",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -243,7 +243,7 @@ export async function addSupplier({ supplierPayload, token }) {
     }
 }
 
-export async function editSupplier({ supplierPayload, token, id, }) {
+export async function editSupplier({ supplierPayload, id }) {
 
     let payload = {
         "financialTransactions": {
@@ -256,7 +256,7 @@ export async function editSupplier({ supplierPayload, token, id, }) {
         // Adding method type
         method: "PUT",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -287,14 +287,14 @@ export async function editSupplier({ supplierPayload, token, id, }) {
 
 
 // STAFF Api's
-export async function getAllStaff({ token }) {
+export async function getAllStaff() {
 
     const response = await fetch(`/api/staff`, {
 
         // Adding method type
         method: "GET",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -314,13 +314,13 @@ export async function getAllStaff({ token }) {
 
 }
 
-export async function addStaff({ staffPayload, token }) {
+export async function addStaff({ staffPayload }) {
     const response = await fetch("/api/staff", {
 
         // Adding method type
         method: "POST",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -355,7 +355,7 @@ export async function addStaff({ staffPayload, token }) {
     }
 }
 
-export async function editStaff({ staffPayload, token, id, }) {
+export async function editStaff({ staffPayload, id }) {
 
     let payload = {
         
@@ -369,7 +369,7 @@ export async function editStaff({ staffPayload, token, id, }) {
         // Adding method type
         method: "PUT",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 
@@ -401,14 +401,14 @@ export async function editStaff({ staffPayload, token, id, }) {
 
 // STOCKS API
 
-export async function getAllStocks({ token }) {
+export async function getAllStocks() {
 
     const response = await fetch(`/api/stock`, {
 
         // Adding method type
         method: "GET",
         headers: {
-            'Authorization': 'Bearer ' + token,
+            // 'Authorization': 'Bearer ' + token,
             "Content-type": "application/json"
         },
 

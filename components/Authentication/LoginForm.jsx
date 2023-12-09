@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useContext } from "react"
 import { useRouter } from "next/navigation";
 import AuthContext from '@store/auth-context'
-import { getUserDetails } from "@helper/getUserDetails";
+import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
 
@@ -16,43 +16,19 @@ const LoginForm = () => {
     const context = useContext(AuthContext);
 
     const handleLoginSubmit = async (e) => {
-        e.preventDefault()
-
-        if(!phone || !password) {
-          setError("All fields are mandatory")
-          return
-        }
-        try {
-          const res = await fetch('/api/login', {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                phoneNumber: phone, 
-                password: password
-            })
-        })
-
-            const resp = await res.json()
-            console.log(resp);
-            if(res.status === 400) {
-              setError("Invalid Credentials")
-              return 
-            }
-            if(res.status === 200) {
-              const username = await getUserDetails(resp)
-              console.log(username);
-              localStorage.setItem("token", resp.token)
-              context.loginHandler(resp.success, resp.token, username)
-              console.log('pushed to customers');
-              router.push("/home")
-            }
-
-
-        } catch (error) {
-            console.log(error);
-        }
+      e.preventDefault()
+      const response = await signIn('credentials', {
+          phoneNumber: phone, 
+          password: password,
+          redirect: false,
+      })
+      console.log(response);
+      // const data = await response.json()
+      // console.log(data);
+      if(response.ok) {
+        router.push("/home")
+        router.refresh()
+      }
     }
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

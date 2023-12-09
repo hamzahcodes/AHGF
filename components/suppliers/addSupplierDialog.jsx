@@ -36,7 +36,7 @@ const AddSupplierDialog = () => {
             return
         }
 
-        mutate({ supplierPayload: supplierPayload, token: context.isLoggedIn.token });
+        mutate({ supplierPayload: supplierPayload });
 
 
 

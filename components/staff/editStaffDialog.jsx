@@ -38,7 +38,7 @@ const EditStaffDialog = ({ id }) => {
             return
         }
 
-        mutate({ staffPayload: staffPayload, token: context.isLoggedIn.token, id: id });
+        mutate({ staffPayload: staffPayload, id: id });
 
 
 

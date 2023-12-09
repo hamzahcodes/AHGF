@@ -38,7 +38,7 @@ const AddSuppliersTransactionDialog = ({ id }) => {
         //     return
         // }
 
-        mutate({ supplierPayload: supplierPayload, token: context.isLoggedIn.token, id: id });
+        mutate({ supplierPayload: supplierPayload, id: id });
 
 
 

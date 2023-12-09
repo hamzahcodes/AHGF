@@ -4,32 +4,25 @@ import React, { useEffect, useContext, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AuthContext from '@store/auth-context'
+import { signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 
 const Layout = ({ children }) => {
 
-    const context = useContext(AuthContext);
+    // const context = useContext(AuthContext);
     const [activeTab, setActiveTab] = useState('home');
+    const { data: session } = useSession()
+
 
     const router = useRouter()
-    const handleSignOut = async () => {
-        try {
-            const res = await fetch('/api/logout', {
-                method: "GET",
-            })
-
-            const resp = await res.json()
-            console.log(resp);
-            if (resp.success === true) {
-                localStorage.removeItem("token")
-                context.loginHandler(false, null, "")
-
-                console.log(localStorage.getItem("token"), "Token after logout");
-                router.push("/")
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
+    const handleSignOut = async (e) => {
+        e.preventDefault()
+        const data = await signOut('credentials', { redirect: false,  callbackUrl: "/login" })
+        // const res = await data.json()
+        // alert('data', data)
+        // router.push(data.url)
+        router.refresh()
     }
 
     useEffect(() => {
@@ -37,16 +30,15 @@ const Layout = ({ children }) => {
     }, []);
 
 
-    useEffect(() => {
-        const token = localStorage.getItem("token")
-        if (!token) {
-            console.log("In layout useEffect If");
-            router.push("/")
-        } else {
-            console.log("In layout useEffect else");
-            context.loginHandler(true, localStorage.getItem("token"), (context.isLoggedIn.username.length !== 0) ? context.isLoggedIn.username : "Guest")
-        }
-    }, [])
+    // useEffect(() => {
+    //     const token = localStorage.getItem("token")
+    //     if (!token) {
+    //         console.log("In layout useEffect If");
+    //         router.push("/")
+    //     } else {
+    //         console.log("In layout useEffect else");
+    //     }
+    // }, [])
 
     return (
         <div>
@@ -56,10 +48,13 @@ const Layout = ({ children }) => {
                         <a className="btn btn-ghost normal-case text-xl">Al Hadi Goat Farm</a>
                     </div>
                     <div className="flex-none gap-2">
+                        <div className='text-center'>
+                        {session?.user?.name}
+                        </div>
                         <div className="form-control">
                             <button onClick={handleSignOut} type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto text-sm" >Sign Out</button>
                         </div>
-                        <div className="dropdown dropdown-end">
+                        {/* <div className="dropdown dropdown-end">
                             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                 <div className="w-10 rounded-full">
                                     <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
@@ -75,7 +70,7 @@ const Layout = ({ children }) => {
                                 <li><a>Settings</a></li>
                                 <li><a>Logout</a></li>
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
        

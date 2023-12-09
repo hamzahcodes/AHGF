@@ -38,7 +38,7 @@ const AddPaymentDetailsDialog = ({ id }) => {
             return
         }
 
-        mutate({ customerPayload: customerPayload, token: context.isLoggedIn.token, id: id ,isPayment:true});
+        mutate({ customerPayload: customerPayload, id: id ,isPayment:true});
 
 
 

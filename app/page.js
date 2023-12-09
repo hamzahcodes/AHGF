@@ -1,12 +1,10 @@
-import Image from 'next/image'
-import LoginForm from '@components/Authentication/LoginForm'
-// import { redirect } from 'next/navigation'
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { options } from "../app/api/auth/[...nextauth]/options";
 
 export default async function Home() {
+  const session = await getServerSession(options);
+  if (!session) redirect("/login");
 
-  // if(session) redirect("/customers")
-
-  return (
-      <LoginForm />
-  )
+  redirect("/home");
 }

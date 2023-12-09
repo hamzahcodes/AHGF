@@ -1,31 +1,11 @@
-import { NextResponse } from 'next/server'
- 
-export function middleware(request) {
-  const path = request.nextUrl.pathname
+export { default } from 'next-auth/middleware'
 
-  // console.log(request.url);
-  const isPublicPath = (path === '/register' || path === '/')
-  
-  const token = request.cookies.get("token")?.value || ''
-  // console.log(token);
-
-  if(isPublicPath && token) {
-    console.log("Verified");
-    return NextResponse.redirect(new URL('/customers', request.nextUrl))
-  }
-
-  if(!isPublicPath && token.length === 0) {
-    console.log("Unverified");
-    return NextResponse.redirect(new URL('/', request.nextUrl))
-  }
-
-}
- 
 export const config = {
-  matcher: [
-    '/',
-    '/customers',
-    '/customers/:path*',
-    '/register'
-  ],
+    matcher: [
+        '/home',
+        '/customers/:path*',
+        '/suppliers/:path*',
+        '/stocks',
+        '/staff'
+    ]
 }

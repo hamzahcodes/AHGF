@@ -19,8 +19,8 @@ const SupplierId = ({ params }) => {
     const router = useRouter()
 
     const { data, error, isPending, isError } = useQuery({
-        queryKey: ['supplier', context.isLoggedIn.token],
-        queryFn: () => (context.isLoggedIn.status) && getSupplierById({ token: context.isLoggedIn.token, id: params.supplierId })
+        queryKey: ['supplier'],
+        queryFn: () => getSupplierById({ id: params.supplierId })
     })
 
     console.log(data);

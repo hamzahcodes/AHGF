@@ -1,15 +1,23 @@
 import Customer from "@/models/Customer"
 import { connectToDB } from "@/utils/database"
 import { NextResponse, NextRequest } from "next/server"
-import { getDataFromToken } from "@helper/getDataFromToken"
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/options";
 
 // to get all customers meant for customers page
 // also when particular customer is clicked then its details api is added
 export const GET = async (req, res) => {
+
     try {
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+        const userID = session.user.id
+
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
-        const userID = await getDataFromToken(req)
 
         await connectToDB(); 
         if(!id) {
@@ -32,8 +40,15 @@ export const POST = async (req, res) => {
     // console.log(req);
     const { basic_details, financial_details, goat_details } = await req.json()
     const { searchParams } = new URL(req.url)
-    const userID = await getDataFromToken(req)
     try {
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+
+        const userID = session.user.id
+
         await connectToDB()
 
         const newCustomer = 
@@ -84,10 +99,17 @@ export const PUT = async (req, res) => {
     const { basic_details, financial_details, goat_details } = await req.json()
 
     try {
+
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+        const userID = session.user.id
+
          // to fetch unique ID of customers and update them
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
-        const userID = await getDataFromToken(req)
 
         // check before DB gets involved
         if(!id) return NextResponse.json({ message: 'ID required to delete!!' }, { status: 404 })
@@ -148,10 +170,16 @@ export const PUT = async (req, res) => {
 // delete particular customer
 export const DELETE = async (req, res) => {
     try {
+
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+        const userID = session.user.id
         // to fetch unique ID of customers and delete them
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('custID')
-        const userID = await getDataFromToken(req)
 
         // check before DB gets involved
         if(!id) return NextResponse.json({ message: 'ID required to delete!!' }, { status: 404 })

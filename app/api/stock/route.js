@@ -1,16 +1,20 @@
 import Supplier from "@/models/Supplier"
-// import Stock from "@/models/Stock"
 import { connectToDB } from "@/utils/database"
 import { NextResponse } from "next/server"
-import { getDataFromToken } from "@helper/getDataFromToken"
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/options.js";
 
 export const GET = async (req, res) => {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('supplierID')
     console.log(id);
-    const userID = await getDataFromToken(req)
-    console.log(userID);
     try {
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+        const userID = session.user.id
         await connectToDB();
 
         if(id) {
@@ -32,11 +36,16 @@ export const POST = async (req, res) => {
     const id = searchParams.get('supplierID')
     const { stockDetails } = await req.json()
 
-    const userID = await getDataFromToken(req)
-    console.log(userID, "at line 37");
-    console.log(stockDetails);
+    // console.log(userID, "at line 37");
+    // console.log(stockDetails);
 
     try {
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+        const userID = session.user.id
 
         // first check whether the ID passed even belongs to a supplier or not
         const supplier = await Supplier.findById(id)
@@ -49,7 +58,7 @@ export const POST = async (req, res) => {
             { new: true }
         )
 
-        if(newStock) return NextResponse.json({ message: newStock}, { status: 200})
+        if(newStock) return NextResponse.json({ message: newStock }, { status: 200})
         return NextResponse.json({ message: "Failed to Add new Stock"}, { status: 404 })
     
     } catch (error) {

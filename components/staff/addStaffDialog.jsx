@@ -40,7 +40,7 @@ const AddStaffDialog = () => {
             return
         }
 
-        mutate({ staffPayload: staffPayload, token: context.isLoggedIn.token });
+        mutate({ staffPayload: staffPayload });
 
 
 

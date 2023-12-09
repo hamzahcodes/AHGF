@@ -24,8 +24,8 @@ const Page = () => {
     const context = useContext(AuthContext);
 
     const { data, error, isPending, isError } = useQuery({
-        queryKey: ['suppliers', context.isLoggedIn.token],
-        queryFn: () => (context.isLoggedIn.status) && getAllSuppliers({ token: context.isLoggedIn.token })
+        queryKey: ['suppliers'],
+        queryFn: () => getAllSuppliers()
     })
   return (
       <>

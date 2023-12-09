@@ -1,14 +1,21 @@
 import Supplier from "@/models/Supplier"
 import { connectToDB } from "@/utils/database"
-import { getDataFromToken } from "@helper/getDataFromToken";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/options.js";
 
 export const GET = async (req, res) => {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('supplierID') 
-    const userID = await getDataFromToken(req)
     
     try {
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+        const userID = session.user.id
+
         await connectToDB();
         
         if(id) {
@@ -27,10 +34,15 @@ export const GET = async (req, res) => {
 
 export const POST = async (req, res) => {
     const { supplierName, supplierPhone } = await req.json()
-    const userID = await getDataFromToken(req)
 
     try {
 
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+        const userID = session.user.id
         await connectToDB()
         const newSupplier = new Supplier({
             supplierName: supplierName,
@@ -54,8 +66,12 @@ export const PUT = async (req, res) => {
         if(!id) return NextResponse.json({ message: 'Supplier ID required to update!!' }, { status: 404 })
         
         const { financialTransactions, stockDetails } = await req.json()
-    
-        const userID = await getDataFromToken(req)
+        const session = await getServerSession(options);
+
+        if(!session) {
+            return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+        }
+        const userID = session.user.id    
 
         await connectToDB()
 

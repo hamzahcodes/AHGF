@@ -5,7 +5,7 @@ import Providers from './providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'CRM',
+  title: 'AHCorps',
   description: 'One stop solution to CRM',
 }
 

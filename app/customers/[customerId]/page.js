@@ -3,7 +3,7 @@
 import CustomerHero from '@/components/customers/customerHero';
 import Layout from '@components/ParentDrawer/Layout'
 import React, { useEffect, useState, useContext } from 'react'
-import AuthContext from '@store/auth-context';
+// import AuthContext from '@store/auth-context';
 import ProfileStats from '@components/customers/profileStats';
 import GoatList from '@components/customers/goatList';
 import TransactionList from '@components/customers/transactionList';
@@ -16,12 +16,12 @@ import { useRouter } from 'next/navigation';
 const CustomerId = ({ params }) => {
   const [customerData, setCustomerData] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
-  const context = useContext(AuthContext);
+  // const context = useContext(AuthContext);
   const router = useRouter()
 
   const { data, error, isPending, isError } = useQuery({
-    queryKey: ['customer', context.isLoggedIn.token],
-    queryFn: () => (context.isLoggedIn.status) && getCustomerById({ token: context.isLoggedIn.token, id: params.customerId })
+    queryKey: ['customer'],
+    queryFn: () => getCustomerById({ id: params.customerId })
   })
 
   let total = data && data[0]?.goat_details?.map(record => record.total_amount).reduce((total, amount) => total + amount, 0);

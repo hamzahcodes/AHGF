@@ -1,14 +1,14 @@
-import RegisterForm from '@components/Authentication/RegisterForm'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { options } from '../app/api/auth/[...nextauth]/route'
+import { options } from '../api/auth/[...nextauth]/options'
+import LoginForm from '@components/Authentication/LoginForm'
 
 const page = async () => {
 
   const session = await getServerSession(options)
   if(session) redirect("/home")
   
-  return <RegisterForm />
+  return <LoginForm />
 }
 
 export default page

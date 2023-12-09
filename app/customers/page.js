@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from '@components/ParentDrawer/Layout'
 import CustomerList from '@components/customers/customerList'
-import AuthContext from '@store/auth-context'
+// import AuthContext from '@store/auth-context'
 import Link from 'next/link'
 import AddCustomerDialog from '@components/customers/addCustomerDialog'
 import Stats from '@components/customers/stats'
@@ -14,11 +14,11 @@ import { getAllCustomers } from '@helper/http'
 
 const Page = () => {
     const [searchList, setSearchList] = useState([]);
-    const context = useContext(AuthContext);
+    // const context = useContext(AuthContext);
 
     const { data, error, isPending, isError } = useQuery({
-        queryKey: ['customers', context.isLoggedIn.token],
-        queryFn: () => (context.isLoggedIn.status) && getAllCustomers({ token: context.isLoggedIn.token })
+        queryKey: ['customers'],
+        queryFn: () => getAllCustomers()
     })
 
     if (isError) {

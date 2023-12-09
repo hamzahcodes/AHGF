@@ -1,10 +1,10 @@
-export const getUserDetails = async ({ token }) => {
+export const getUserDetails = async () => {
   console.log(token);
     const res = await fetch('/api/userdetail', {
         method: "GET",
         headers: {
           'Authorization': 'Bearer ' + token,
-          "Content-type": "application/json"
+          // "Content-type": "application/json"
       },
     })
     const data = await res.json()

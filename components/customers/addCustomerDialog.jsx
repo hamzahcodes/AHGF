@@ -36,7 +36,7 @@ const AddCustomerDialog = () => {
             return
         }
 
-        mutate({ customerPayload: customerPayload, token: context.isLoggedIn.token });
+        mutate({ customerPayload: customerPayload });
 
 
 
