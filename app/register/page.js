@@ -1,7 +1,7 @@
-import RegisterForm from '@components/Authentication/RegisterForm'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { options } from '../app/api/auth/[...nextauth]/options'
+import { options } from '../api/auth/[...nextauth]/options'
+import RegisterForm from '@components/Authentication/RegisterForm'
 
 const page = async () => {
 
