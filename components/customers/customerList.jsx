@@ -4,7 +4,7 @@ const CustomerList = ({customerData}) => {
     const [paidAmount, setPaidAmount] = useState('');
 
   return (
-    <div className='scrollList flex w-full flex-col ' >
+    <div className='scrollList flex w-full flex-col border-y-2 border-y-indigo-500' >
 
     {customerData?.map((data,key) => {
         let paid = data.financial_details.map(record => record.amount).reduce((total, amount) => total + amount, 0);

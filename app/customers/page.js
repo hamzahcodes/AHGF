@@ -148,10 +148,10 @@ const Page = () => {
                 {
                     data ? (
                         <div className='relative'>
-                            <div className=' w-full'>
+                            {/* <div className=' w-full'>
                                 <Stats />
 
-                            </div>
+                            </div> */}
 
                             <CustomerList customerData={ data} />
 
