@@ -6,6 +6,7 @@ export const config = {
         '/customers/:path*',
         '/suppliers/:path*',
         '/stocks',
-        '/staff'
+        '/staff',
+        '/deliverynote'
     ]
 }

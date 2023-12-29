@@ -3,15 +3,23 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCustomers } from "@helper/http";
+import { useRouter } from "next/navigation";
 
 const Notification = () => {
   const [recipentList, setRecipentList] = useState([]);
   const [message, setMessage] = useState("");
+  const router = useRouter();
 
   const { data, error, isPending, isError } = useQuery({
     queryKey: ["customers"],
     queryFn: () => getAllCustomers(),
   });
+
+  const deliveryNotePage = (e) => {
+    e.preventDefault();
+    router.push('/deliverynote')
+    router.refresh()
+  }
 
   const handleWhatsapp = () => {
     if (!message) {
@@ -39,7 +47,7 @@ const Notification = () => {
         <button className="bg-primary rounded-md text-[#fff] p-4">
           Print Quotation
         </button>
-        <button className="bg-primary rounded-md text-[#fff] p-4">
+        <button onClick={deliveryNotePage} className="bg-primary rounded-md text-[#fff] p-4">
           Print Delivery Note
         </button>
       </div>
@@ -127,7 +135,7 @@ const Notification = () => {
                     type="checkbox"
                     value={customer}
                   />
-                  <label htmlFor={customer}>
+                  <label>
                     {customer.basic_details.username}
                   </label>
                 </div>

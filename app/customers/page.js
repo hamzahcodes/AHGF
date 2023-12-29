@@ -9,6 +9,7 @@ import Stats from '@components/customers/stats'
 import LoadingSpinner from '@components/ui/loadingSpinner'
 import { useQuery } from '@tanstack/react-query'
 import { getAllCustomers } from '@helper/http'
+import AddItem from '@components/DeliveryNote/AddItem'
 
 
 
@@ -170,7 +171,6 @@ const Page = () => {
                 <button onClick={() => document.getElementById('my_modal_5').showModal()} className='text-5xl fixed bottom-[10%] right-[5%] w-[70px] h-[70px] rounded-full bg-accent text-[#fff]'>+</button>
 
                 <AddCustomerDialog />
-
 
 
             </Layout>
