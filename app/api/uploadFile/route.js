@@ -16,9 +16,9 @@ export async function POST(request) {
   // With the file data in the buffer, you can do whatever you want with it.
   // For this, we'll just write it to the filesystem in a new location
   console.log('====================================');
-  console.log(process,"#PROCESS19");
+  console.log(`@public/paymentSlips/${file.name}`,"#19");
   console.log('====================================');
-   const path = `${process.env.INIT_CWD}/public/paymentSlips/${file.name}`;
+   const path = `public/paymentSlips/${file.name}`;
   await writeFile(path, buffer);
   console.log(`open ${path} to see the uploaded file`);
   
