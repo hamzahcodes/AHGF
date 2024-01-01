@@ -10,7 +10,7 @@ const Page = () => {
       <Image
         width={400}
         height={400}
-        src="https://drive.google.com/uc?id=1BFyAQ9zis-5Et9Agjpg5cW8kpjcDMCrQ"
+        src="https://drive.google.com/uc?id=1nJ98IMNHgyoSZ_CrsH2tKc3AvatCcH7A"
         alt="test"
       />
     </Layout>

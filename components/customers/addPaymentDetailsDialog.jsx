@@ -41,9 +41,9 @@ const AddPaymentDetailsDialog = ({ id }) => {
       return;
     }
 
-    handleUpload()
+    // handleUpload()
 
-    mutate({ customerPayload: customerPayload, id: id, isPayment: true });
+    mutate({ customerPayload: customerPayload, id: id, isPayment: true ,imageFile:selectedFile});
 
   };
 
@@ -138,7 +138,7 @@ const AddPaymentDetailsDialog = ({ id }) => {
           >
             Close
           </button>
-          <button className="btn w-[40%]" onClick={handleUpload}>
+          <button className="btn w-[40%]" onClick={submitHandler}>
             Submit
           </button>
         </div>
