@@ -7,6 +7,8 @@ export const config = {
         '/suppliers/:path*',
         '/stocks',
         '/staff',
-        '/deliverynote'
+        '/deliverynote',
+        '/invoice',
+        '/onboardingform'
     ]
 }
