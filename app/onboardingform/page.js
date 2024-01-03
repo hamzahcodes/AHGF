@@ -1,15 +1,17 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '@components/ParentDrawer/Layout'
-import { PDFDownloadLink } from '@react-pdf/renderer'
+import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
 import AddGoatItem from '@components/OnboardingForm/AddGoatItem'
 import AddBoardingItem from '@components/OnboardingForm/AddBoardingItem'
+import OnboardingFormPdf from '@components/OnboardingForm/OnboardingFormPdf'
 
 const page = () => {
 
+  const [isClient, setIsClient] = useState(false)
   const [ boardingDetails, setBoardingDetails ] = useState({
     boardingNumber: 0,
-    boardingDate: new Date(),
+    boardingDate: new Date().toLocaleDateString("en-IN"),
     ownerName: "",
     ownerPhone: 0,
     ownerEmail: "",
@@ -76,11 +78,15 @@ const page = () => {
     alert("Item added successfully");
   };
 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   return (
     <Layout>
     <div className="w-100 p-5 pb-10 border-2 border-x-indigo-400 border-y-indigo-500">
       {/* <PDFViewer className='fixed w-full h-full z-[5]'>
-          <OnboardingFormPdf boardingDetails={boardingDetails} goatDetails={goatArray} boardingType={boardingTypeArray}/>
+          <OnboardingFormPdf boardingDetails={boardingDetails} goatArray={goatArray} boardingTypeArray={boardingTypeArray} />
       </PDFViewer>  */}
       <h2 className="text-center mb-3">Boarding Agreement</h2>
       <form className="w-full">
@@ -109,7 +115,7 @@ const page = () => {
             <input
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               type="date"
-              name="phone"
+              name="boardingDate"
               value={boardingDetails.boardingDate}
               onChange={handleBoardingDetailsChange}
             ></input>
@@ -261,7 +267,7 @@ const page = () => {
       </div>
 
       <div className='flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4'>
-        <h2>Items List</h2>
+        <h2>Goat Details</h2>
         <button
                 onClick={() => document.getElementById("addItemGoatModal").showModal()}
                 className="text-md  p-4 rounded-full bg-accent text-[#fff]"
@@ -324,7 +330,7 @@ const page = () => {
       </div>
 
       <div className='flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4'>
-        <h2>Items List</h2>
+        <h2>Boarding Details</h2>
         <button
                 onClick={() => document.getElementById("addItemBoardingModal").showModal()}
                 className="text-md  p-4 rounded-full bg-accent text-[#fff]"
@@ -377,23 +383,19 @@ const page = () => {
         </table>
       </div>
 
-      {/* <div className="w-full flex justify-center items-center mt-10 p-4">
-        
-          <PDFDownloadLink 
-        style={{backgroundColor: 'bg-primary', color: '#fff'}} 
-        // document={<InvoicePdf buyerDetails={boardingDetails} />} 
-        fileName={`${boardingDetails.boardingNumber}_onboarding_form.pdf`}
-      >
-        <button
-          className="bg-primary rounded-md text-[#fff] p-4"
-          // onClick={handlePrintDeliveryNote}
-        >
-          Download On-boarding Form
-        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download Delivery Note')}
-        </button>
-      </PDFDownloadLink>
-      </div> */}
+      <div className="w-full flex justify-center items-center mt-10 p-4">
+      {isClient && (
+            <PDFDownloadLink 
+              className='bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] my-10'
+              document={<OnboardingFormPdf boardingDetails={boardingDetails} goatArray={goatArray} boardingTypeArray={boardingTypeArray} />}
+              fileName={`${boardingDetails.ownerName}_OnboardingForm.pdf`}
+            >
+              {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download OnBoarding Form')}
+          </PDFDownloadLink>
+          )}
       </div>
+      
+    </div>
     
   </Layout>
   )

@@ -20,8 +20,8 @@ const page = () => {
     deliveredTo: "",
     phone: 0,
     address: "",
-    shippingDate: new Date(),
-    expectedDateToReach: new Date(),
+    shippingDate: new Date().toLocaleDateString("en-IN"),
+    expectedDateToReach: new Date().toLocaleDateString("en-IN"),
   });
 
   const handleBuyerDetailsChange = (e) => {

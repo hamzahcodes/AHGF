@@ -19,7 +19,7 @@ const page = () => {
     const [buyerDetails, setBuyerDetails] = useState({
       billTo: "",
       phone: 0,
-      shippingDate: new Date(),
+      shippingDate: new Date().toLocaleDateString("en-IN"),
     });
 
     const handleBuyerDetailsChange = (e) => {
