@@ -1,12 +1,14 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "@components/ParentDrawer/Layout";
 import AddItem from "@components/DeliveryNote/AddItem";
 import DeliveryNotes from "@components/DeliveryNote/DeliveryNotes";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 
 const page = () => {
+
+  const [isClient, setIsClient] = useState(false)
   const [description, setDescription] = useState([]);
   const [itemPayload, setItemPayload] = useState({
     desc: "",
@@ -50,6 +52,10 @@ const page = () => {
   const handlePrintDeliveryNote = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <Layout>
@@ -175,8 +181,9 @@ const page = () => {
         </form>
 
         <div className="w-full flex justify-center items-center mt-10 p-4">
+        {isClient && (
           <PDFDownloadLink
-            style={{ backgroundColor: "bg-primary", color: "#fff" }}
+            className='bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]'
             document={
               <DeliveryNotes
                 buyerDetails={buyerDetails}
@@ -185,16 +192,15 @@ const page = () => {
             }
             fileName={`${buyerDetails.deliveredTo}_deliverynote.pdf`}
           >
-            <button
+            {/* <button
               className="bg-primary rounded-md text-[#fff] p-4"
-              // onClick={handlePrintDeliveryNote}
-            >
-              Download Delivery Note
+            > */}
               {({ blob, url, loading, error }) =>
                 loading ? "Loading document..." : "Download Delivery Note"
               }
-            </button>
+            {/* </button> */}
           </PDFDownloadLink>
+          )}
         </div>
       </div>
       <button

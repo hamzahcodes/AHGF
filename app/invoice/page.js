@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '@components/ParentDrawer/Layout'
 import AddItemInvoice from "@components/Invoice/AddItemInvoice";
 import InvoicePdf from "@components/Invoice/InvoicePdf";
@@ -8,6 +8,7 @@ import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer"
 
 const page = () => {
 
+    const [isClient, setIsClient] = useState(false)
     const [description, setDescription] = useState([]);
     const [itemPayload, setItemPayload] = useState({
       desc: "",
@@ -46,6 +47,9 @@ const page = () => {
         alert("Item added successfully");
       };
 
+      useEffect(() => {
+        setIsClient(true)
+      }, [])
   return (
     <Layout>
       <div className="w-100 p-5 pb-10 border-2 border-x-indigo-400 border-y-indigo-500">
@@ -157,20 +161,19 @@ const page = () => {
 
 
         <div className="w-full flex justify-center items-center mt-10 p-4">
-          
+        {isClient && (
             <PDFDownloadLink 
-          style={{backgroundColor: 'bg-primary', color: '#fff'}} 
-          document={<InvoicePdf buyerDetails={buyerDetails} tableDetails={description} />} 
-          fileName={`${buyerDetails.billTo}_Invoice.pdf`}
-        >
-          <button
-            className="bg-primary rounded-md text-[#fff] p-4"
-            // onClick={handlePrintDeliveryNote}
-          >
-            Download Invoice
-          {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download Delivery Note')}
-          </button>
-        </PDFDownloadLink>
+              className='bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]'
+              document={<InvoicePdf buyerDetails={buyerDetails} tableDetails={description} />} 
+              fileName={`${buyerDetails.billTo}_Invoice.pdf`}
+            >
+              {/* <button
+                className="bg-primary rounded-md text-[#fff] p-4"
+              > */}
+              {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download Invoice')}
+              {/* </button> */}
+          </PDFDownloadLink>
+          )}
         </div>
       </div>
       
