@@ -377,7 +377,7 @@ const page = () => {
         </table>
       </div>
 
-      <div className="w-full flex justify-center items-center mt-10 p-4">
+      {/* <div className="w-full flex justify-center items-center mt-10 p-4">
         
           <PDFDownloadLink 
         style={{backgroundColor: 'bg-primary', color: '#fff'}} 
@@ -392,8 +392,8 @@ const page = () => {
         {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download Delivery Note')}
         </button>
       </PDFDownloadLink>
+      </div> */}
       </div>
-    </div>
     
   </Layout>
   )

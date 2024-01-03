@@ -81,8 +81,7 @@ const styles = StyleSheet.create({
 const OnboardingFormPdf = ({ boardingDetails, goatDetails, boardingType}) => {
   return (
     <Document>
-    {console.log(buyerDetails)}
-<Page size="A4" style={styles.page}>
+{/* <Page size="A4" style={styles.page}>
     <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "row", gap: "15", backgroundColor:'#39A7FF','color':'#000', 'borderRadius':'10','padding':'10 0' }}>
         <Image style={{ width: 100 }} src={window.location.origin + "/AHGFLogo.jpg"}/>
         <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -163,7 +162,7 @@ const OnboardingFormPdf = ({ boardingDetails, goatDetails, boardingType}) => {
         <Text style={{ ...styles.content_2, fontSize: '16', fontWeight: '600', textAlign: 'center' }}>Thank you for doing business with us</Text>
     </View>
   
-</Page>
+</Page> */}
 </Document>
   )
 }
