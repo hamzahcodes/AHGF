@@ -262,15 +262,11 @@ const page = () => {
         </div>
       </form> 
 
-      <div className='flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg mt-4 mb-2'>
-        <h2>Goat Details</h2>
-      </div>
-
-      <div className='flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4'>
+      <div className='flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4 mt-10'>
         <h2>Goat Details</h2>
         <button
                 onClick={() => document.getElementById("addItemGoatModal").showModal()}
-                className="text-md  p-4 rounded-full bg-accent text-[#fff]"
+                className="input input-bordered w-24 md:w-auto text-sm bg-secondary text-white"
             >
                 Add Item
         </button>
@@ -329,11 +325,11 @@ const page = () => {
         </table>
       </div>
 
-      <div className='flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4'>
+      <div className='flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4 mt-10'>
         <h2>Boarding Details</h2>
         <button
                 onClick={() => document.getElementById("addItemBoardingModal").showModal()}
-                className="text-md  p-4 rounded-full bg-accent text-[#fff]"
+                className="input input-bordered w-24 md:w-auto text-sm bg-secondary text-white"
             >
                 Add Item
         </button>

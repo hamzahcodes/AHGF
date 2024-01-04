@@ -110,7 +110,7 @@ const page = () => {
             <h2>Items List</h2>
             <button
                     onClick={() => document.getElementById("addItemInvoiceModal").showModal()}
-                    className="text-md  p-4 rounded-full bg-accent text-[#fff]"
+                    className="input input-bordered w-24 md:w-auto text-sm bg-secondary text-white"
                 >
                     Add Item
             </button>

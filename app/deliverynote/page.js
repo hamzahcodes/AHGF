@@ -133,9 +133,21 @@ const page = () => {
               ></input>
             </div>
           </div>
+        </form>
 
-          <div>
+          <div className="flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4">
             <h2>Items List</h2>
+            <button
+              onClick={() => document.getElementById("addItemModal").showModal()}
+              className="input input-bordered w-24 md:w-auto text-sm bg-secondary text-white"
+            >
+              Add Item
+            </button>
+            <AddItem
+              handleModal={handleModal}
+              itemPayload={itemPayload}
+              handleItemPayloadChange={handleItemPayloadChange}
+            />
           </div>
 
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -178,7 +190,6 @@ const page = () => {
               </tbody>
             </table>
           </div>
-        </form>
 
         <div className="w-full flex justify-center items-center mt-10 p-4">
         {isClient && (
@@ -192,28 +203,14 @@ const page = () => {
             }
             fileName={`${buyerDetails.deliveredTo}_deliverynote.pdf`}
           >
-            {/* <button
-              className="bg-primary rounded-md text-[#fff] p-4"
-            > */}
               {({ blob, url, loading, error }) =>
                 loading ? "Loading document..." : "Download Delivery Note"
               }
-            {/* </button> */}
           </PDFDownloadLink>
           )}
         </div>
       </div>
-      <button
-        onClick={() => document.getElementById("addItemModal").showModal()}
-        className="text-md fixed bottom-[10%] right-[5%] p-4 rounded-full bg-accent text-[#fff]"
-      >
-        Add Item
-      </button>
-      <AddItem
-        handleModal={handleModal}
-        itemPayload={itemPayload}
-        handleItemPayloadChange={handleItemPayloadChange}
-      />
+     
     </Layout>
   );
 };
