@@ -5,15 +5,15 @@ import Image from 'next/image'
 
 const Page = () => {
   return (
-    <Layout>
+    <>
       <Notification />
-      <Image
+      {/* <Image
         width={400}
         height={400}
         src="https://drive.google.com/uc?id=1nJ98IMNHgyoSZ_CrsH2tKc3AvatCcH7A"
         alt="test"
-      />
-    </Layout>
+      /> */}
+    </>
   );
 }
 

@@ -66,7 +66,7 @@ const Page = () => {
 
     return (
         <>
-            <Layout>
+            <>
 
                 <div className='flex justify-center items-center w-full'>
                     <div className='flex justify-center items-center w-full flex-col relative '>
@@ -173,7 +173,7 @@ const Page = () => {
                 <AddCustomerDialog />
 
 
-            </Layout>
+            </>
         </>
     )
 }
