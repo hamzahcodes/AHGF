@@ -14,7 +14,7 @@ import AddItem from "@components/DeliveryNote/AddItem";
 const Page = () => {
   const [searchList, setSearchList] = useState([]);
   // const context = useContext(AuthContext);
-  const clearInput = useRef()
+  const clearInput = useRef();
 
   const { data, error, isPending, isError } = useQuery({
     queryKey: ["customers"],

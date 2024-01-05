@@ -1,83 +1,38 @@
-"use client";
-
-
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+// import { getServerSession } from "next-auth";
 
-import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+
+import Navlink from "@components/ui/navlink";
+import SignOutForm from "@components/Authentication/signOutForm";
+import UserName from "@components/Authentication/userName";
+// import { options } from "@app/api/auth/[...nextauth]/options";
 
 const Layout = ({ children }) => {
-  // const context = useContext(AuthContext);
- 
-  const { data: session } = useSession();
-  const pathname = usePathname()
-  
-
-  const router = useRouter();
-  const handleSignOut = async (e) => {
-    e.preventDefault();
-    const data = await signOut("credentials", {
-      redirect: false,
-      callbackUrl: "/login",
-    });
-    // const res = await data.json()
-    // alert('data', data)
-    // router.push(data.url)
-    router.refresh();
-  };
-
- 
+  //  const session = await getServerSession(options)
 
   return (
     <div>
       <div className="navbar bg-base-100 sticky top-0 z-[1]">
         <div className="flex-1">
-          <Link href="/home" className="btn btn-ghost normal-case text-md"> <Image width={40} height={40} src='/AHGFLogo.jpg' />Al Hadi Goat Farm</Link>
+          <Link href="/home" className="btn btn-ghost normal-case text-[1rem]">
+            {" "}
+            <Image width={45} height={45} src="/AHGFLogo.jpg" />
+            Al Hadi Goat Farm
+          </Link>
         </div>
         <div className="flex-none gap-2">
-          <div className="text-center">{session?.user?.name}</div>
+          <UserName />
           <div className="form-control">
-            <button
-              onClick={handleSignOut}
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-auto text-sm"
-            >
-              Sign Out
-            </button>
+            <SignOutForm />
           </div>
-          {/* <div className="dropdown dropdown-end">
-                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full">
-                                    <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                                </div>
-                            </label>
-                            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                                <li>
-                                    <a className="justify-between">
-                                        Profile
-                                        <span className="badge">New</span>
-                                    </a>
-                                </li>
-                                <li><a>Settings</a></li>
-                                <li><a>Logout</a></li>
-                            </ul>
-                        </div> */}
         </div>
       </div>
 
       <div>{children}</div>
       <div>
         <div className="btm-nav">
-          <Link
-            href="/home"
-            className={`${
-             pathname === "/home" &&
-              "active border-secondary text-secondary"
-            }`}
-          >
+          <Navlink href="/home">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -93,15 +48,9 @@ const Layout = ({ children }) => {
               />
             </svg>
             <span className="btm-nav-label text-sm">Home</span>
-          </Link>
+          </Navlink>
 
-          <Link
-            href="/customers"
-            className={`${
-              pathname === "/customers" &&
-              "active border-secondary text-secondary"
-            }`}
-          >
+          <Navlink href="/customers">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -119,15 +68,9 @@ const Layout = ({ children }) => {
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
             <span className="btm-nav-label text-sm">CUS</span>
-          </Link>
+          </Navlink>
 
-          <Link
-            href="../suppliers"
-            className={`${
-              pathname === "/suppliers" &&
-              "active border-secondary text-secondary"
-            }`}
-          >
+          <Navlink href="../suppliers">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -144,15 +87,9 @@ const Layout = ({ children }) => {
               <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1" />
             </svg>
             <span className="btm-nav-label text-sm">SUPPL</span>
-          </Link>
+          </Navlink>
 
-          <Link
-            href="/stocks"
-            className={`${
-              pathname  === "/stocks" &&
-              "active border-secondary text-secondary"
-            }`}
-          >
+          <Navlink href="/stocks">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -169,15 +106,9 @@ const Layout = ({ children }) => {
               <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
             </svg>
             <span className="btm-nav-label text-sm">Stock</span>
-          </Link>
+          </Navlink>
 
-          <Link
-            href="/staff"
-            className={`${
-              pathname === "/staff" &&
-              "active border-secondary text-secondary"
-            }`}
-          >
+          <Navlink href="/staff">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -195,7 +126,7 @@ const Layout = ({ children }) => {
               <line x1="23" y1="11" x2="17" y2="11"></line>
             </svg>
             <span className="btm-nav-label text-sm">Staff</span>
-          </Link>
+          </Navlink>
         </div>
       </div>
     </div>
