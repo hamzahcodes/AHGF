@@ -1,16 +1,19 @@
 "use client";
 
-import React, { useEffect, useContext, useState } from "react";
+
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import AuthContext from "@store/auth-context";
+import { usePathname, useRouter } from "next/navigation";
+
 import { signOut } from "next-auth/react";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 
 const Layout = ({ children }) => {
   // const context = useContext(AuthContext);
-  const [activeTab, setActiveTab] = useState("home");
+ 
   const { data: session } = useSession();
+  const pathname = usePathname()
+  
 
   const router = useRouter();
   const handleSignOut = async (e) => {
@@ -25,25 +28,13 @@ const Layout = ({ children }) => {
     router.refresh();
   };
 
-  useEffect(() => {
-    setActiveTab(window.location.pathname);
-  }, []);
-
-  // useEffect(() => {
-  //     const token = localStorage.getItem("token")
-  //     if (!token) {
-  //         console.log("In layout useEffect If");
-  //         router.push("/")
-  //     } else {
-  //         console.log("In layout useEffect else");
-  //     }
-  // }, [])
+ 
 
   return (
     <div>
-      <div className="navbar bg-base-100 sticky top-0">
+      <div className="navbar bg-base-100 sticky top-0 z-[1]">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl">Al Hadi Goat Farm</a>
+          <Link href="/home" className="btn btn-ghost normal-case text-md"> <Image width={40} height={40} src='/AHGFLogo.jpg' />Al Hadi Goat Farm</Link>
         </div>
         <div className="flex-none gap-2">
           <div className="text-center">{session?.user?.name}</div>
@@ -83,7 +74,7 @@ const Layout = ({ children }) => {
           <Link
             href="/home"
             className={`${
-              activeTab.includes("/home") &&
+             pathname === "/home" &&
               "active border-secondary text-secondary"
             }`}
           >
@@ -107,7 +98,7 @@ const Layout = ({ children }) => {
           <Link
             href="/customers"
             className={`${
-              activeTab.includes("/customers") &&
+              pathname === "/customers" &&
               "active border-secondary text-secondary"
             }`}
           >
@@ -133,7 +124,7 @@ const Layout = ({ children }) => {
           <Link
             href="../suppliers"
             className={`${
-              activeTab.includes("/suppliers") &&
+              pathname === "/suppliers" &&
               "active border-secondary text-secondary"
             }`}
           >
@@ -158,7 +149,7 @@ const Layout = ({ children }) => {
           <Link
             href="/stocks"
             className={`${
-              activeTab.includes("/stocks") &&
+              pathname  === "/stocks" &&
               "active border-secondary text-secondary"
             }`}
           >
@@ -183,7 +174,7 @@ const Layout = ({ children }) => {
           <Link
             href="/staff"
             className={`${
-              activeTab.includes("/staff") &&
+              pathname === "/staff" &&
               "active border-secondary text-secondary"
             }`}
           >

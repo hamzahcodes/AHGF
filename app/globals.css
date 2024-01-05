@@ -17,5 +17,6 @@ body {
 
 .scrollList{
   overflow-y: scroll;
-  height: calc(100vh - 275px);
+  /* height: calc(100vh - 275px); */
+  margin-bottom: 4rem;
 }
