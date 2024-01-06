@@ -43,7 +43,7 @@ const BottomNav = () => {
           <span className="btm-nav-label text-sm">CUS</span>
         </Navlink>
 
-        <Navlink href="../suppliers">
+        <Navlink href="/suppliers">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
