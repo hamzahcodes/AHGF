@@ -9,7 +9,12 @@ const page = async () => {
   const session = await getServerSession(options)
   if(session) redirect("/home")
   
-  return <LoginForm />
+  return (
+  <div className='min-h-[100vh] flex justify-center items-center'>
+    <LoginForm />
+  </div>
+  )
+    
 }
 
 export default page

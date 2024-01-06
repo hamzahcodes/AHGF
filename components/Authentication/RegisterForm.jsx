@@ -51,6 +51,8 @@ const RegisterForm = () => {
     }
 
   return (
+    <div className="min-h-[100vh] flex justify-center items-center">
+
     <section className="bg-base-100">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow-xl  md:mt-0 sm:max-w-md xl:p-0 ">
@@ -134,6 +136,7 @@ const RegisterForm = () => {
         </div>
       </div>
     </section>
+    </div>
   );
 };
 
