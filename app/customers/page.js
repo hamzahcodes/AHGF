@@ -10,8 +10,15 @@ import LoadingSpinner from "@components/ui/loadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCustomers } from "@helper/http";
 import AddItem from "@components/DeliveryNote/AddItem";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+
 
 const Page = () => {
+
+  const { data: session } = useSession()
+  if(!session?.user?.id) redirect("/login")
+
   const [searchList, setSearchList] = useState([]);
   // const context = useContext(AuthContext);
   const clearInput = useRef();

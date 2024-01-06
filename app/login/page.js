@@ -7,7 +7,7 @@ import LoginForm from '@components/Authentication/LoginForm'
 const page = async () => {
 
   const session = await getServerSession(options)
-  if(session) redirect("/home")
+  if(session?.user?.id) redirect("/home")
   
   return (
   <div className='min-h-[100vh] flex justify-center items-center'>

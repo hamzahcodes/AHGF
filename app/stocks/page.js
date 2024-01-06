@@ -9,8 +9,13 @@ import StockList from "@components/stocks/stockList";
 import LoadingSpinner from "@components/ui/loadingSpinner";
 import StockPdf from "@components/stocks/StockPdf";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const Page = () => {
+  const { data: session } = useSession()
+  if(!session?.user?.id) redirect("/login")
+
   const context = useContext(AuthContext);
   const [isClient, setIsClient] = useState(false);
 

@@ -9,6 +9,10 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 const page = () => {
+
+  const { data: session } = useSession()
+  if(!session?.user?.id) redirect("/login")
+  
   const [isClient, setIsClient] = useState(false);
   const [description, setDescription] = useState([]);
   const [itemPayload, setItemPayload] = useState({

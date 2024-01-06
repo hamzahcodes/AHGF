@@ -12,8 +12,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllSuppliers } from "@helper/http";
 import SupplierList from "@components/suppliers/supplierList";
 import AddSupplierDialog from "@components/suppliers/addSupplierDialog";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const Page = () => {
+
+  const { data: session } = useSession()
+  if(!session?.user?.id) redirect("/login")
+
   const [customerData, setCustomerData] = useState(null);
   const context = useContext(AuthContext);
 
