@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Layout from "@components/ParentDrawer/Layout";
@@ -9,10 +9,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 const page = () => {
-
-  const { data: session } = useSession()
-  if(!session?.user?.id) redirect("/login")
-  const [isClient, setIsClient] = useState(false)
+  const [isClient, setIsClient] = useState(false);
   const [description, setDescription] = useState([]);
   const [itemPayload, setItemPayload] = useState({
     desc: "",
@@ -58,11 +55,11 @@ const page = () => {
   };
 
   useEffect(() => {
-    setIsClient(true)
-  }, [])
+    setIsClient(true);
+  }, []);
 
   return (
-    <Layout>
+    <>
       <div className="w-100 p-5 pb-10 border-2 border-x-indigo-400 border-y-indigo-500">
         {/* <PDFViewer className='fixed w-full h-full z-[5]'>
             <DeliveryNotes tableDetails={itemPayload} buyerDetails={buyerDetails}/>
@@ -139,87 +136,80 @@ const page = () => {
           </div>
           </form>
 
-          <div>
-            <h2>Items List</h2>
-            <button
-              onClick={() => document.getElementById("addItemModal").showModal()}
-              className="text-md fixed bottom-[10%] right-[5%] p-4 rounded-full bg-accent text-[#fff]"
-            >
-              Add Item
-            </button>
-            <AddItem
-              handleModal={handleModal}
-              itemPayload={itemPayload}
-              handleItemPayloadChange={handleItemPayloadChange}
-            />
-          </div>
+        <div className="flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4">
+          <h2>Items List</h2>
+          <button
+            onClick={() => document.getElementById("addItemModal").showModal()}
+            className="input input-bordered w-24 md:w-auto text-sm bg-secondary text-white"
+          >
+            Add Item
+          </button>
+          <AddItem
+            handleModal={handleModal}
+            itemPayload={itemPayload}
+            handleItemPayloadChange={handleItemPayloadChange}
+          />
+        </div>
 
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Description
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Quantity
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Price
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Total
-                  </th>
-                </tr>
-              </thead>
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Description
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Quantity
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Price
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Total
+                </th>
+              </tr>
+            </thead>
 
-              <tbody>
-                {description.map((item) => {
-                  return (
-                    <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        {item.desc}
-                      </th>
-                      <td className="px-6 py-4">{item.quantity}</td>
-                      <td className="px-6 py-4">{item.price}</td>
-                      <td className="px-6 py-4">
-                        {item.quantity * item.price}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+            <tbody>
+              {description.map((item) => {
+                return (
+                  <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {item.desc}
+                    </th>
+                    <td className="px-6 py-4">{item.quantity}</td>
+                    <td className="px-6 py-4">{item.price}</td>
+                    <td className="px-6 py-4">{item.quantity * item.price}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         <div className="w-full flex justify-center items-center mt-10 p-4">
-        {isClient && (
-          <PDFDownloadLink
-            className='bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]'
-            document={
-              <DeliveryNotes
-                buyerDetails={buyerDetails}
-                tableDetails={description}
-              />
-            }
-            fileName={`${buyerDetails.deliveredTo}_deliverynote.pdf`}
-          >
-            {/* <button
-              className="bg-primary rounded-md text-[#fff] p-4"
-            > */}
+          {isClient && (
+            <PDFDownloadLink
+              className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]"
+              document={
+                <DeliveryNotes
+                  buyerDetails={buyerDetails}
+                  tableDetails={description}
+                />
+              }
+              fileName={`${buyerDetails.deliveredTo}_deliverynote.pdf`}
+            >
               {({ blob, url, loading, error }) =>
                 loading ? "Loading document..." : "Download Delivery Note"
               }
-            {/* </button> */}
-          </PDFDownloadLink>
+            </PDFDownloadLink>
           )}
         </div>
       </div>
-     
-    </Layout>
+    </>
   );
 };
 

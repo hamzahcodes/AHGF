@@ -2,8 +2,7 @@ import { connectToDB } from "@/utils/database";
 import User from "@/models/User"
 import bcrypt from "bcrypt"
 import CredentialsProvider from "next-auth/providers/credentials"   
-import { NextResponse } from 'next/server'
-
+import { NextResponse } from "next/server";
 export const options = {
     session: {
         strategy: "jwt",

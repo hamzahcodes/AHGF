@@ -335,3 +335,39 @@ export async function getAllStocks() {
   }
   return resp.message;
 }
+
+export async function addStock({ stockPayload,id }) {
+  const response = await fetch(
+    "/api/stock/?supplierID="+id,
+    {
+      // Adding method type
+      method: "POST",
+      headers: {
+        // 'Authorization': 'Bearer ' + token,
+        "Content-type": "application/json",
+      },
+
+      // Adding body or contents to send
+      body: JSON.stringify({
+        stockDetails: {
+          name: stockPayload.name,
+          quantity: stockPayload.quantity,
+          price: stockPayload.price,
+        },
+      }),
+
+      // Adding headers to the request
+      headers: {
+        "Content-type": "application/json",
+      },
+    }
+  );
+
+  const resp = await response.json();
+  console.log(response);
+  if (response.ok) {
+   return response
+  } else {
+    setError(resp.message);
+  }
+}
