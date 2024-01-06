@@ -2,8 +2,17 @@ import Layout from '@components/ParentDrawer/Layout'
 import React from 'react'
 import Notification from '@components/home/notification'
 import Image from 'next/image'
+import { getServerSession } from 'next-auth'
+import { options } from '@app/api/auth/[...nextauth]/options'
+import { redirect } from 'next/navigation'
 
-const Page = () => {
+const Page = async () => {
+
+  const session = await getServerSession(options)
+  console.log(session, "#12");
+  console.log(session?.user?.id);
+  if(!session?.user?.id) redirect("/login")
+
   return (
     <Layout>
       <Notification />

@@ -6,9 +6,9 @@ import LoginForm from '@components/Authentication/LoginForm'
 const page = async () => {
 
   const session = await getServerSession(options)
-  if(session) redirect("/home")
-  
-  return <LoginForm />
+  if(!session?.user?.id) return <LoginForm />
+
+  redirect("/home")
 }
 
 export default page

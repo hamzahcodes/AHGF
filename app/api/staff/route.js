@@ -3,6 +3,7 @@ import Staff from "@/models/Staff"
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth";
 import { options } from "../auth/[...nextauth]/options.js";
+import Request from "@models/Request.js";
 
 export const GET = async (req, res) => {
 
@@ -16,8 +17,14 @@ export const GET = async (req, res) => {
             return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
         }
         const userID = session.user.id
+        if(!userID) return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
 
         await connectToDB();
+
+        let counter = await Request.findOne();
+        if(!counter) counter = await Request.create({})
+        counter.getRequestCalls++;
+        await counter.save()
 
         if(id) {
             const oneStaff = await Staff.find({ _id: id, user_id: userID })
@@ -41,8 +48,14 @@ export const POST = async (req, res) => {
             return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
         }
         const userID = session.user.id
+        if(!userID) return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
 
         await connectToDB()
+
+        let counter = await Request.findOne();
+        if(!counter) counter = await Request.create({})
+        counter.postRequestCalls++;
+        await counter.save()
 
         const newStaff = new Staff({
             name: name,
@@ -72,6 +85,11 @@ export const PUT = async (req, res) => {
         }
         const userID = session.user.id
         await connectToDB()
+
+        let counter = await Request.findOne();
+        if(!counter) counter = await Request.create({})
+        counter.putRequestCalls++;
+        await counter.save()
 
         const updatedStaff = await Staff.findByIdAndUpdate(id, {
             // name: (name != null && name.length != 0) && name,

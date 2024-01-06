@@ -93,7 +93,7 @@ export async function editCustomer({
     data.set("goat_type", customerPayload.goat_type);
     data.set("palaai_type", customerPayload.palaai_type);
     data.set("total_amount", customerPayload.amount);
-    data.set("off_boarding", null);
+    data.set("off_boarding", customerPayload.off_boarding);
   }
 
   //   let payload = isPayment

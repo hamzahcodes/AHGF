@@ -15,13 +15,16 @@ import { getAllStaff, getAllSuppliers } from '@helper/http'
 import SupplierList from '@components/suppliers/supplierList'
 import AddStaffDialog from '@components/staff/addStaffDialog'
 import StaffList from '@components/staff/staffList'
+import { useSession } from 'next-auth/react'
+import { redirect } from 'next/navigation'
 
 
 
 
 const Page = () => {
-    const [customerData, setCustomerData] = useState(null);
-    const context = useContext(AuthContext);
+    
+    const { data: session } = useSession()
+    if(!session?.user?.id) redirect("/login")
 
     const { data, error, isPending, isError } = useQuery({
         queryKey: ['staff'],

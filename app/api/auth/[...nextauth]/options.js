@@ -2,6 +2,7 @@ import { connectToDB } from "@/utils/database";
 import User from "@/models/User"
 import bcrypt from "bcrypt"
 import CredentialsProvider from "next-auth/providers/credentials"   
+import { NextResponse } from 'next/server'
 
 export const options = {
     session: {
@@ -25,9 +26,11 @@ export const options = {
                 await connectToDB()
         
                 const existingUser = await User.findOne({ phoneNumber })
+                console.log(existingUser, "#29");
                 if(!existingUser) return NextResponse.json({ message: "User does not exist"}, { status: 400 })
         
                 const validPassword = await bcrypt.compare(password, existingUser.password)
+                console.log(validPassword, "#33");
                 if(!validPassword) return NextResponse.json({ message: "Invalid Password"}, {status: 400})
 
                 if (validPassword) {

@@ -5,8 +5,14 @@ import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
 import AddGoatItem from '@components/OnboardingForm/AddGoatItem'
 import AddBoardingItem from '@components/OnboardingForm/AddBoardingItem'
 import OnboardingFormPdf from '@components/OnboardingForm/OnboardingFormPdf'
+import { useSession } from 'next-auth/react'
+import { redirect } from 'next/navigation'
 
 const page = () => {
+
+  
+  const { data: session } = useSession()
+  if(!session?.user?.id) redirect("/login")
 
   const [isClient, setIsClient] = useState(false)
   const [ boardingDetails, setBoardingDetails ] = useState({

@@ -11,8 +11,8 @@ export const POST = async (req, res) => {
         
         // console.log(username, phoneNumber, password)
 
-        const userExists = await User.findOne({ phoneNumber })
-        if(userExists) return NextResponse.json({ message: "User already exists!"}, { status: 400 })
+        // const userExists = await User.findOne({ phoneNumber })
+        // if(userExists) return NextResponse.json({ message: "User already exists!"}, { status: 400 })
 
         await connectToDB()
 

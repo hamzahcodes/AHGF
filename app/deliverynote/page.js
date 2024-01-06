@@ -5,9 +5,13 @@ import Layout from "@components/ParentDrawer/Layout";
 import AddItem from "@components/DeliveryNote/AddItem";
 import DeliveryNotes from "@components/DeliveryNote/DeliveryNotes";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const page = () => {
 
+  const { data: session } = useSession()
+  if(!session?.user?.id) redirect("/login")
   const [isClient, setIsClient] = useState(false)
   const [description, setDescription] = useState([]);
   const [itemPayload, setItemPayload] = useState({
@@ -133,13 +137,13 @@ const page = () => {
               ></input>
             </div>
           </div>
-        </form>
+          </form>
 
-          <div className="flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4">
+          <div>
             <h2>Items List</h2>
             <button
               onClick={() => document.getElementById("addItemModal").showModal()}
-              className="input input-bordered w-24 md:w-auto text-sm bg-secondary text-white"
+              className="text-md fixed bottom-[10%] right-[5%] p-4 rounded-full bg-accent text-[#fff]"
             >
               Add Item
             </button>
@@ -203,9 +207,13 @@ const page = () => {
             }
             fileName={`${buyerDetails.deliveredTo}_deliverynote.pdf`}
           >
+            {/* <button
+              className="bg-primary rounded-md text-[#fff] p-4"
+            > */}
               {({ blob, url, loading, error }) =>
                 loading ? "Loading document..." : "Download Delivery Note"
               }
+            {/* </button> */}
           </PDFDownloadLink>
           )}
         </div>

@@ -16,6 +16,7 @@ const AddSupplierDialog = () => {
         onSuccess: () => {
             alert('Supplier added successfully!!')
             document.getElementById('add_supplier_modal').close()
+            setSupplierPayload({  name: '', phone: '' })
             queryClient.invalidateQueries({ queryKey: ['suppliers'] });
         }
     })
@@ -37,7 +38,6 @@ const AddSupplierDialog = () => {
         }
 
         mutate({ supplierPayload: supplierPayload });
-
 
 
     }

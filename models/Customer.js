@@ -37,7 +37,10 @@ const customerSchema = new Schema({
         type: Date,
         default: () => Date.now(),
       },
-      off_boarding: Date,
+      off_boarding: {
+        type: Date,
+        default: () => Date.now(),
+      },
     },
   ],
 

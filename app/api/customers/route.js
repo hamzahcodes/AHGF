@@ -6,6 +6,7 @@ import { options } from "../auth/[...nextauth]/options";
 import { v4 as uuidv4 } from "uuid";
 import { Readable } from "node:stream";
 import { google } from "googleapis";
+import Request from "@models/Request";
 
 async function uploadFile(fileName, buffer) {
   const CLIENT_ID =
@@ -86,12 +87,19 @@ export const GET = async (req, res) => {
     if (!session) {
       return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
+    console.log(session);
     const userID = session.user.id;
+    if(!userID) return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("custID");
 
     await connectToDB();
+
+    let counter = await Request.findOne();
+    if(!counter) counter = await Request.create({})
+    counter.getRequestCalls++;
+    await counter.save()
     if (!id) {
       const customers = await Customer.find({ user_id: userID });
       return NextResponse.json({ message: customers }, { status: 200 });
@@ -119,9 +127,17 @@ export const POST = async (req, res) => {
       return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
 
+    
     const userID = session.user.id;
+    if(!userID) return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
+
 
     await connectToDB();
+
+    let counter = await Request.findOne();
+    if(!counter) counter = await Request.create({})
+    counter.postRequestCalls++;
+    await counter.save()
 
     const newCustomer =
       financial_details === undefined && goat_details === undefined
@@ -177,12 +193,13 @@ export const PUT = async (req, res) => {
       pay_date: data.get("pay_date"),
       amount: data.get("amount"),
       imageFile: data.get("imageFile"),
+      off_boarding: data.get("off_boarding")
     };
   } else {
     goat_details = {
       goat_type: data.get("goat_type"),
       palaai_type: data.get("palaai_type"),
-      total_amount: data.get("customerPayload.amount"),
+      total_amount: data.get("total_amount"),
       off_boarding: data.get("off_boarding"),
     };
   }
@@ -214,6 +231,11 @@ export const PUT = async (req, res) => {
       );
 
     await connectToDB();
+
+    let counter = await Request.findOne();
+    if(!counter) counter = await Request.create({})
+    counter.putRequestCalls++;
+    await counter.save()
 
     // appending only financial details array to existing customer
     if (financial_details && !basic_details && !goat_details) {

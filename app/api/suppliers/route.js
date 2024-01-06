@@ -3,6 +3,7 @@ import { connectToDB } from "@/utils/database"
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { options } from "../auth/[...nextauth]/options.js";
+import Request from "@models/Request.js";
 
 export const GET = async (req, res) => {
     const { searchParams } = new URL(req.url)
@@ -15,8 +16,14 @@ export const GET = async (req, res) => {
             return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
         }
         const userID = session.user.id
+        if(!userID) return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
 
         await connectToDB();
+
+        let counter = await Request.findOne();
+        if(!counter) counter = await Request.create({})
+        counter.getRequestCalls++;
+        await counter.save()
         
         if(id) {
             const supplier = await Supplier.find({ user_id: userID, _id: id })
@@ -43,7 +50,14 @@ export const POST = async (req, res) => {
             return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
         }
         const userID = session.user.id
+        if(!userID) return NextResponse.json({ 'error': "unauthorized"}, { status: 401 })
         await connectToDB()
+
+        let counter = await Request.findOne();
+        if(!counter) counter = await Request.create({})
+        counter.postRequestCalls++;
+        await counter.save()
+
         const newSupplier = new Supplier({
             supplierName: supplierName,
             supplierPhone: supplierPhone,
@@ -75,6 +89,10 @@ export const PUT = async (req, res) => {
 
         await connectToDB()
 
+        let counter = await Request.findOne();
+        if(!counter) counter = await Request.create({})
+        counter.putRequestCalls++;
+        await counter.save()
 
         const updatedSupplier = (financialTransactions) 
         ? 
