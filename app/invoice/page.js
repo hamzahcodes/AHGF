@@ -58,7 +58,7 @@ const page = () => {
         setIsClient(true)
       }, [])
   return (
-    <Layout>
+    
       <div className="w-100 p-5 pb-10 border-2 border-x-indigo-400 border-y-indigo-500">
         {/* <PDFViewer className='fixed w-full h-full z-[5]'>
             <DeliveryNotes tableDetails={itemPayload} buyerDetails={buyerDetails}/>
@@ -184,7 +184,7 @@ const page = () => {
         </div>
       </div>
       
-    </Layout>
+    
   )
 }
 
