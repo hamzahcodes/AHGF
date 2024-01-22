@@ -6,7 +6,7 @@ import { editCustomer } from '@helper/http';
 const AddGoatDetailsDialog = ({id}) => {
     
     const context = useContext(AuthContext);
-    const [customerPayload, setCustomerPayload] = useState({ goat_type: '', palaai_type: '', amount: '', off_boarding: new Date().toLocaleDateString("en-IN") });
+    const [customerPayload, setCustomerPayload] = useState({ goat_type: '', palaai_type: '', amount: '', off_boarding: new Date() });
 
 
     const { mutate } = useMutation({

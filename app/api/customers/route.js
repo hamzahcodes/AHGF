@@ -3,7 +3,6 @@ import { connectToDB } from "@/utils/database";
 import { NextResponse, NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { options } from "../auth/[...nextauth]/options";
-import { v4 as uuidv4 } from "uuid";
 import { Readable } from "node:stream";
 import { google } from "googleapis";
 import Request from "@models/Request";

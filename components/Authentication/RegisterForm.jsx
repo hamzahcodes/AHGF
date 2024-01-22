@@ -22,7 +22,7 @@ const RegisterForm = () => {
         }
 
         try {
-            const res = await fetch('/api/register', {
+            const res = await fetch('/api/auth/register', {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"
@@ -43,7 +43,7 @@ const RegisterForm = () => {
                 setError(userExists.message)
             } else {
                 console.log("User registration failed");
-                setError("")
+                setError("User registration failed")
             }
         } catch (error) {
             console.log(error.message);
@@ -75,7 +75,7 @@ const RegisterForm = () => {
                   onClick={() => setError("")}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   placeholder="John Smith"
-                  required
+                  // required
                 />
               </div>
               <div>
@@ -118,6 +118,7 @@ const RegisterForm = () => {
               }
               <button
                 type="submit"
+                onSubmit={handleRegisterSubmit}
                 className="w-full text-white bg-sky-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
               >
                 Create an account
@@ -125,7 +126,7 @@ const RegisterForm = () => {
               <p className="text-center text-sm font-light text-gray-500 ">
                 Already have an account?{" "}
                 <Link
-                  href="/"
+                  href="/login"
                   className="font-medium text-primary-600 hover:underline "
                 >
                   Login here

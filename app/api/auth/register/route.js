@@ -9,12 +9,12 @@ export const POST = async (req, res) => {
         
         const hashedPassword = await bcrypt.hash(password, 10)
         
-        // console.log(username, phoneNumber, password)
-
-        // const userExists = await User.findOne({ phoneNumber })
-        // if(userExists) return NextResponse.json({ message: "User already exists!"}, { status: 400 })
-
+        console.log(username, phoneNumber, password)
         await connectToDB()
+
+        const userExists = await User.findOne({ phoneNumber })
+        if(userExists) return NextResponse.json({ message: "User already exists!"}, { status: 400 })
+
 
         const newUser = new User({
             username: username,

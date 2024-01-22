@@ -120,12 +120,15 @@ const Pdf = ({ customerData,total }) => {
     return (
         <Document>
             <Page size="A4" style={styles.page}>
-                <View style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor:'#39A7FF','color':'#fff','borderRadius':'10','padding':'10 0' }}>
-
-                    {/* <Image style={{ width: 20, textAlign: 'center' }} src={logo} /> */}
-                    <Text style={{ ...styles.content_2, fontSize: '24', fontWeight: '900', textAlign: 'center' }}>Al-Hadi Goat Farm</Text>
+            <View style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexDirection: "row", gap: "30", backgroundColor:'#39A7FF','color':'#000', 'borderRadius':'10','padding':'10 10' }}>
+                <Image style={{ width: 100, borderRadius: '10' }} src={"/AHGFLogo.jpg"}/>
+                <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ ...styles.content_2, fontSize: '28', fontWeight: '900', textAlign: 'center' }}>Al-Hadi Goat Farm</Text>
+                    <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '600', textAlign: 'center', textTransform: 'uppercase' }}>Premium Quality, Guaranteed.</Text>
+                    <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '600', textAlign: 'center' }}>Sajid Mulla : 88502 84856</Text>
                 </View>
-               
+            </View>
+                    
                
 
                

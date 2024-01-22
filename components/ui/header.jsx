@@ -15,7 +15,7 @@ const Header = () => {
       <div className="flex-1">
         <Link href="/home" className="btn btn-ghost normal-case text-[1rem]">
           {" "}
-          <Image width={45} height={45} src="/AHGFLogo.jpg" />
+          <Image width={45} height={45} src="/AHGFLogo.jpg" alt='AHGF Logo'/>
           Al Hadi Goat Farm
         </Link>
       </div>

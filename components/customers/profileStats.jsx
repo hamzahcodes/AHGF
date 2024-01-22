@@ -1,6 +1,6 @@
 import React from 'react'
-import Pdf from '@components/documents/pdf';
-import { PDFDownloadLink,PDFViewer } from '@react-pdf/renderer';
+// import Pdf from '@components/documents/pdf';
+// import { PDFDownloadLink,PDFViewer } from '@react-pdf/renderer';
 const ProfileStats = ({ customerData, total, recieved }) => {
     console.log(total)
 
@@ -28,10 +28,9 @@ const ProfileStats = ({ customerData, total, recieved }) => {
                             <div className="stat-title">{customerData.basic_details.phone_no}</div>
                             <div className="stat-title mt-4">
 
-                            <PDFDownloadLink className='bg-[seagreen]  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]'
-                                    document={<Pdf customerData={customerData} total={total} />} fileName={`${customerData.basic_details.username}.pdf`}>
+                            {/* <PDFDownloadLink className='bg-[seagreen]  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]' document={<Pdf customerData={customerData} total={total} />} fileName={`${customerData.basic_details.username}.pdf`}>
                                 {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download')}
-                            </PDFDownloadLink>
+                            </PDFDownloadLink> */}
                             </div>
                         </div>
                         <div className="stat-value">₹{total - recieved}</div>

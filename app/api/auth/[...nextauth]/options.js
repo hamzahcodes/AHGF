@@ -2,15 +2,16 @@ import { connectToDB } from "@/utils/database";
 import User from "@/models/User"
 import bcrypt from "bcrypt"
 import CredentialsProvider from "next-auth/providers/credentials"   
-import { NextResponse } from "next/server";
+
 export const options = {
     session: {
         strategy: "jwt",
-        expiresIn: "1d"
+        maxAge: 24 * 60 * 60
     },
     pages: {
         signIn: "/login"
     },
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -26,11 +27,11 @@ export const options = {
         
                 const existingUser = await User.findOne({ phoneNumber })
                 console.log(existingUser, "#29");
-                if(!existingUser) return NextResponse.json({ message: "User does not exist"}, { status: 400 })
+                if(!existingUser) return null
         
                 const validPassword = await bcrypt.compare(password, existingUser.password)
                 console.log(validPassword, "#33");
-                if(!validPassword) return NextResponse.json({ message: "Invalid Password"}, {status: 400})
+                if(!validPassword) return null
 
                 if (validPassword) {
                     return {
