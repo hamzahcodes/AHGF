@@ -1,22 +1,20 @@
 "use client";
 
-import CustomerHero from "@/components/customers/customerHero";
-import Layout from "@components/ParentDrawer/Layout";
-import React, { useEffect, useState, useContext } from "react";
-import AuthContext from "@store/auth-context";
+
+import React, {  useState} from "react";
+
 import StockList from "@components/suppliers/stockList";
 import LoadingSpinner from "@components/ui/loadingSpinner";
-import { getCustomerById, getSupplierById } from "@helper/http";
+import { getSupplierById } from "@helper/http";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+
 import SupplierTransactionList from "@components/suppliers/supplierTransactionList";
 import SupplierStats from "@components/suppliers/supplierStats";
 
 const SupplierId = ({ params }) => {
-  const [customerData, setCustomerData] = useState(null);
+
   const [activeTab, setActiveTab] = useState(0);
-  const context = useContext(AuthContext);
-  const router = useRouter();
+ 
 
   const { data, error, isPending, isError } = useQuery({
     queryKey: ["supplier"],
@@ -52,7 +50,7 @@ const SupplierId = ({ params }) => {
                 onClick={() => {
                   setActiveTab(0);
                 }}
-                className={`tab w-[50%] ${!activeTab && "tab-active"}`}
+                className={`tab w-[50%] ${!activeTab ? "bg-primary text-[#fff]" : "text-[#000]"}`}
               >
                 Transaction Details
               </div>
@@ -60,7 +58,7 @@ const SupplierId = ({ params }) => {
                 onClick={() => {
                   setActiveTab(1);
                 }}
-                className={`tab w-[50%] ${activeTab && "tab-active"}`}
+                className={`tab w-[50%] ${activeTab ? "bg-primary text-[#fff]" : "text-[#000]"}`}
               >
                 Stock Specifities
               </div>

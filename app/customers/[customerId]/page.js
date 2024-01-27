@@ -2,8 +2,8 @@
 
 import CustomerHero from "@/components/customers/customerHero";
 import Layout from "@components/ParentDrawer/Layout";
-import React, { useEffect, useState, useContext } from "react";
-// import AuthContext from '@store/auth-context';
+import React, { useEffect, useState} from "react";
+
 import ProfileStats from "@components/customers/profileStats";
 import GoatList from "@components/customers/goatList";
 import TransactionList from "@components/customers/transactionList";
@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 const CustomerId = ({ params }) => {
   const [customerData, setCustomerData] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
-  // const context = useContext(AuthContext);
+ 
   const router = useRouter();
 
   const { data, error, isPending, isError } = useQuery({

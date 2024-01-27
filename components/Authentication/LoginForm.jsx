@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useContext } from "react"
+import { useState} from "react"
 import { useRouter } from "next/navigation";
-import AuthContext from '@store/auth-context'
+
 import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
@@ -13,7 +13,7 @@ const LoginForm = () => {
     const [ error, setError ] = useState("")
 
     const router = useRouter()
-    const context = useContext(AuthContext);
+  
 
     const handleLoginSubmit = async (e) => {
       e.preventDefault()

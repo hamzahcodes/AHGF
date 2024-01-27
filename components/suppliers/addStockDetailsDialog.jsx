@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "@store/auth-context";
+import React, { useState } from "react";
+
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { addStock } from "@helper/http";
 const AddStockDetailsDialog = ({ id }) => {
-  const context = useContext(AuthContext);
   const [stockPayload, setStockPayload] = useState({
     name: "",
     quantity: "",
@@ -21,8 +20,7 @@ const AddStockDetailsDialog = ({ id }) => {
   });
 
   const submitHandler = async (event) => {
-    event.preventDefault()
-  
+    event.preventDefault();
 
     mutate({ stockPayload: stockPayload, id: id });
   };

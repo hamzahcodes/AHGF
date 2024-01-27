@@ -8,32 +8,36 @@ const StockList = ({ data, id }) => {
   console.log("====================================");
   return (
     <>
-      <div>
-        <div className="w-full flex items-center justify-around py-4 border-b-[0.1px] border-[gray]">
-          <div className="w-[80%] flex justify-between">
-            <h3 className="min-w-[30%]">Stock</h3>
-
-            <h3 className="">Quantity</h3>
-            <h3 className="">Amount</h3>
+      <section className="text-gray-600 body-font">
+        <div className="container px-2 pt-4  mx-auto">
+          <div className="lg:w-2/3 w-full mx-auto overflow-auto">
+            <table className="table-auto w-full text-left whitespace-no-wrap">
+              <thead>
+                <tr>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                    Stock
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Quantity
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Amount
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.map((data, key) => (
+                  <tr key={key} className="border-b-2 border-secondary">
+                    <td className="px-4 py-3">{data.name}</td>
+                    <td className="px-4 py-3">{data.quantity}</td>
+                    <td className="px-4 py-3">{data.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
-
-      {data?.map((data, key) => (
-        <div key={key}>
-          <div
-            key={data._id}
-            className="w-full flex items-center justify-around py-4 border-b-[0.1px] border-[gray]"
-          >
-            <div className="w-[80%] flex justify-between">
-              <h2 className="min-w-[30%]">{data.name}</h2>
-
-              <h3 className="">{data.quantity}</h3>
-              <h3 className="">{data.price}</h3>
-            </div>
-          </div>
-        </div>
-      ))}
+      </section>
 
       <button
         onClick={() => document.getElementById("addStockModal").showModal()}

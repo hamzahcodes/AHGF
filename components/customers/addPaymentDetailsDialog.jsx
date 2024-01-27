@@ -1,17 +1,16 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "@store/auth-context";
+import React, { useState } from "react";
+
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { editCustomer } from "@helper/http";
 
 const AddPaymentDetailsDialog = ({ id }) => {
-  const context = useContext(AuthContext);
-    const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
-    const handleFileChange = (e) => {
-      const file = e.target.files[0];
-      setSelectedFile(file);
-    };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+  };
   const [customerPayload, setCustomerPayload] = useState({
     payout_date: "",
     amount: "",
@@ -43,30 +42,33 @@ const AddPaymentDetailsDialog = ({ id }) => {
 
     // handleUpload()
 
-    mutate({ customerPayload: customerPayload, id: id, isPayment: true ,imageFile:selectedFile});
-
+    mutate({
+      customerPayload: customerPayload,
+      id: id,
+      isPayment: true,
+      imageFile: selectedFile,
+    });
   };
 
-
-   const handleUpload =async () => {
-    event.preventDefault()
-    if (!selectedFile) return
+  const handleUpload = async () => {
+    event.preventDefault();
+    if (!selectedFile) return;
 
     try {
-      const data = new FormData()
-      data.set('file', selectedFile)
+      const data = new FormData();
+      data.set("file", selectedFile);
 
-      const res = await fetch('/api/uploadFile', {
-        method: 'POST',
-        body: data
-      })
+      const res = await fetch("/api/uploadFile", {
+        method: "POST",
+        body: data,
+      });
       // handle the error
-      if (!res.ok) throw new Error(await res.text())
+      if (!res.ok) throw new Error(await res.text());
     } catch (error) {
       // Handle errors here
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   return (
     <dialog id="my_modal_15" className="modal modal-bottom sm:modal-middle">
