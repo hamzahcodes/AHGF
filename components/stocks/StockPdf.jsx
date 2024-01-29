@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image, Font, PDFDownloadLink } from '@react-pdf/renderer';
 
 Font.register({
     family: 'Ubuntu',
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const StockPdf = ({ stockData }) => {
+const StockPdfTemp = ({ stockData }) => {
   return (
     <Document>
 <Page size="A4" style={styles.page}>
@@ -156,5 +156,20 @@ const StockPdf = ({ stockData }) => {
 </Document>
   )
 }
+
+
+const StockPdf = ({ stockData }) => {
+  return (
+    <PDFDownloadLink
+      className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]"
+      document={<StockPdfTemp stockData={stockData} />}
+      fileName={`ahgf_stock_details.pdf`}
+    >
+      {({ blob, url, loading, error }) =>
+        loading ? "Loading document..." : "Download Stock Details"
+      }
+    </PDFDownloadLink>
+  );
+};
 
 export default StockPdf

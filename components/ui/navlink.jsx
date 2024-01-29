@@ -10,7 +10,7 @@ const Navlink = ({href , children}) => {
     <Link
       href={href}
       className={`${
-        pathname.startsWith(href) && "active border-secondary text-secondary"
+        pathname.startsWith(href) && "active border-primary text-primary"
       }`}
     >
       {children}

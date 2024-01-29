@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image, Font , PDFDownloadLink } from '@react-pdf/renderer';
 
 Font.register({
     family: 'Ubuntu',
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },    
 });
 
-const OnboardingFormPdf = ({ boardingDetails, goatArray, boardingTypeArray}) => {
+const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray}) => {
   return (
     <Document>
 <Page size="A4" style={styles.page}>
@@ -357,5 +357,30 @@ const OnboardingFormPdf = ({ boardingDetails, goatArray, boardingTypeArray}) => 
 </Document>
   )
 }
+
+
+const OnboardingFormPdf = ({
+  boardingDetails,
+  goatArray,
+  boardingTypeArray,
+}) => {
+  return (
+    <PDFDownloadLink
+      className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] my-10"
+      document={
+        <OnboardingFormPdfTemp
+          boardingDetails={boardingDetails}
+          goatArray={goatArray}
+          boardingTypeArray={boardingTypeArray}
+        />
+      }
+      fileName={`${boardingDetails.ownerName}_OnboardingForm.pdf`}
+    >
+      {({ blob, url, loading, error }) =>
+        loading ? "Loading document..." : "Download OnBoarding Form"
+      }
+    </PDFDownloadLink>
+  );
+};
 
 export default OnboardingFormPdf

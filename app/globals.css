@@ -20,3 +20,6 @@ body {
   /* height: calc(100vh - 275px); */
   margin-bottom: 4rem;
 }
+th,td{
+  text-align: center;
+}

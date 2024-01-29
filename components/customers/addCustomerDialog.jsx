@@ -1,13 +1,13 @@
 
 
 
-import React, { useState, useContext } from 'react'
-import AuthContext from '@store/auth-context';
+import React, { useState } from 'react'
+
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@helper/http';
 import { addCustomer } from '@helper/http';
 const AddCustomerDialog = () => {
-    const context = useContext(AuthContext);
+   
     const [customerPayload, setCustomerPayload] = useState({ name: '', phone: '' });
 
 

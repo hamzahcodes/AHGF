@@ -1,20 +1,31 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Layout from '@components/ParentDrawer/Layout'
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
+
 import AddGoatItem from '@components/OnboardingForm/AddGoatItem'
 import AddBoardingItem from '@components/OnboardingForm/AddBoardingItem'
-import OnboardingFormPdf from '@components/OnboardingForm/OnboardingFormPdf'
+
 import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
+import dynamic from 'next/dynamic'
 
 const page = () => {
+   const OnboardingFormPdf = dynamic(
+     () => import("../../components/OnboardingForm/OnboardingFormPdf"),
+     {
+       loading: () => (
+         <button className="bg-[seagreen]  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]">
+           Loading...
+         </button>
+       ),
+     }
+   );
 
   
   const { data: session } = useSession()
   if(!session?.user?.id) redirect("/login")
 
-  const [isClient, setIsClient] = useState(false)
+  const [isGenerated, setIsGenerated] = useState(false)
   const [ boardingDetails, setBoardingDetails ] = useState({
     boardingNumber: 0,
     boardingDate: new Date().toLocaleDateString("en-IN"),
@@ -84,9 +95,7 @@ const page = () => {
     alert("Item added successfully");
   };
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
+
 
   return (
     
@@ -386,14 +395,19 @@ const page = () => {
       </div>
 
       <div className="w-full flex justify-center items-center mt-10 p-4">
-      {isClient && (
-            <PDFDownloadLink 
-              className='bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] my-10'
-              document={<OnboardingFormPdf boardingDetails={boardingDetails} goatArray={goatArray} boardingTypeArray={boardingTypeArray} />}
-              fileName={`${boardingDetails.ownerName}_OnboardingForm.pdf`}
-            >
-              {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download OnBoarding Form')}
-          </PDFDownloadLink>
+      {isGenerated ? (
+            <OnboardingFormPdf
+            boardingDetails={boardingDetails}
+            goatArray={goatArray}
+            boardingTypeArray={boardingTypeArray}
+          />
+          ):(
+             <button
+            className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]"
+            onClick={() => setIsGenerated(true)}
+          >
+            Generate
+          </button>
           )}
       </div>
       

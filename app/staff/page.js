@@ -1,16 +1,11 @@
 "use client";
 
-import React, { useEffect, useState, useContext } from "react";
-import Layout from "@components/ParentDrawer/Layout";
-import CustomerList from "@components/customers/customerList";
-import AuthContext from "@store/auth-context";
-import Link from "next/link";
-import AddCustomerDialog from "@components/customers/addCustomerDialog";
-import Stats from "@components/customers/stats";
+import React from "react";
+
 import LoadingSpinner from "@components/ui/loadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { getAllStaff, getAllSuppliers } from "@helper/http";
-import SupplierList from "@components/suppliers/supplierList";
+
 import AddStaffDialog from "@components/staff/addStaffDialog";
 import StaffList from "@components/staff/staffList";
 import { useSession } from "next-auth/react";

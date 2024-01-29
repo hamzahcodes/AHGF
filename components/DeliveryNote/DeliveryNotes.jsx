@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image, Font,PDFDownloadLink } from '@react-pdf/renderer';
 
 Font.register({
     family: 'Ubuntu',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     },    
 });
 
-const DeliveryNotes = ({ tableDetails, buyerDetails }) => {
+const DeliveryNotesTemp = ({ tableDetails, buyerDetails }) => {
 
     let total = 0
     if(Array.isArray(tableDetails)){
@@ -180,6 +180,25 @@ const DeliveryNotes = ({ tableDetails, buyerDetails }) => {
 </Page>
 </Document>
     )
+}
+
+const DeliveryNotes = ({ tableDetails, buyerDetails }) => {
+    return (
+      <PDFDownloadLink
+        className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]"
+        document={
+          <DeliveryNotesTemp
+            buyerDetails={buyerDetails}
+            tableDetails={tableDetails}
+          />
+        }
+        fileName={`${buyerDetails.deliveredTo}_deliverynote.pdf`}
+      >
+        {({ blob, url, loading, error }) =>
+          loading ? "Loading document..." : "Download Delivery Note"
+        }
+      </PDFDownloadLink>
+    );
 }
 
 export default DeliveryNotes

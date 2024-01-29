@@ -14,41 +14,57 @@ const TransactionList = ({data,id,total}) => {
 
   return (
     <>
-      <div>
-        <div className="w-full flex items-center justify-around py-4 border-b-[0.1px] border-[gray]">
-          <div className="w-[80%] flex justify-between">
-            <h2 className="min-w-[30%]">Payout Date</h2>
+      
 
-            <h3 className="">Amount</h3>
-            <h3 className="">Asset</h3>
+      <section className="text-gray-600 body-font">
+        <div className="container px-2 pt-4  mx-auto">
+          <div className="lg:w-2/3 w-full mx-auto overflow-auto">
+            <table className="table-auto w-full text-left whitespace-no-wrap">
+              <thead>
+                <tr>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                    Payout Date
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Amount
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Asset
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.map((data, key) => (
+                  <tr key={key} className="border-b-2 border-secondary">
+                    <td className="px-4 py-3">
+                      {" "}
+                      {new Date(data.pay_date).toLocaleDateString().toString()}
+                    </td>
+                    <td className="px-4 py-3">{data.amount}</td>
+                    <td className="px-4 py-3">
+                      {" "}
+                      {data.imageFile ? (
+                        <button
+                          onClick={() => {
+                            viewImageHandler(data.imageFile);
+                          }}
+                          className="btn"
+                        >
+                          View
+                        </button>
+                      ) : (
+                        <h3>
+                          Asset <br /> Unavailable
+                        </h3>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
-
-      {data?.map((data, key) => (
-        <div key={key}>
-          <div
-            key={data._id}
-            className="w-full flex items-center justify-around py-4 border-b-[0.1px] border-[gray]"
-          >
-            <div className="w-[80%] flex justify-between">
-              <h2 className="min-w-[30%]">
-                {new Date(data.pay_date).toLocaleDateString().toString()}
-              </h2>
-
-              <h3 className="text-[seagreen]">{data.amount}</h3>
-              {
-                data.imageFile ? (
-                     <button onClick={()=> {viewImageHandler(data.imageFile)}} className='btn'>View</button>
-                ):(
-                    <h3>Asset <br/> Unavailable</h3>
-                )
-              }
-             
-            </div>
-          </div>
-        </div>
-      ))}
+      </section>
 
       <button
         onClick={() => {
@@ -77,9 +93,7 @@ const TransactionList = ({data,id,total}) => {
       </button>
 
       <AddPaymentDetailsDialog id={id} />
-      <ViewImageDialog activeImage={activeImage}/>
-
-    
+      <ViewImageDialog activeImage={activeImage} />
     </>
   );
 }

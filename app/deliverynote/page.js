@@ -1,24 +1,36 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
 import Layout from "@components/ParentDrawer/Layout";
 import AddItem from "@components/DeliveryNote/AddItem";
-import DeliveryNotes from "@components/DeliveryNote/DeliveryNotes";
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+// import DeliveryNotes from "../../components/DeliveryNote/DeliveryNotes";
+
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 const page = () => {
+  const [isGenerated, setIsGenerated] = useState(false);
 
   const { data: session } = useSession()
   if(!session?.user?.id) redirect("/login")
   
-  const [isClient, setIsClient] = useState(false);
+
   const [description, setDescription] = useState([]);
   const [itemPayload, setItemPayload] = useState({
     desc: "",
     quantity: 0,
     price: 0,
+  });
+
+   const DeliveryNotes = dynamic(() => import("../../components/DeliveryNote/DeliveryNotes"), {
+    loading: () => (
+      <button
+       
+        className="bg-[seagreen]  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]"
+      >
+        Loading...
+      </button>
+    ),
   });
 
   const [buyerDetails, setBuyerDetails] = useState({
@@ -58,9 +70,6 @@ const page = () => {
     e.preventDefault();
   };
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   return (
     <>
@@ -138,7 +147,7 @@ const page = () => {
               ></input>
             </div>
           </div>
-          </form>
+        </form>
 
         <div className="flex justify-around items-center p-3 bg-gray-50 border border-gray-400 w-full rounded-lg my-4">
           <h2>Items List</h2>
@@ -195,21 +204,15 @@ const page = () => {
         </div>
 
         <div className="w-full flex justify-center items-center mt-10 p-4">
-          {isClient && (
-            <PDFDownloadLink
-              className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]"
-              document={
-                <DeliveryNotes
-                  buyerDetails={buyerDetails}
-                  tableDetails={description}
-                />
-              }
-              fileName={`${buyerDetails.deliveredTo}_deliverynote.pdf`}
-            >
-              {({ blob, url, loading, error }) =>
-                loading ? "Loading document..." : "Download Delivery Note"
-              }
-            </PDFDownloadLink>
+          {isGenerated ? (
+            <DeliveryNotes
+              buyerDetails={buyerDetails}
+              tableDetails={description}
+            />
+          ) : (
+            <button onClick={() => {setIsGenerated(true)}} className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]">
+              Generate Document
+            </button>
           )}
         </div>
       </div>
