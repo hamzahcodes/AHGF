@@ -30,8 +30,10 @@ const Notification = () => {
       alert("Pls put a notification in text area");
       return;
     }
+    const payment = 2000
+    const companyName = 'Al - Hadi Goat Farm(8850284856)'
 
-    window.open(`https://wa.me/?text=${message}`);
+    window.open(`https://wa.me/+918268201182?text=Hello%20there,%20here's%20a%20small%20reminder.%0AYour%20payment%20of%20₹%20${payment}%20is%20pending%20at%20${companyName}%0AYou%20can%20view%20the%20payment%20details%20at:%20https://example.com/path/to/your/pdf.pdf%0A%0AIf%20the%20link%20is%20not%20clickable,%20please%20save%20this%20contact%20and%20try%20again.`);
 
   };
 

@@ -5,11 +5,18 @@ import { queryClient } from "@helper/http";
 import { editCustomer } from "@helper/http";
 
 const AddPaymentDetailsDialog = ({ id }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file);
+    // setSelectedFile(file);
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+
+    reader.onload = () => {
+      console.log('called: ', reader)
+      setSelectedFile(reader.result)
+    }
   };
   const [customerPayload, setCustomerPayload] = useState({
     payout_date: "",
@@ -26,6 +33,7 @@ const AddPaymentDetailsDialog = ({ id }) => {
   });
 
   const submitHandler = async () => {
+    console.log("In submit handler add payment dialog #29");
     if (
       customerPayload.payout_date === "" ||
       customerPayload.payout_date === false
@@ -40,6 +48,7 @@ const AddPaymentDetailsDialog = ({ id }) => {
       return;
     }
 
+    console.log(selectedFile, " at line #51");
     // handleUpload()
 
     mutate({

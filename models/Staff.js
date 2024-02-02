@@ -4,6 +4,10 @@ const staffSchema = new Schema({
     name: String,
     phone: Number,
     salary: Number,
+    joiningDate: {
+        type: Date,
+        default: () => Date.now(),
+    },
     user_id: { 
         type: Schema.Types.ObjectId,
         ref: 'User' 

@@ -6,79 +6,89 @@ import { options } from "../auth/[...nextauth]/options";
 import { Readable } from "node:stream";
 import { google } from "googleapis";
 import Request from "@models/Request";
+import { v2 as cloudinary } from 'cloudinary'
 
-async function uploadFile(fileName, buffer) {
-  const CLIENT_ID =
-    "844988512004-9kb817k70e8otj240ugvlds4ondfclb5.apps.googleusercontent.com";
-  const CLIENT_SECRET = "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";
-  const REFRESH_TOKEN =
-    "1//04Ejv7qSbQggVCgYIARAAGAQSNwF-L9IrOoKKnGHNKZc59WZhQsLwlO6TKq2LjGKu-6ubB8g0kJVLcGkW3Wqy1qzRP7OsfXBuGEc";
-  const REDIRECT_URI = "https://developers.google.com/oauthplayground";
+cloudinary.config({
+  cloud_name: 'dghdglfuv',
+  api_key: '137446129345999',
+  api_secret: 'jO9mq-T1vULX05008hBj5z6dQX0',
+  secure: true,
+});
 
-  const oauth2Client = new google.auth.OAuth2(
-    CLIENT_ID,
-    CLIENT_SECRET,
-    REDIRECT_URI
-  );
+// async function uploadFile(fileName, buffer) {
+//   const CLIENT_ID =
+//     "844988512004-9kb817k70e8otj240ugvlds4ondfclb5.apps.googleusercontent.com";
+//   const CLIENT_SECRET = "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";
+//   const REFRESH_TOKEN =
+//     "1//04Ejv7qSbQggVCgYIARAAGAQSNwF-L9IrOoKKnGHNKZc59WZhQsLwlO6TKq2LjGKu-6ubB8g0kJVLcGkW3Wqy1qzRP7OsfXBuGEc";
+//   const REDIRECT_URI = "https://developers.google.com/oauthplayground";
 
-  // oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
-  oauth2Client.setCredentials({
-    refresh_token: REFRESH_TOKEN,
-  });
+//   const oauth2Client = new google.auth.OAuth2(
+//     CLIENT_ID,
+//     CLIENT_SECRET,
+//     REDIRECT_URI
+//   );
 
-  let drive = google.drive({
-    version: "v3",
-    auth: oauth2Client,
-  });
+//   // oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
+//   oauth2Client.setCredentials({
+//     refresh_token: REFRESH_TOKEN,
+//   });
 
-  try {
-    const response = await drive.files.list({
-      q: ` name contains 'payslipAttachments' and  mimeType = 'application/vnd.google-apps.folder' `,
-    });
+//   let drive = google.drive({
+//     version: "v3",
+//     auth: oauth2Client,
+//   });
 
-    console.log("====================================");
-    console.log(response.data.files,"UIUI")
-    console.log("====================================");
-    let folderId, folderName;
+//   try {
+//     const response = await drive.files.list({
+//       q: ` name contains 'payslipAttachments' and  mimeType = 'application/vnd.google-apps.folder' `,
+//     });
 
-    folderId = [response.data.files[0].id];
-    folderName = response.data.files[0].name;
+//     console.log("====================================");
+//     console.log(response.data.files,"UIUI")
+//     console.log("====================================");
+//     let folderId, folderName;
 
-    console.log("====================================");
-    console.log(folderId, "FOLDER", response.data.files);
-    console.log("====================================");
+//     folderId = [response.data.files[0].id];
+//     folderName = response.data.files[0].name;
 
-    const fileMetadata = {
-      name: fileName,
-      parents: folderId,
-    };
+//     console.log("====================================");
+//     console.log(folderId, "FOLDER", response.data.files);
+//     console.log("====================================");
 
-    const response2 = await drive.files.create({
-      resource: fileMetadata,
-      media: {
-        mimeType: "image/jpg",
-        body: Readable.from(buffer),
-      },
-    });
+//     const fileMetadata = {
+//       name: fileName,
+//       parents: folderId,
+//     };
 
-    console.log("====================================");
-    console.log(response2.data.id, "65");
-    console.log("====================================");
-    if (response2.status == 200) {
-      console.log("====================================");
-      console.log(response2);
-      console.log("====================================");
-    }
-    return response2.data.id;
-  } catch (error) {
-    console.log("====================================");
-    console.log(error, "ERROr");
-    console.log("====================================");
-  }
-}
+//     const response2 = await drive.files.create({
+//       resource: fileMetadata,
+//       media: {
+//         mimeType: "image/jpg",
+//         body: Readable.from(buffer),
+//       },
+//     });
+
+//     console.log("====================================");
+//     console.log(response2.data.id, "65");
+//     console.log("====================================");
+//     if (response2.status == 200) {
+//       console.log("====================================");
+//       console.log(response2);
+//       console.log("====================================");
+//     }
+//     return response2.data.id;
+//   } catch (error) {
+//     console.log("====================================");
+//     console.log(error, "ERROr");
+//     console.log("====================================");
+//   }
+// }
 
 // to get all customers meant for customers page
 // also when particular customer is clicked then its details api is added
+
+
 export const GET = async (req, res) => {
   try {
     const session = await getServerSession(options);
@@ -179,37 +189,26 @@ export const POST = async (req, res) => {
   }
 };
 
+const uploadImageToCloudinary = async (imageBuffer) => {
+  try {
+    const result = await cloudinary.uploader.upload(imageBuffer, {
+      folder: 'ahgf_images' // Optional: Specify a folder in Cloudinary to organize your images
+    });
+    return result.secure_url; // Return the URL of the uploaded image
+  } catch (error) {
+    console.error('Error uploading image to Cloudinary:', error);
+    throw error;
+  }
+};
+
 // 2 functionalities required:
 //  a. update details of customer (not sure we keep this)
 //  b. append another goat_detail OR financial details
 export const PUT = async (req, res) => {
-  const data = await req.formData();
-  let financial_details, goat_details, basic_details;
-
-  const data_type = data.get("type");
-  if (data_type === "financial_details") {
-    financial_details = {
-      pay_date: data.get("pay_date"),
-      amount: data.get("amount"),
-      imageFile: data.get("imageFile"),
-      off_boarding: data.get("off_boarding")
-    };
-  } else {
-    goat_details = {
-      goat_type: data.get("goat_type"),
-      palaai_type: data.get("palaai_type"),
-      total_amount: data.get("total_amount"),
-      off_boarding: data.get("off_boarding"),
-    };
-  }
-
-  console.log("====================================");
-  console.log(financial_details, "#104");
-  console.log("====================================");
-
+  
   // accepting request in the form of JSON only
-  // const { basic_details, financial_details, goat_details } = await req.json()
-
+  const { basic_details, financial_details, goat_details } = await req.json()
+  console.log(financial_details);
   try {
     const session = await getServerSession(options);
 
@@ -238,15 +237,9 @@ export const PUT = async (req, res) => {
 
     // appending only financial details array to existing customer
     if (financial_details && !basic_details && !goat_details) {
-     
-      const buffer = await financial_details.imageFile.stream();
-
-      const uploadId = await uploadFile(
-        financial_details.imageFile.name,
-        buffer
-      );
-
-      financial_details.imageFile = "https://drive.google.com/uc?id=" + uploadId
+      
+      const imageUrl = await uploadImageToCloudinary(financial_details.imageFile);
+      financial_details.imageFile = imageUrl
 
 
       const filter = { _id: id, user_id: userID };
@@ -254,10 +247,6 @@ export const PUT = async (req, res) => {
       const updatedFinance = await Customer.findOneAndUpdate(filter, update, {
         new: true,
       });
-
-      console.log('====================================');
-      console.log(updatedFinance,"#238");
-      console.log('====================================');
 
       if (updatedFinance)
         return NextResponse.json({ message: updatedFinance }, { status: 200 });
