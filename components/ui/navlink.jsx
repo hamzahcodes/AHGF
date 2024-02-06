@@ -9,8 +9,8 @@ const Navlink = ({href , children}) => {
   return (
     <Link
       href={href}
-      className={`${
-        pathname.startsWith(href) && "active border-primary text-primary"
+      className={`links ${
+        pathname.startsWith(href) && "_active border-primary border-0 text-accent"
       }`}
     >
       {children}

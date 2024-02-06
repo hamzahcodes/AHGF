@@ -8,7 +8,7 @@ const SupplierList = ({ supplierData }) => {
   console.log("====================================");
 
   return (
-    <div className="scrollList flex w-full flex-col   px-2">
+    <div className="scrollList flex w-full flex-col  px-2 supplier__list">
       <div className="flex flex-wrap">
         {supplierData?.map((data, key) => {
           let paid = data.financialTransactions

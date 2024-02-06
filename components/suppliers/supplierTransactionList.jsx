@@ -4,9 +4,7 @@ import AddSuppliersTransactionDialog from "./addSuppliersTransactionDialog";
 const SupplierTransactionList = ({ data, id, total }) => {
   return (
     <>
-     
-
-      <section className="text-gray-600 body-font">
+      <section className="text-primary bg-[#fff] mx-2 rounded-xl body-font supplier__table">
         <div className="container px-2 pt-4  mx-auto">
           <div className="lg:w-2/3 w-full mx-auto overflow-auto">
             <table className="table-auto w-full text-left whitespace-no-wrap">
@@ -30,7 +28,6 @@ const SupplierTransactionList = ({ data, id, total }) => {
                         .toString()}
                     </td>
                     <td className="px-4 py-3">{data.payment}</td>
-                 
                   </tr>
                 ))}
               </tbody>

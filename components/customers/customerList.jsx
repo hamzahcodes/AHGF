@@ -23,7 +23,7 @@ const CustomerList = ({ customerData }) => {
               <div className="">
                 <div className="h-full flex items-center border-gray-200 bg-secondary border px-4 py-2 rounded-lg">
                   <div
-                    className={`w-12 h-12 text-3xl text-[#fff] bg-primary flex justify-center items-center rounded-full mr-4 `}
+                    className={`w-12 h-12 text-3xl text-[#fff] bg-primary flex justify-center items-center rounded-xl  mr-4 `}
                   >
                     {data.basic_details.username[0]}
                   </div>
@@ -31,7 +31,7 @@ const CustomerList = ({ customerData }) => {
                     <h2 className="text-gray-900 title-font font-medium">
                       {data.basic_details.username}
                     </h2>
-                    <div className="w-[50%] flex justify-between items-center">
+                    <div className="w-[60%] flex justify-between items-center">
                       <p className="text-[green] font-semibold">+₹{paid}</p>
                       <p className="text-[red] font-semibold">₹{total - paid}</p>
                     </div>

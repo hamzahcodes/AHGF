@@ -24,7 +24,7 @@ const SignOutForm = () => {
         onClick={handleSignOut}
         type="text"
         placeholder="Search"
-        className="input input-bordered w-24 md:w-auto text-sm text-primary bg-secondary border-primary font-bold"
+        className="border-2 rounded-xl border-gray-100  md:w-auto text-sm text-primary bg-secondary p-2 font-semibold"
       >
         Sign Out
       </button>

@@ -65,13 +65,13 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center w-full sticky top-[4rem] bg-base-100 z-[1]">
-        <div className="flex justify-center items-center w-full flex-col relative ">
+      <div className="flex justify-center items-center w-auto rounded-xl mx-2 sticky top-[5rem] bg-base-100 z-[1]">
+        {/* <div className="flex justify-center items-center w-full flex-col relative ">
           <input
             ref={clearInput}
             onChange={searchHandler}
             placeholder="search by name..."
-            className="rounded-xl p-2 my-4 w-[90%] border-secondary border-2"
+            className="rounded-xl p-4  w-full border-secondary border-2"
             type="text"
           />
           {searchList.length > 0 && (
@@ -125,7 +125,7 @@ const Page = () => {
                 );
               })}
           </div>
-        </div>
+        </div> */}
 
         {/* <button onClick={() => document.getElementById('sort_modal').showModal()} className='bg-primary p-2 rounded-xl'>Search</button> */}
         {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -185,10 +185,10 @@ const Page = () => {
 
       {data ? (
         <div className="relative">
-          {/* <div className=' w-full'>
-                                <Stats />
+          <div className=' w-auto mx-2 my-4'>
+                                <Stats customerData={data} />
 
-                            </div> */}
+                            </div>
 
           <CustomerList customerData={data} />
         </div>

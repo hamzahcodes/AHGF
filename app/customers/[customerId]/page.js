@@ -47,12 +47,12 @@ const CustomerId = ({ params }) => {
           <div className=""></div>
 
           <div>
-            <div className="tabs tabs-boxed w-full">
+            <div className="tabs tabs-boxed w-auto bg-[#fff] my-2 mx-2">
               <div
                 onClick={() => {
                   setActiveTab(0);
                 }}
-                className={`tab w-[50%] ${!activeTab && "tab-active"}`}
+                className={`tab w-[50%] font-semibold ${!activeTab && "tab-active text-[orange] "}`}
               >
                 Transaction Details
               </div>
@@ -60,7 +60,7 @@ const CustomerId = ({ params }) => {
                 onClick={() => {
                   setActiveTab(1);
                 }}
-                className={`tab w-[50%] ${activeTab && "tab-active"}`}
+                className={`tab w-[50%] font-semibold  ${activeTab && "tab-active text-[orange] "}`}
               >
                 Goat Specifities
               </div>

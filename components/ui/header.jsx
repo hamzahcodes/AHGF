@@ -11,9 +11,9 @@ const Header = () => {
      if (pathname.startsWith("/login") || pathname.startsWith("/register"))
        return;
   return (
-    <div className="navbar bg-base-100 sticky top-0 z-[1]">
+    <div className="navbar bg-base-100 sticky top-2  z-[1] m-2  rounded-xl w-auto">
       <div className="flex-1">
-        <Link href="/home" className="btn btn-ghost normal-case text-[1rem]">
+        <Link href="/home" className="btn btn-ghost normal-case text-sm">
           {" "}
           <Image width={45} height={45} src="/AHGFLogo.jpg" alt='AHGF Logo'/>
           Al Hadi Goat Farm

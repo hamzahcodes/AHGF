@@ -4,9 +4,7 @@ import AddGoatDetailsDialog from "./addGoatDetailsDialog";
 const GoatList = ({ data, id }) => {
   return (
     <>
-     
-
-      <section className="text-gray-600 body-font">
+      <section className="text-primary bg-[#fff] mx-2 rounded-xl body-font transaction__table">
         <div className="container px-2 pt-4  mx-auto">
           <div className="lg:w-2/3 w-full mx-auto overflow-auto">
             <table className="table-auto w-full text-left whitespace-no-wrap">

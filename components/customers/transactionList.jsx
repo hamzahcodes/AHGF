@@ -16,11 +16,11 @@ const TransactionList = ({data,id,total}) => {
     <>
       
 
-      <section className="text-gray-600 body-font">
+      <section className="text-primary bg-[#fff] mx-2 rounded-xl body-font transaction__table">
         <div className="container px-2 pt-4  mx-auto">
           <div className="lg:w-2/3 w-full mx-auto overflow-auto">
             <table className="table-auto w-full text-left whitespace-no-wrap">
-              <thead>
+              <thead >
                 <tr>
                   <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
                     Payout Date

@@ -45,7 +45,7 @@ const SupplierId = ({ params }) => {
           />
 
           <div>
-            <div className="tabs tabs-boxed w-full">
+            <div className="tabs tabs-boxed w-auto mx-2 my-2">
               <div
                 onClick={() => {
                   setActiveTab(0);
