@@ -6,14 +6,8 @@ import { options } from "../auth/[...nextauth]/options";
 import { Readable } from "node:stream";
 import { google } from "googleapis";
 import Request from "@models/Request";
-import { v2 as cloudinary } from 'cloudinary'
+import { uploadImageToCloudinary } from "@utils/cloudinary";
 
-cloudinary.config({
-  cloud_name: 'dghdglfuv',
-  api_key: '137446129345999',
-  api_secret: 'jO9mq-T1vULX05008hBj5z6dQX0',
-  secure: true,
-});
 
 // async function uploadFile(fileName, buffer) {
 //   const CLIENT_ID =
@@ -189,17 +183,7 @@ export const POST = async (req, res) => {
   }
 };
 
-const uploadImageToCloudinary = async (imageBuffer) => {
-  try {
-    const result = await cloudinary.uploader.upload(imageBuffer, {
-      folder: 'ahgf_images' // Optional: Specify a folder in Cloudinary to organize your images
-    });
-    return result.secure_url; // Return the URL of the uploaded image
-  } catch (error) {
-    console.error('Error uploading image to Cloudinary:', error);
-    throw error;
-  }
-};
+
 
 // 2 functionalities required:
 //  a. update details of customer (not sure we keep this)
