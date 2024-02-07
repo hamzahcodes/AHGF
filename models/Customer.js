@@ -48,6 +48,11 @@ const customerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+
+  reminderAmount: {
+    type: Number,
+    default: 0
+  }
 });
 
 const Customer = models.Customer || new model('Customer', customerSchema)
