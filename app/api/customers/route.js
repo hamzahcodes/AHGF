@@ -185,9 +185,7 @@ export const POST = async (req, res) => {
 
 
 
-// 2 functionalities required:
-//  a. update details of customer (not sure we keep this)
-//  b. append another goat_detail OR financial details
+// append another goat_detail OR financial details
 export const PUT = async (req, res) => {
   
   // accepting request in the form of JSON only
@@ -262,42 +260,44 @@ export const PUT = async (req, res) => {
     }
 
     // in doubt whether we even require this API as we will deal with addition of goat or financial details only
-    const updateCustomer = {
-      basic_details: {
-        username: basic_details.username,
-        phone_no: basic_details.phone_no,
-      },
-      financial_details: [
-        {
-          amount: financial_details.amount,
-          pay_date: financial_details.pay_date,
-          balance: financial_details.balance,
-        },
-      ],
-      goat_details: [
-        {
-          goat_type: goat_details.goat_type,
-          palaai_type: goat_details.palaai_type,
-          on_boarding: goat_details.on_boarding,
-          off_boarding: goat_details.off_boarding,
-        },
-      ],
-    };
+    // const updateCustomer = {
+    //   basic_details: {
+    //     username: basic_details.username,
+    //     phone_no: basic_details.phone_no,
+    //   },
+    //   financial_details: [
+    //     {
+    //       amount: financial_details.amount,
+    //       pay_date: financial_details.pay_date,
+    //       balance: financial_details.balance,
+    //     },
+    //   ],
+    //   goat_details: [
+    //     {
+    //       goat_type: goat_details.goat_type,
+    //       palaai_type: goat_details.palaai_type,
+    //       on_boarding: goat_details.on_boarding,
+    //       off_boarding: goat_details.off_boarding,
+    //     },
+    //   ],
+    // };
 
-    const updated = await Customer.findByIdAndUpdate(id, updateCustomer);
+    // const updated = await Customer.findByIdAndUpdate(id, updateCustomer);
 
-    if (updated)
-      return NextResponse.json({ message: updateCustomer }, { status: 200 });
-    return NextResponse.json({ message: "Failed to update" }, { status: 404 });
+    // if (updated)
+    //   return NextResponse.json({ message: updateCustomer }, { status: 200 });
+    // return NextResponse.json({ message: "Failed to update" }, { status: 404 });
   } catch (error) {
     console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };
 
-// delete particular customer
+// delete particular financial_details or goat_detail
 export const DELETE = async (req, res) => {
   try {
+    const { financial_details, goat_details } = await req.json()
+
     const session = await getServerSession(options);
 
     if (!session) {
@@ -315,17 +315,33 @@ export const DELETE = async (req, res) => {
         { status: 404 }
       );
 
-    const deleted = await Customer.deleteOne({ _id: id, user_id: userID });
+    if (financial_details && !goat_details) {
+        const filter = { _id: id, user_id: userID };
+        const update = { $pull: { financial_details: financial_details._id.toString() } };
+        const updatedFinance = await Customer.findOneAndUpdate(filter, update, {
+          new: true,
+        });
+  
+        if (updatedFinance) return NextResponse.json({ message: updatedFinance }, { status: 200 });
+        return NextResponse.json(
+          { message: "Finance details not deleted" },
+          { status: 404 }
+        );
+    } else {
+        const filter = { _id: id, user_id: userID };
+        const update = { $pull: { goat_details: goat_details._id.toString() } };
+        const updatedGoatDetail = await Customer.findOneAndUpdate(filter, update, {
+          new: true,
+        });
+  
+        if (updatedGoatDetail) return NextResponse.json({ message: updatedGoatDetail }, { status: 200 });
+        return NextResponse.json(
+          { message: "Goat details not deleted" },
+          { status: 404 }
+        );
+    }
 
-    if (deleted)
-      return NextResponse.json(
-        { message: "Customer deleted successfully" },
-        { status: 200 }
-      );
-    return NextResponse.json(
-      { message: "Failed to delete customer" },
-      { status: 404 }
-    );
+    
   } catch (error) {
     console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 505 });

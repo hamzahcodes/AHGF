@@ -22,21 +22,26 @@ const customerSchema = new Schema({
       },
       imageFile: {
         type: String,
-        required: [true, "Image File is required!"],
       },
+      remarks: String,
     },
   ],
 
   // a single customer can have multiple goats
   goat_details: [
     {
-      goat_type: String,
-      palaai_type: String,
-      total_amount: Number,
       on_boarding: {
         type: Date,
         default: () => Date.now(),
       },
+      quantity: Number,
+      breed: String,
+      gender: String,
+      goat_type: String,
+      palaai_type: String,
+      weight: Number,
+      height: Number,
+      total_amount: Number,
       off_boarding: {
         type: Date,
         default: () => Date.now(),
