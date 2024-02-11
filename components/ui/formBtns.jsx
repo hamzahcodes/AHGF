@@ -1,12 +1,12 @@
 import React from 'react'
 
-const FormBtns = ({status,modal}) => {
+const FormBtns = ({status,modal,setIsEdit,isEdit}) => {
   return (
     <div className="w-full flex justify-between my-4">
       <button
         className="btn w-[40%]"
         type="button"
-        onClick={() => document.getElementById(modal).close()}
+        onClick={() => {document.getElementById(modal).close();setIsEdit && setIsEdit({...isEdit,status:false,data:''})}}
       >
         Close
       </button>

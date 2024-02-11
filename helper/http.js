@@ -80,21 +80,10 @@ export async function editCustomer({
   id,
   isPayment,
   imageFile,
+  goatId
 }) {
-  // const data = new FormData();
-  // console.log("Form data in http.js #85");
-  // if (isPayment) {
-  //   data.set("type", "financial_details");
-  //   data.set("imageFile", imageFile);
-  //   data.set("pay_date", customerPayload.payout_date);
-  //   data.set("amount", customerPayload.amount);
-  // } else {
-  //   data.set("type", "goat_details");
-  //   data.set("goat_type", customerPayload.goat_type);
-  //   data.set("palaai_type", customerPayload.palaai_type);
-  //   data.set("total_amount", customerPayload.amount);
-  //   data.set("off_boarding", customerPayload.off_boarding);
-  // }
+  alert(goatId)
+
 
     let payload = isPayment
       ? {
@@ -116,6 +105,7 @@ export async function editCustomer({
             palaai_type: customerPayload.palaai_type,
             total_amount: customerPayload.amount,
             off_boarding: null,
+            _id:goatId
           },
         };
   const response = await fetch("/api/customers/?custID=" + id, {
