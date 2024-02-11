@@ -102,6 +102,7 @@ export async function editCustomer({
             pay_date: customerPayload.payout_date,
             amount: customerPayload.amount,
             imageFile: imageFile,
+            remarks: customerPayload.remarks
           },
         }
       : {

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-
+import React, { useState,useEffect } from "react";
+import Toast from "@components/ui/toastAlert";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { editCustomer } from "@helper/http";
+
 const AddGoatDetailsDialog = ({ id }) => {
+ 
   const [customerPayload, setCustomerPayload] = useState({
     goat_type: "",
     palaai_type: "",
@@ -16,9 +18,11 @@ const AddGoatDetailsDialog = ({ id }) => {
     onSuccess: () => {
       document.getElementById("my_modal_10").close();
       queryClient.invalidateQueries({ queryKey: ["customer"] });
-      alert("Details were updated successfully!!");
+      return <Toast message="Toast from AnotherComponent!" type="success" />;
     },
   });
+
+
 
   const submitHandler = async () => {
     if (
@@ -137,7 +141,7 @@ const AddGoatDetailsDialog = ({ id }) => {
           </form>
           <button
             className="btn w-[40%]"
-            onClick={() => document.getElementById("my_modal_10").close()}
+            onClick={() =>notify('hhh')}
           >
             Close
           </button>

@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@helper/http';
 import { addCustomer } from '@helper/http';
+import { toastAlert } from '@components/ui/toastAlert';
 const AddCustomerDialog = () => {
    
     const [customerPayload, setCustomerPayload] = useState({ name: '', phone: '' });
@@ -14,7 +15,7 @@ const AddCustomerDialog = () => {
     const { mutate } = useMutation({
         mutationFn: addCustomer,
         onSuccess: () => {
-            alert('Customer added successfully!!')
+            toastAlert('Customer added successfully!!')
             document.getElementById('my_modal_5').close()
              queryClient.invalidateQueries({ queryKey: ['customers'] }) ;
             }

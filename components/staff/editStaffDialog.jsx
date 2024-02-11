@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
 import { editStaff,  queryClient } from "@helper/http";
+import { toastAlert } from "@components/ui/toastAlert";
 
 const EditStaffDialog = ({ id }) => {
   const [staffPayload, setStaffPayload] = useState({ phone: "", salary: "" });
@@ -11,7 +12,7 @@ const EditStaffDialog = ({ id }) => {
     onSuccess: () => {
       document.getElementById("edit_staff_dialog").close();
       queryClient.invalidateQueries({ queryKey: ["staff"] });
-      alert("Details were updated successfully!!");
+      toastAlert("Details were updated successfully!!");
     },
   });
 

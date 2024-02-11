@@ -16,7 +16,7 @@ html{
 body,html{
   margin: 0;
   color: rgb(var(--foreground-rgb));
-    background: linear-gradient(#284B6C,#284A6C),#284A6C
+    background: linear-gradient(#85c8ff,#85c8ff),#85c8ff
 
   
 }

@@ -10,7 +10,7 @@ const page = async () => {
   if(session?.user?.id) redirect("/home")
   
   return (
-  <div className='min-h-[100vh] flex justify-center items-center'>
+  <div className='min-h-[100vh] flex justify-center items-center bg-[#fff]'>
     <LoginForm />
   </div>
   )

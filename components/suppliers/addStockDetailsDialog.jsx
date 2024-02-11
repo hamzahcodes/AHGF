@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { addStock } from "@helper/http";
+import { toastAlert } from "@components/ui/toastAlert";
 const AddStockDetailsDialog = ({ id }) => {
   const [stockPayload, setStockPayload] = useState({
     name: "",
@@ -15,7 +16,7 @@ const AddStockDetailsDialog = ({ id }) => {
     onSuccess: () => {
       document.getElementById("addStockModal").close();
       queryClient.invalidateQueries({ queryKey: ["supplier"] });
-      alert("Details were updated successfully!!");
+      toastAlert("Details were updated successfully!!");
     },
   });
 

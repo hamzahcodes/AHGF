@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { addSupplier } from "@helper/http";
+import { toastAlert } from "@components/ui/toastAlert";
 const AddSupplierDialog = () => {
   const [supplierPayload, setSupplierPayload] = useState({
     name: "",
@@ -14,7 +15,7 @@ const AddSupplierDialog = () => {
   const { mutate } = useMutation({
     mutationFn: addSupplier,
     onSuccess: () => {
-      alert("Supplier added successfully!!");
+      toastAlert("Supplier added successfully!!");
       document.getElementById("add_supplier_modal").close();
       setSupplierPayload({ name: "", phone: "" });
       queryClient.invalidateQueries({ queryKey: ["suppliers"] });

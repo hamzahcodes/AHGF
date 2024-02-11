@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
 import { editSupplier, queryClient } from "@helper/http";
+import { toastAlert } from "@components/ui/toastAlert";
 
 const AddSuppliersTransactionDialog = ({ id }) => {
   const [supplierPayload, setSupplierPayload] = useState({ payment: "" });
@@ -11,7 +12,7 @@ const AddSuppliersTransactionDialog = ({ id }) => {
     onSuccess: () => {
       document.getElementById("add_supplier_transaction").close();
       queryClient.invalidateQueries({ queryKey: ["supplier"] });
-      alert("Details were updated successfully!!");
+      toastAlert("Details were updated successfully!!");
     },
   });
 

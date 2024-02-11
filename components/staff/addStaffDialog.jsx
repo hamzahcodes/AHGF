@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@helper/http';
 import { addStaff } from '@helper/http';
+import { toastAlert } from '@components/ui/toastAlert';
 const AddStaffDialog = () => {
   
     const [staffPayload, setStaffPayload] = useState({ name: '', phone: '',salary:'' });
@@ -14,7 +15,7 @@ const AddStaffDialog = () => {
     const { mutate } = useMutation({
         mutationFn: addStaff,
         onSuccess: () => {
-            alert('Staff member added successfully!!')
+            toastAlert('Staff member added successfully!!')
             document.getElementById('add_staff_modal').close()
             queryClient.invalidateQueries({ queryKey: ['staff'] });
             setStaffPayload({ ...staffPayload, name: '',phone:'',salary:'' })

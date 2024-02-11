@@ -5,6 +5,7 @@ import SignOutForm from '@components/Authentication/signOutForm';
 import UserName from '@components/Authentication/userName';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { toastAlert } from './toastAlert';
 import Link from 'next/link';
 const Header = () => {
     const pathname = usePathname();
@@ -15,7 +16,7 @@ const Header = () => {
       <div className="flex-1">
         <Link href="/home" className="btn btn-ghost normal-case text-sm">
           {" "}
-          <Image width={45} height={45} src="/AHGFLogo.jpg" alt='AHGF Logo'/>
+          <Image width={45} height={45} src="/AHGFLogo.jpg" alt="AHGF Logo" />
           Al Hadi Goat Farm
         </Link>
       </div>
@@ -25,6 +26,13 @@ const Header = () => {
           <SignOutForm />
         </div>
       </div>
+      <button
+        onClick={() => {
+          toastAlert("This is a test toast!");
+        }}
+      >
+        toast test
+      </button>
     </div>
   );
 }
