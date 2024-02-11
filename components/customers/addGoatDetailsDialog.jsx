@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import Toast from "@components/ui/toastAlert";
+import Toast, { toastAlert } from "@components/ui/toastAlert";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { editCustomer } from "@helper/http";
@@ -7,6 +7,13 @@ import { editCustomer } from "@helper/http";
 const AddGoatDetailsDialog = ({ id }) => {
  
   const [customerPayload, setCustomerPayload] = useState({
+    quantity:"",
+    breed:"",
+    height:"",
+    weight:"",
+    on_boarding:"",
+    gender:"",
+
     goat_type: "",
     palaai_type: "",
     amount: "",
@@ -16,34 +23,17 @@ const AddGoatDetailsDialog = ({ id }) => {
   const { mutate } = useMutation({
     mutationFn: editCustomer,
     onSuccess: () => {
+      document.querySelector("#my_modal_10 form").reset();
       document.getElementById("my_modal_10").close();
       queryClient.invalidateQueries({ queryKey: ["customer"] });
-      return <Toast message="Toast from AnotherComponent!" type="success" />;
+      toastAlert("Details were updated successfully!");
     },
   });
 
 
 
   const submitHandler = async () => {
-    if (
-      customerPayload.goat_type === "" ||
-      customerPayload.goat_type === false
-    ) {
-      setCustomerPayload({ ...customerPayload, goat_type: false });
-      return;
-    } else if (
-      customerPayload.palaai_type === "" ||
-      customerPayload.palaai_type === false
-    ) {
-      setCustomerPayload({ ...customerPayload, palaai_type: false });
-      return;
-    } else if (
-      customerPayload.amount === "" ||
-      customerPayload.amount === false
-    ) {
-      setCustomerPayload({ ...customerPayload, amount: false });
-      return;
-    }
+    
 
     mutate({ customerPayload: customerPayload, id: id });
   };
@@ -54,7 +44,13 @@ const AddGoatDetailsDialog = ({ id }) => {
         <h3 className="font-bold text-lg">Hello!</h3>
         <p className="py-4">Enter Goat Details below:</p>
         <div className="modal-action flex-wrap justify-center w-full gap-10">
-          <form method="dialog" className="flex flex-col w-full">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitHandler();
+            }}
+            className="flex flex-col w-full"
+          >
             {/* if there is a button in form, it will close the modal */}
             <div className=" w-full text-left">
               <label className="control-label font-[600] ">Goat type</label>
@@ -73,16 +69,118 @@ const AddGoatDetailsDialog = ({ id }) => {
                       goat_type: e.target.value,
                     });
                   }}
+                  required
                 />
-                {customerPayload.goat_type === false && (
-                  <span
-                    className="text-[red]"
-                    data-valmsg-for="UserName"
-                    data-valmsg-replace="true"
-                  >
-                    Goat Type is required
-                  </span>
-                )}
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Quantity</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  data-val="true"
+                  data-val-required="The UserName field is required."
+                  id="quantity"
+                  name="quantity"
+                  type="number"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      quantity: e.target.value,
+                    });
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Breed</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  data-val="true"
+                  data-val-required="The UserName field is required."
+                  id="breed"
+                  name="breed"
+                  type="text"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      breed: e.target.value,
+                    });
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Gender</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  data-val="true"
+                  data-val-required="The UserName field is required."
+                  id="gender"
+                  name="gender"
+                  type="text"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      gender: e.target.value,
+                    });
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Weight</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  data-val="true"
+                  data-val-required="The UserName field is required."
+                  id="weight"
+                  name="weight"
+                  type="text"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      weight: e.target.value,
+                    });
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Height</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  data-val="true"
+                  data-val-required="The UserName field is required."
+                  id="UserName"
+                  name="UserName"
+                  type="text"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      height: e.target.value,
+                    });
+                  }}
+                  required
+                />
               </div>
             </div>
 
@@ -102,18 +200,12 @@ const AddGoatDetailsDialog = ({ id }) => {
                       palaai_type: e.target.value,
                     });
                   }}
+                  required
                 />
-                {customerPayload.palaai_type === false && (
-                  <span
-                    className="text-[red]"
-                    data-valmsg-for="UserName"
-                    data-valmsg-replace="true"
-                  >
-                    Palaai Type is required
-                  </span>
-                )}
               </div>
             </div>
+
+          
 
             <div className=" w-full text-left">
               <label className="control-label font-[600] ">Total Amount</label>
@@ -130,24 +222,23 @@ const AddGoatDetailsDialog = ({ id }) => {
                       amount: e.target.value,
                     });
                   }}
+                  required
                 />
-                {customerPayload.amount === false && (
-                  <span className="text-[red]" data-valmsg-for="UserName">
-                    Amount is Required
-                  </span>
-                )}
               </div>
             </div>
+            <div className="w-full flex justify-between my-4">
+              <button
+                className="btn w-[40%]"
+                type="button"
+                onClick={() => document.getElementById("my_modal_10").close()}
+              >
+                Close
+              </button>
+              <button className="btn w-[40%]" type="submit">
+                Submit
+              </button>
+            </div>
           </form>
-          <button
-            className="btn w-[40%]"
-            onClick={() =>notify('hhh')}
-          >
-            Close
-          </button>
-          <button className="btn w-[40%]" onClick={submitHandler}>
-            Submit
-          </button>
         </div>
       </div>
     </dialog>
