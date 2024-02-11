@@ -1,18 +1,18 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Toast, { toastAlert } from "@components/ui/toastAlert";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { editCustomer } from "@helper/http";
+import FormBtns from "@components/ui/formBtns";
 
 const AddGoatDetailsDialog = ({ id }) => {
- 
   const [customerPayload, setCustomerPayload] = useState({
-    quantity:"",
-    breed:"",
-    height:"",
-    weight:"",
-    on_boarding:"",
-    gender:"",
+    quantity: "",
+    breed: "",
+    height: "",
+    weight: "",
+    on_boarding: "",
+    gender: "",
 
     goat_type: "",
     palaai_type: "",
@@ -20,7 +20,7 @@ const AddGoatDetailsDialog = ({ id }) => {
     off_boarding: new Date(),
   });
 
-  const { mutate } = useMutation({
+  const { mutate, status } = useMutation({
     mutationFn: editCustomer,
     onSuccess: () => {
       document.querySelector("#my_modal_10 form").reset();
@@ -30,11 +30,7 @@ const AddGoatDetailsDialog = ({ id }) => {
     },
   });
 
-
-
   const submitHandler = async () => {
-    
-
     mutate({ customerPayload: customerPayload, id: id });
   };
 
@@ -205,8 +201,6 @@ const AddGoatDetailsDialog = ({ id }) => {
               </div>
             </div>
 
-          
-
             <div className=" w-full text-left">
               <label className="control-label font-[600] ">Total Amount</label>
               <div className="">
@@ -226,18 +220,8 @@ const AddGoatDetailsDialog = ({ id }) => {
                 />
               </div>
             </div>
-            <div className="w-full flex justify-between my-4">
-              <button
-                className="btn w-[40%]"
-                type="button"
-                onClick={() => document.getElementById("my_modal_10").close()}
-              >
-                Close
-              </button>
-              <button className="btn w-[40%]" type="submit">
-                Submit
-              </button>
-            </div>
+
+            <FormBtns status={status} modal="my_modal_10" />
           </form>
         </div>
       </div>

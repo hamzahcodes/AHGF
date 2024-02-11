@@ -102,11 +102,16 @@ export async function editCustomer({
             pay_date: customerPayload.payout_date,
             amount: customerPayload.amount,
             imageFile: imageFile,
-            remarks: customerPayload.remarks
+            remarks: customerPayload.remarks,
           },
         }
       : {
           goat_details: {
+            quantity: customerPayload.quantity,
+            height: customerPayload.height,
+            weight: customerPayload.weight,
+            breed: customerPayload.breed,
+            gender: customerPayload.gender,
             goat_type: customerPayload.goat_type,
             palaai_type: customerPayload.palaai_type,
             total_amount: customerPayload.amount,

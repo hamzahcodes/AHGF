@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React,{useState} from 'react'
 import SignOutForm from '@components/Authentication/signOutForm';
 import UserName from '@components/Authentication/userName';
 import Image from 'next/image';
@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { toastAlert } from './toastAlert';
 import Link from 'next/link';
 const Header = () => {
+
     const pathname = usePathname();
      if (pathname.startsWith("/login") || pathname.startsWith("/register"))
        return;

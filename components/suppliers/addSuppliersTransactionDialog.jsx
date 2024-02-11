@@ -3,14 +3,15 @@ import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { editSupplier, queryClient } from "@helper/http";
 import { toastAlert } from "@components/ui/toastAlert";
+import FormBtns from "@components/ui/formBtns";
 
 const AddSuppliersTransactionDialog = ({ id }) => {
   const [supplierPayload, setSupplierPayload] = useState({ payment: "" });
 
-  const { mutate } = useMutation({
+  const { mutate, status } = useMutation({
     mutationFn: editSupplier,
     onSuccess: () => {
-      document.getElementById("add_supplier_transaction").close();
+     
       queryClient.invalidateQueries({ queryKey: ["supplier"] });
       toastAlert("Details were updated successfully!!");
     },
@@ -38,7 +39,13 @@ const AddSuppliersTransactionDialog = ({ id }) => {
         <h3 className="font-bold text-lg">Hello!</h3>
         <p className="py-4">Enter transaction details below:</p>
         <div className="modal-action flex-wrap justify-center w-full gap-10">
-          <form method="dialog" className="flex flex-col w-full">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitHandler();
+            }}
+            className="flex flex-col w-full"
+          >
             {/* if there is a button in form, it will close the modal */}
             <div className=" w-full text-left">
               <label className="control-label font-[600] ">Payment</label>
@@ -55,39 +62,12 @@ const AddSuppliersTransactionDialog = ({ id }) => {
                     console.log(e.target.value);
                   }}
                 />
-                {supplierPayload.payout_date === false && (
-                  <span
-                    className="text-[red]"
-                    data-valmsg-for="UserName"
-                    data-valmsg-replace="true"
-                  >
-                    Payment amount is required
-                  </span>
-                )}
               </div>
             </div>
 
-            {/* <div className=" w-full text-left">
-                            <label className="control-label font-[600] " >Balance</label>
-                            <div className="">
-                                <input className="border-2 w-full sm:text-md mt-2 px-4 py-2" data-val="true" id="Amount" name="Amount" type="number" onChange={(e) => { setSupplierPayload({ ...supplierPayload, balance: e.target.value }) }} />
-                                {supplierPayload.amount === false && <span className="text-[red]" data-valmsg-for="UserName" >balance amount is Required</span>}
-
-
-                            </div>
-                        </div> */}
+            <FormBtns status={status} modal="add_supplier_transaction"/>
           </form>
-          <button
-            className="btn w-[40%]"
-            onClick={() =>
-              document.getElementById("add_supplier_transaction").close()
-            }
-          >
-            Close
-          </button>
-          <button className="btn w-[40%]" onClick={submitHandler}>
-            Submit
-          </button>
+         
         </div>
       </div>
     </dialog>

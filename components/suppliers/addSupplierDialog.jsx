@@ -6,31 +6,25 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { addSupplier } from "@helper/http";
 import { toastAlert } from "@components/ui/toastAlert";
+import FormBtns from "@components/ui/formBtns";
 const AddSupplierDialog = () => {
   const [supplierPayload, setSupplierPayload] = useState({
     name: "",
     phone: "",
   });
 
-  const { mutate } = useMutation({
+  const { mutate, status } = useMutation({
     mutationFn: addSupplier,
     onSuccess: () => {
       toastAlert("Supplier added successfully!!");
+       setSupplierPayload({ name: "", phone: "" });
       document.getElementById("add_supplier_modal").close();
-      setSupplierPayload({ name: "", phone: "" });
+     
       queryClient.invalidateQueries({ queryKey: ["suppliers"] });
     },
   });
 
   const submitHandler = async () => {
-    if (supplierPayload.name === "" || supplierPayload.name === false) {
-      setSupplierPayload({ ...supplierPayload, name: false });
-      return;
-    } else if (supplierPayload.phone === "" || supplierPayload.phone === "") {
-      setSupplierPayload({ ...supplierPayload, phone: false });
-      return;
-    }
-
     mutate({ supplierPayload: supplierPayload });
   };
 
@@ -43,7 +37,13 @@ const AddSupplierDialog = () => {
         <h3 className="font-bold text-lg">Hello!</h3>
         <p className="py-4">Enter Supplier Name and Contact No. below:</p>
         <div className="modal-action flex-wrap justify-center w-full gap-10">
-          <form method="dialog" className="flex flex-col w-full">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitHandler();
+            }}
+            className="flex flex-col w-full"
+          >
             {/* if there is a button in form, it will close the modal */}
             <div className=" w-full text-left">
               <label className="control-label font-[600] ">Supplier Name</label>
@@ -62,16 +62,8 @@ const AddSupplierDialog = () => {
                       name: e.target.value,
                     });
                   }}
+                  required
                 />
-                {supplierPayload.name === false && (
-                  <span
-                    className="text-[red]"
-                    data-valmsg-for="UserName"
-                    data-valmsg-replace="true"
-                  >
-                    Supplier Name is required
-                  </span>
-                )}
               </div>
             </div>
 
@@ -89,24 +81,12 @@ const AddSupplierDialog = () => {
                       phone: e.target.value,
                     });
                   }}
+                  required
                 />
-                {supplierPayload.phone === false && (
-                  <span className="text-[red]">Contact No is required</span>
-                )}
               </div>
             </div>
+            <FormBtns status={status} modal="add_supplier_modal" />
           </form>
-          <button
-            className="btn w-[40%]"
-            onClick={() =>
-              document.getElementById("add_supplier_modal").close()
-            }
-          >
-            Close
-          </button>
-          <button className="btn w-[40%]" onClick={submitHandler}>
-            Submit
-          </button>
         </div>
       </div>
     </dialog>

@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { addStock } from "@helper/http";
 import { toastAlert } from "@components/ui/toastAlert";
+import FormBtns from "@components/ui/formBtns";
 const AddStockDetailsDialog = ({ id }) => {
   const [stockPayload, setStockPayload] = useState({
     name: "",
@@ -11,7 +12,7 @@ const AddStockDetailsDialog = ({ id }) => {
     price: "",
   });
 
-  const { mutate } = useMutation({
+  const { mutate, status } = useMutation({
     mutationFn: addStock,
     onSuccess: () => {
       document.getElementById("addStockModal").close();
@@ -96,18 +97,8 @@ const AddStockDetailsDialog = ({ id }) => {
                 />
               </div>
             </div>
-            <div className="w-full flex justify-between my-4">
-              <button
-                className="btn w-[40%]"
-                type="button"
-                onClick={() => document.getElementById("addStockModal").close()}
-              >
-                Close
-              </button>
-              <button className="btn w-[40%]" type="submit">
-                Submit
-              </button>
-            </div>
+
+            <FormBtns status={status} modal="addStockModal" />
           </form>
         </div>
       </div>
