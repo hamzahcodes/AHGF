@@ -191,6 +191,7 @@ export const PUT = async (req, res) => {
   // accepting request in the form of JSON only
   const { basic_details, financial_details, goat_details } = await req.json()
   console.log(financial_details);
+  console.log(goat_details);
   try {
     const session = await getServerSession(options);
 

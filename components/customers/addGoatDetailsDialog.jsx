@@ -1,47 +1,55 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import Toast, { toastAlert } from "@components/ui/toastAlert";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@helper/http";
 import { editCustomer } from "@helper/http";
-const AddGoatDetailsDialog = ({ id }) => {
+import FormBtns from "@components/ui/formBtns";
+
+const AddGoatDetailsDialog = ({ id, setIsEdit, isEdit }) => {
+  console.log(isEdit.data, "tiger");
   const [customerPayload, setCustomerPayload] = useState({
+    quantity: "",
+    breed: "",
+    height: "",
+    weight: "",
+    on_boarding: "",
+    gender: "",
+
     goat_type: "",
     palaai_type: "",
     amount: "",
     off_boarding: new Date(),
   });
 
-  const { mutate } = useMutation({
+  useEffect(() => {
+    setCustomerPayload({
+      ...customerPayload,
+      quantity: isEdit.data.quantity ? isEdit.data.quantity : "",
+      breed: isEdit.data.breed ? isEdit.data.breed : "",
+      height: isEdit.data.height ? isEdit.data.height : "",
+      weight: isEdit.data.weight ? isEdit.data.weight : "",
+      on_boarding: isEdit.data.on_boarding ? isEdit.data.on_boarding : "",
+      gender: isEdit.data.gender ? isEdit.data.gender : "",
+
+      goat_type: isEdit.data.goat_type ? isEdit.data.goat_type : "",
+      palaai_type: isEdit.data.palaai_type ? isEdit.data.palaai_type : "",
+      amount: isEdit.data.total_amount ? isEdit.data.total_amount : "",
+      off_boarding: isEdit.data.quantity ? isEdit.data.quantity : new Date(),
+    });
+  }, [isEdit?.status]);
+
+  const { mutate, status } = useMutation({
     mutationFn: editCustomer,
     onSuccess: () => {
+      document.querySelector("#my_modal_10 form").reset();
       document.getElementById("my_modal_10").close();
       queryClient.invalidateQueries({ queryKey: ["customer"] });
-      alert("Details were updated successfully!!");
+      toastAlert("Details were updated successfully!");
     },
   });
 
   const submitHandler = async () => {
-    if (
-      customerPayload.goat_type === "" ||
-      customerPayload.goat_type === false
-    ) {
-      setCustomerPayload({ ...customerPayload, goat_type: false });
-      return;
-    } else if (
-      customerPayload.palaai_type === "" ||
-      customerPayload.palaai_type === false
-    ) {
-      setCustomerPayload({ ...customerPayload, palaai_type: false });
-      return;
-    } else if (
-      customerPayload.amount === "" ||
-      customerPayload.amount === false
-    ) {
-      setCustomerPayload({ ...customerPayload, amount: false });
-      return;
-    }
-
-    mutate({ customerPayload: customerPayload, id: id });
+    mutate({ customerPayload: customerPayload, id: id ,goatId: isEdit.data._id});
   };
 
   return (
@@ -50,18 +58,23 @@ const AddGoatDetailsDialog = ({ id }) => {
         <h3 className="font-bold text-lg">Hello!</h3>
         <p className="py-4">Enter Goat Details below:</p>
         <div className="modal-action flex-wrap justify-center w-full gap-10">
-          <form method="dialog" className="flex flex-col w-full">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitHandler();
+            }}
+            className="flex flex-col w-full"
+          >
             {/* if there is a button in form, it will close the modal */}
             <div className=" w-full text-left">
-              <label className="control-label font-[600] ">Goat type</label>
+              <label className="control-label font-[600] ">Goat type </label>
 
               <div className="">
                 <input
                   className="border-2 w-full sm:text-md mt-2 px-4 py-2"
-                  data-val="true"
-                  data-val-required="The UserName field is required."
-                  id="UserName"
-                  name="UserName"
+                  value={customerPayload.goat_type}
+                  id="goat_type"
+                  name="goat_type"
                   type="text"
                   onChange={(e) => {
                     setCustomerPayload({
@@ -69,16 +82,113 @@ const AddGoatDetailsDialog = ({ id }) => {
                       goat_type: e.target.value,
                     });
                   }}
+                  required
                 />
-                {customerPayload.goat_type === false && (
-                  <span
-                    className="text-[red]"
-                    data-valmsg-for="UserName"
-                    data-valmsg-replace="true"
-                  >
-                    Goat Type is required
-                  </span>
-                )}
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Quantity</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  value={customerPayload.quantity}
+                  id="quantity"
+                  name="quantity"
+                  type="number"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      quantity: e.target.value,
+                    });
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Breed</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  value={customerPayload.breed}
+                  id="breed"
+                  name="breed"
+                  type="text"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      breed: e.target.value,
+                    });
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Gender</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  value={customerPayload.gender}
+                  id="gender"
+                  name="gender"
+                  type="text"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      gender: e.target.value,
+                    });
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Weight</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  value={customerPayload.weight}
+                  id="weight"
+                  name="weight"
+                  type="text"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      weight: e.target.value,
+                    });
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className=" w-full text-left">
+              <label className="control-label font-[600] ">Height</label>
+
+              <div className="">
+                <input
+                  className="border-2 w-full sm:text-md mt-2 px-4 py-2"
+                  value={customerPayload.height}
+                  id="UserName"
+                  name="UserName"
+                  type="text"
+                  onChange={(e) => {
+                    setCustomerPayload({
+                      ...customerPayload,
+                      height: e.target.value,
+                    });
+                  }}
+                  required
+                />
               </div>
             </div>
 
@@ -88,7 +198,7 @@ const AddGoatDetailsDialog = ({ id }) => {
               <div className="">
                 <input
                   className="border-2 w-full sm:text-md mt-2 px-4 py-2"
-                  data-val="true"
+                  value={customerPayload.palaai_type}
                   id="UserName"
                   name="UserName"
                   type="text"
@@ -98,16 +208,8 @@ const AddGoatDetailsDialog = ({ id }) => {
                       palaai_type: e.target.value,
                     });
                   }}
+                  required
                 />
-                {customerPayload.palaai_type === false && (
-                  <span
-                    className="text-[red]"
-                    data-valmsg-for="UserName"
-                    data-valmsg-replace="true"
-                  >
-                    Palaai Type is required
-                  </span>
-                )}
               </div>
             </div>
 
@@ -116,7 +218,7 @@ const AddGoatDetailsDialog = ({ id }) => {
               <div className="">
                 <input
                   className="border-2 w-full sm:text-md mt-2 px-4 py-2"
-                  data-val="true"
+                  value={customerPayload.amount}
                   id="Amount"
                   name="Amount"
                   type="number"
@@ -126,24 +228,18 @@ const AddGoatDetailsDialog = ({ id }) => {
                       amount: e.target.value,
                     });
                   }}
+                  required
                 />
-                {customerPayload.amount === false && (
-                  <span className="text-[red]" data-valmsg-for="UserName">
-                    Amount is Required
-                  </span>
-                )}
               </div>
             </div>
+
+            <FormBtns
+              isEdit={isEdit}
+              setIsEdit={setIsEdit}
+              status={status}
+              modal="my_modal_10"
+            />
           </form>
-          <button
-            className="btn w-[40%]"
-            onClick={() => document.getElementById("my_modal_10").close()}
-          >
-            Close
-          </button>
-          <button className="btn w-[40%]" onClick={submitHandler}>
-            Submit
-          </button>
         </div>
       </div>
     </dialog>

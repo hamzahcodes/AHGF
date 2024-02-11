@@ -1,7 +1,16 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import AddGoatDetailsDialog from "./addGoatDetailsDialog";
+import GoatDetailsDialog from "./goatDetailsDialog";
 
 const GoatList = ({ data, id }) => {
+  const [activeCard, setActiveCard] = useState('');
+  const [isEdit, setIsEdit] = useState({status:false,data:''});
+  useEffect(() => {
+   
+     if(isEdit.status){
+      document.getElementById("my_modal_10").showModal();
+     }
+  }, [isEdit.status]);
   return (
     <>
       <section className="text-primary bg-[#fff] mx-2 rounded-xl body-font transaction__table">
@@ -23,7 +32,14 @@ const GoatList = ({ data, id }) => {
               </thead>
               <tbody>
                 {data?.map((data, key) => (
-                  <tr key={key} className="border-b-2 border-secondary">
+                  <tr
+                    onClick={() => {
+                      setActiveCard(data),
+                        document.getElementById("goat_card").showModal();
+                    }}
+                    key={key}
+                    className="border-b-2 border-secondary"
+                  >
                     <td className="px-4 py-3">{data.goat_type}</td>
                     <td className="px-4 py-3">{data.palaai_type}</td>
                     <td className="px-4 py-3">{data.total_amount}</td>
@@ -55,7 +71,12 @@ const GoatList = ({ data, id }) => {
         </svg>
       </button>
 
-      <AddGoatDetailsDialog id={id} />
+      <AddGoatDetailsDialog isEdit={isEdit} setIsEdit={setIsEdit} id={id} />
+      <GoatDetailsDialog
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
+        activeCard={activeCard}
+      />
     </>
   );
 };
