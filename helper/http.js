@@ -370,3 +370,46 @@ export async function addStock({ stockPayload,id }) {
     setError(resp.message);
   }
 }
+
+export async function getReminderAmount({ custID, userID }) {
+  const response = await fetch(`/api/customerReminderAmount/?custID=${custID}&userID=${userID}`, {
+    // Adding method type
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+  const resp = await response.json();
+  console.log(resp);
+  if (!response.ok) {
+    const error = new Error("An error occured while fetching reminder amount");
+    error.code = response.status;
+    error.message = await response.json();
+    throw error;
+  }
+  return resp.message;
+}
+
+export async function setReminderAmount({ reminderAmount, id }) {
+  console.log("In http for setting reminder");
+  const response = await fetch("/api/customerReminderAmount/?custID=" + id, {
+    // Adding method type
+    method: "PUT",
+    // Adding body or contents to send
+    body: JSON.stringify({
+      reminder: reminderAmount
+    }),
+
+    // Adding headers to the request
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+
+  const resp = await response.json();
+  console.log(response);
+  if (response.ok) {
+  } else {
+    setError(resp.message);
+  }
+}

@@ -43,6 +43,7 @@ const CustomerId = ({ params }) => {
             customerData={data && data[0]}
             total={total}
             recieved={recieved}
+            id={params.customerId}
           />
           <div className=""></div>
 

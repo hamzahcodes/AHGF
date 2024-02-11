@@ -1,7 +1,9 @@
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
+import AddWhatsAppReminder from "@components/customers/addWhatsAppReminder";
 
-const ProfileStats = ({ customerData, total, recieved }) => {
+
+const ProfileStats = ({ customerData, total, recieved, id }) => {
   console.log(total);
   const [isGenerated, setIsGenerated] = useState(false);
   const pdfRef = useRef();
@@ -58,7 +60,7 @@ const ProfileStats = ({ customerData, total, recieved }) => {
                   }}
                   className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                 >
-                  Generate
+                  Delivery Note
                 </button>
               )}
             </div>
@@ -73,7 +75,7 @@ const ProfileStats = ({ customerData, total, recieved }) => {
                   }}
                   className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                 >
-                  Generate
+                  Invoice
                 </button>
               )}
             </div>
@@ -88,7 +90,7 @@ const ProfileStats = ({ customerData, total, recieved }) => {
                   }}
                   className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                 >
-                  Generate
+                  On boarding Form
                 </button>
               )}
             </div>
@@ -103,9 +105,34 @@ const ProfileStats = ({ customerData, total, recieved }) => {
                   }}
                   className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                 >
-                  Generate
+                  Report
                 </button>
               )}
+            </div>
+
+            <div className="my-1 w-[48.5%]">
+              {/* {isGenerated ? (
+                <CustomerReport customerData={customerData} total={total} />
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsGenerated(true);
+                  }}
+                  className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+                >
+                  Delivery Note
+                </button>
+              )} */}
+              <button
+                onClick={() =>
+                  document.getElementById("send_whatsapp").showModal()
+                }
+                type="submit"
+                className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+              >
+                Send
+              </button>
+              <AddWhatsAppReminder custId={id}/>
             </div>
           </div>
         </div>

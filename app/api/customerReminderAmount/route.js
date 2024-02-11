@@ -11,6 +11,8 @@ export const GET = async (req, res) => {
         const id = searchParams.get("custID");
         const uid = searchParams.get("userID");
 
+        console.log("user ID", uid, "at getReminder AMount");
+
         let counter = await Request.findOne();
         if(!counter) counter = await Request.create({})
         counter.getRequestCalls++;
@@ -55,8 +57,11 @@ export const PUT = async (req, res) => {
         const update = { reminderAmount: reminder };
         const updatedReminderAmount = await Customer.findOneAndUpdate(filter, update, { new: true });
 
-        if (updatedReminderAmount) return NextResponse.json({ message: updatedReminderAmount }, { status: 200 });
-        return NextResponse.json( { message: "Reminder Amount not updated" }, { status: 404 });
+        if (updatedReminderAmount) {
+            console.log("In reminder amount" + updatedReminderAmount);
+            return NextResponse.json({ message: updatedReminderAmount }, { status: 200 });
+        }
+            return NextResponse.json( { message: "Reminder Amount not updated" }, { status: 404 });
 
     } catch (error) {
         console.log(error.message);

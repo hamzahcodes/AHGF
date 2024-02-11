@@ -220,8 +220,8 @@ export const PUT = async (req, res) => {
     // appending only financial details array to existing customer
     if (financial_details && !basic_details && !goat_details) {
       
-      const imageUrl = await uploadImageToCloudinary(financial_details.imageFile);
-      financial_details.imageFile = imageUrl
+      // const imageUrl = await uploadImageToCloudinary(financial_details.imageFile);
+      // financial_details.imageFile = imageUrl
 
 
       const filter = { _id: id, user_id: userID };
@@ -241,7 +241,7 @@ export const PUT = async (req, res) => {
     // appending only goat details array to existing customer
     if (goat_details && !basic_details && !financial_details) {
       const filter = { _id: id, user_id: userID };
-      const update = { $push: { goat_details: goat_details } };
+      const update = (goat_details._id.length === 0) ? { $push: { goat_details: goat_details } } : { $set: { goat_details: goat_details }};
       const updatedGoatDetail = await Customer.findOneAndUpdate(
         filter,
         update,
