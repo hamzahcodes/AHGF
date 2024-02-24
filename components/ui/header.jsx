@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <div className="navbar bg-base-100 sticky top-2  z-[1] m-2  rounded-xl w-auto">
       <div className="flex-1">
-        <Link href="/home" className="btn btn-ghost normal-case text-sm">
+        <Link href="/customers" className="btn btn-ghost normal-case text-sm">
           {" "}
           <Image width={45} height={45} src="/AHGFLogo.jpg" alt="AHGF Logo" />
           Al Hadi Goat Farm
