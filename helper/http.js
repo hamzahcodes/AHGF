@@ -123,6 +123,31 @@ export async function editCustomer({
   }
 }
 
+export async function deleteCustomer({
+  id,
+  isPayment,
+  objectID
+}) {
+  // alert(goatId)
+
+
+  let payload = { isPayment: isPayment, _id: objectID }
+      
+  const response = await fetch("/api/customers/?custID=" + id, {
+    // Adding method type
+    method: "DELETE",
+    // Adding body or contents to send
+    body: JSON.stringify(payload),
+  });
+
+  const resp = await response.json();
+  console.log(response);
+  if (response.ok) {
+  } else {
+    setError(resp.message);
+  }
+}
+
 // SUPPLIERS API's
 
 export async function getAllSuppliers() {

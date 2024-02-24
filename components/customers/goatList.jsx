@@ -73,6 +73,7 @@ const GoatList = ({ data, id }) => {
 
       <AddGoatDetailsDialog isEdit={isEdit} setIsEdit={setIsEdit} id={id} />
       <GoatDetailsDialog
+        id={id}
         isEdit={isEdit}
         setIsEdit={setIsEdit}
         activeCard={activeCard}

@@ -6,78 +6,8 @@ import { options } from "../auth/[...nextauth]/options";
 import { Readable } from "node:stream";
 import { google } from "googleapis";
 import Request from "@models/Request";
+import mongoose from "mongoose";
 import { uploadImageToCloudinary } from "@utils/cloudinary";
-
-
-// async function uploadFile(fileName, buffer) {
-//   const CLIENT_ID =
-//     "844988512004-9kb817k70e8otj240ugvlds4ondfclb5.apps.googleusercontent.com";
-//   const CLIENT_SECRET = "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";
-//   const REFRESH_TOKEN =
-//     "1//04Ejv7qSbQggVCgYIARAAGAQSNwF-L9IrOoKKnGHNKZc59WZhQsLwlO6TKq2LjGKu-6ubB8g0kJVLcGkW3Wqy1qzRP7OsfXBuGEc";
-//   const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-
-//   const oauth2Client = new google.auth.OAuth2(
-//     CLIENT_ID,
-//     CLIENT_SECRET,
-//     REDIRECT_URI
-//   );
-
-//   // oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
-//   oauth2Client.setCredentials({
-//     refresh_token: REFRESH_TOKEN,
-//   });
-
-//   let drive = google.drive({
-//     version: "v3",
-//     auth: oauth2Client,
-//   });
-
-//   try {
-//     const response = await drive.files.list({
-//       q: ` name contains 'payslipAttachments' and  mimeType = 'application/vnd.google-apps.folder' `,
-//     });
-
-//     console.log("====================================");
-//     console.log(response.data.files,"UIUI")
-//     console.log("====================================");
-//     let folderId, folderName;
-
-//     folderId = [response.data.files[0].id];
-//     folderName = response.data.files[0].name;
-
-//     console.log("====================================");
-//     console.log(folderId, "FOLDER", response.data.files);
-//     console.log("====================================");
-
-//     const fileMetadata = {
-//       name: fileName,
-//       parents: folderId,
-//     };
-
-//     const response2 = await drive.files.create({
-//       resource: fileMetadata,
-//       media: {
-//         mimeType: "image/jpg",
-//         body: Readable.from(buffer),
-//       },
-//     });
-
-//     console.log("====================================");
-//     console.log(response2.data.id, "65");
-//     console.log("====================================");
-//     if (response2.status == 200) {
-//       console.log("====================================");
-//       console.log(response2);
-//       console.log("====================================");
-//     }
-//     return response2.data.id;
-//   } catch (error) {
-//     console.log("====================================");
-//     console.log(error, "ERROr");
-//     console.log("====================================");
-//   }
-// }
 
 // to get all customers meant for customers page
 // also when particular customer is clicked then its details api is added
@@ -190,8 +120,8 @@ export const PUT = async (req, res) => {
   
   // accepting request in the form of JSON only
   const { basic_details, financial_details, goat_details } = await req.json()
-  console.log(financial_details);
-  console.log(goat_details);
+  console.log("Financial Details at PUT #193", financial_details);
+  console.log("Goat Details at PUT #194", goat_details);
   try {
     const session = await getServerSession(options);
 
@@ -221,8 +151,8 @@ export const PUT = async (req, res) => {
     // appending only financial details array to existing customer
     if (financial_details && !basic_details && !goat_details) {
       
-      // const imageUrl = await uploadImageToCloudinary(financial_details.imageFile);
-      // financial_details.imageFile = imageUrl
+      const imageUrl = await uploadImageToCloudinary(financial_details.imageFile);
+      financial_details.imageFile = imageUrl
 
 
       const filter = { _id: id, user_id: userID };
@@ -241,14 +171,36 @@ export const PUT = async (req, res) => {
 
     // appending only goat details array to existing customer
     if (goat_details && !basic_details && !financial_details) {
-      const filter = { _id: id, user_id: userID };
-      const update = (goat_details._id.length === 0) ? { $push: { goat_details: goat_details } } : { $set: { goat_details: goat_details }};
+      console.log("Goat Detail with ID: ", goat_details._id);
+      const filter =  // (goat_details?._id?.length === 0) 
+                      (goat_details["_id"] === undefined)
+                      ? 
+                      { _id: id, user_id: userID } 
+                      : 
+                      { _id: id, user_id: userID, 
+                        'goat_details._id': new mongoose.Types.ObjectId(goat_details._id) };
+      const update = //(goat_details?._id?.length === 0) 
+                      goat_details["_id"] === undefined
+                      ? 
+                      { $push: { goat_details: goat_details } } 
+                      : 
+                      { $set: { 
+                        'goat_details.$.quantity': goat_details.quantity,
+                        'goat_details.$.height': goat_details.height,
+                        'goat_details.$.weight': goat_details.weight,
+                        'goat_details.$.breed': goat_details.breed,
+                        'goat_details.$.gender': goat_details.gender,
+                        'goat_details.$.goat_type': goat_details.goat_type,
+                        'goat_details.$.palaai_type': goat_details.palaai_type,
+                        'goat_details.$.total_amount': goat_details.total_amount,
+                        'goat_details.$.off_boarding': null,
+                      }};
       const updatedGoatDetail = await Customer.findOneAndUpdate(
         filter,
         update,
         { new: true }
       );
-
+        console.log(updatedGoatDetail);
       if (updatedGoatDetail)
         return NextResponse.json(
           { message: updatedGoatDetail },
@@ -259,35 +211,6 @@ export const PUT = async (req, res) => {
         { status: 404 }
       );
     }
-
-    // in doubt whether we even require this API as we will deal with addition of goat or financial details only
-    // const updateCustomer = {
-    //   basic_details: {
-    //     username: basic_details.username,
-    //     phone_no: basic_details.phone_no,
-    //   },
-    //   financial_details: [
-    //     {
-    //       amount: financial_details.amount,
-    //       pay_date: financial_details.pay_date,
-    //       balance: financial_details.balance,
-    //     },
-    //   ],
-    //   goat_details: [
-    //     {
-    //       goat_type: goat_details.goat_type,
-    //       palaai_type: goat_details.palaai_type,
-    //       on_boarding: goat_details.on_boarding,
-    //       off_boarding: goat_details.off_boarding,
-    //     },
-    //   ],
-    // };
-
-    // const updated = await Customer.findByIdAndUpdate(id, updateCustomer);
-
-    // if (updated)
-    //   return NextResponse.json({ message: updateCustomer }, { status: 200 });
-    // return NextResponse.json({ message: "Failed to update" }, { status: 404 });
   } catch (error) {
     console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
@@ -297,10 +220,11 @@ export const PUT = async (req, res) => {
 // delete particular financial_details or goat_detail
 export const DELETE = async (req, res) => {
   try {
-    const { financial_details, goat_details } = await req.json()
+    const { isPayment, _id } = await req.json()
 
     const session = await getServerSession(options);
 
+    console.log( isPayment, _id );
     if (!session) {
       return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
@@ -316,10 +240,10 @@ export const DELETE = async (req, res) => {
         { status: 404 }
       );
 
-    if (financial_details && !goat_details) {
+    if (isPayment) {
         const filter = { _id: id, user_id: userID };
-        const update = { $pull: { financial_details: financial_details._id.toString() } };
-        const updatedFinance = await Customer.findOneAndUpdate(filter, update, {
+        const update = { $pull: { financial_details: { _id: _id } } };
+        const updatedFinance = await Customer.findOneAndUpdate(filter, update, { safe: true, multi:true }, {
           new: true,
         });
   
@@ -329,9 +253,10 @@ export const DELETE = async (req, res) => {
           { status: 404 }
         );
     } else {
+        console.log("In goat details");
         const filter = { _id: id, user_id: userID };
-        const update = { $pull: { goat_details: goat_details._id.toString() } };
-        const updatedGoatDetail = await Customer.findOneAndUpdate(filter, update, {
+        const update = { $pull: { goat_details: { _id: _id } } };
+        const updatedGoatDetail = await Customer.findOneAndUpdate(filter, update, { safe: true, multi:true },{
           new: true,
         });
   

@@ -1,11 +1,28 @@
 import React from "react";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "@helper/http";
+import { deleteCustomer } from "@helper/http";
+import Toast, { toastAlert } from "@components/ui/toastAlert";
 
-const GoatDetailsDialog = ({ activeCard, setIsEdit, isEdit }) => {
+const GoatDetailsDialog = ({ id, activeCard, setIsEdit, isEdit }) => {
   const editHandler = () => {
     document.getElementById("goat_card").close();
     setIsEdit({ ...isEdit, status: true, data: activeCard });
   };
-  const deleteHandler = () => {};
+  const { mutate, status } = useMutation({
+    mutationFn: deleteCustomer,
+    onSuccess: () => {
+      // document.querySelector("#my_modal_10 form").reset();
+      document.getElementById("goat_card").close();
+      queryClient.invalidateQueries({ queryKey: ["customer"] });
+      toastAlert("Goat Detail deleted successfully!");
+    },
+  });
+
+  const deleteHandler = () => {
+    // setIsEdit({ ...isEdit, status: true, data: activeCard });
+    mutate({ isPayment: false, id: id, objectID: activeCard._id});
+  };
   return (
     <dialog id="goat_card" className="modal">
       <div className="modal-box">
