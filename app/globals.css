@@ -16,7 +16,7 @@ html{
 body,html{
   margin: 0;
   color: rgb(var(--foreground-rgb));
-    background: linear-gradient(#85c8ff,#85c8ff),#85c8ff
+    background: linear-gradient(#F1F1F1,#F1F1F1),#F1F1F1
 
   
 }
@@ -37,6 +37,10 @@ body,html{
 }
 .supplier__list{
   max-height: calc(100vh - 154px);
+
+}
+.search__list{
+  max-height: calc(100vh - 222px);
 
 }
 .supplier__table{

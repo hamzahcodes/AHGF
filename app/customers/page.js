@@ -21,8 +21,7 @@ const Page = () => {
   if(!session?.user?.id) redirect("/login")
 
   const [searchList, setSearchList] = useState([]);
-  // const context = useContext(AuthContext);
-  const clearInput = useRef();
+
 
   const { data, error, isPending, isError } = useQuery({
     queryKey: ["customers"],
@@ -132,7 +131,7 @@ const Page = () => {
         {/* <button onClick={() => document.getElementById('sort_modal').showModal()} className='bg-primary p-2 rounded-xl'>Search</button> */}
         {/* Open the modal using document.getElementById('ID').showModal() method */}
 
-        <dialog id="sort_modal" className="modal">
+        {/* <dialog id="sort_modal" className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Sort By:</h3>
 
@@ -182,7 +181,7 @@ const Page = () => {
           <form method="dialog" className="modal-backdrop">
             <button>close</button>
           </form>
-        </dialog>
+        </dialog> */}
       </div>
 
       {data ? (

@@ -27,13 +27,7 @@ const Header = () => {
           <SignOutForm />
         </div>
       </div>
-      <button
-        onClick={() => {
-          toastAlert("This is a test toast!");
-        }}
-      >
-        toast test
-      </button>
+     
     </div>
   );
 }
