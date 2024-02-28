@@ -434,3 +434,23 @@ export async function setReminderAmount({ reminderAmount, id }) {
     setError(resp.message);
   }
 }
+
+export async function getCustomersSuppliers() {
+  const response = await fetch(`/api/searchCustomersSuppliers`, {
+    // Adding method type
+    method: "GET",
+    headers: {
+      // 'Authorization': 'Bearer ' + token,
+      "Content-type": "application/json",
+    },
+  });
+  const resp = await response.json();
+  console.log(resp);
+  if (!response.ok) {
+    const error = new Error("An error occured while fetching customers");
+    error.code = response.status;
+    error.message = await response.json();
+    throw error;
+  }
+  return resp.message;
+}

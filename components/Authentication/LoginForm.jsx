@@ -11,12 +11,14 @@ const LoginForm = () => {
     const [ phone, setPhone ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ error, setError ] = useState("")
+    const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter()
   
 
     const handleLoginSubmit = async (e) => {
       e.preventDefault()
+     
       if(!phone) {
         setError("Phone no. is required")
         return
@@ -30,7 +32,7 @@ const LoginForm = () => {
         return
       }
       
-      e.preventDefault()
+      setIsLoading(true);
       const response = await signIn('credentials', {
           phoneNumber: phone, 
           password: password,
@@ -40,11 +42,12 @@ const LoginForm = () => {
       // const data = await response.json()
       // console.log(data);
       if(response.ok) {
-        router.push("/home")
+        router.push("/customers")
         router.refresh()
       } else {
         setError("Invalid Credentials")
       }
+       setIsLoading(false);
     }
   return (
     <section className="bg-base-100 ">
@@ -54,11 +57,12 @@ const LoginForm = () => {
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
               Sign in to your account
             </h1>
-            <form onSubmit={handleLoginSubmit} className="space-y-4 md:space-y-6" >
+            <form
+              onSubmit={handleLoginSubmit}
+              className="space-y-4 md:space-y-6"
+            >
               <div>
-                <label
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">
                   Your Phone Number
                 </label>
                 <input
@@ -73,9 +77,7 @@ const LoginForm = () => {
                 />
               </div>
               <div>
-                <label
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">
                   Password
                 </label>
                 <input
@@ -89,20 +91,50 @@ const LoginForm = () => {
                   // required
                 />
               </div>
-              {error && (<div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-                {error}
-              </div>
+              {error && (
+                <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                  {error}
+                </div>
+              )}
 
-              )
+              {isLoading ? (
+                <button
+                  type="button"
+                  className="btn w-full bg-primary text-[#fff] inline-flex items-center px-4 py-2  leading-6   transition ease-in-out duration-150 cursor-not-allowed "
+                >
+                  {" "}
+                  <svg
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-[#fff]"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Signing in...
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                  onSubmit={handleLoginSubmit}
+                >
+                  Sign in
+                </button>
+              )}
 
-              }
-              <button
-                type="submit"
-                className="w-full text-white bg-sky-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                onSubmit={handleLoginSubmit}
-              >
-                Sign in
-              </button>
               <p className="text-sm text-center font-light text-gray-500 ">
                 Don’t have an account yet?{" "}
                 <Link

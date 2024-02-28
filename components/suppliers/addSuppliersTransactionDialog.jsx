@@ -13,6 +13,7 @@ const AddSuppliersTransactionDialog = ({ id }) => {
     onSuccess: () => {
      
       queryClient.invalidateQueries({ queryKey: ["supplier"] });
+      document.getElementById("add_supplier_transaction").close();
       toastAlert("Details were updated successfully!!");
     },
   });

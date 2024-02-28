@@ -6,7 +6,15 @@ const SupplierStats = ({ supplierData, total, paymentMade }) => {
   return (
     <>
       {supplierData ? (
-        <div className="flex justify-between items-center flex-wrap bg-[#fff] mx-2 w-auto rounded-xl my-4">
+        <div className="flex justify-between items-center flex-wrap bg-[#fff] mx-2 w-auto rounded-xl my-2">
+          <div className="flex justify-between items-center flex-wrap bg-[#fff] mx-2 w-full px-2 rounded-xl my-2">
+            <div className="stat-value text-sm">
+              Name: {supplierData[0].supplierName}
+            </div>
+            <div className="stat-value text-sm">
+              Phone: {supplierData[0].supplierPhone}
+            </div>
+          </div>
           <div className="flex justify-between bg-[#fff] rounded-xl items-center mx-2 w-full my-1 ">
             <div className="flex justify-center items-center flex-col p-2 ">
               <div className="stat-figure text-primary"></div>
@@ -33,8 +41,6 @@ const SupplierStats = ({ supplierData, total, paymentMade }) => {
               {/* <div className="stat-desc">21% more than last month</div> */}
             </div>
           </div>
-
-         
         </div>
       ) : (
         <h2>loading</h2>

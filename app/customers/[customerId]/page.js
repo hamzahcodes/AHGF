@@ -48,7 +48,7 @@ const CustomerId = ({ params }) => {
           <div className=""></div>
 
           <div>
-            <div className="tabs tabs-boxed w-auto bg-[#fff] my-2 mx-2">
+            <div className="tabs tabs-boxed w-auto bg-[#fff] my-2 mx-2 ">
               <div
                 onClick={() => {
                   setActiveTab(0);

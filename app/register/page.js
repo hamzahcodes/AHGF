@@ -6,7 +6,7 @@ import RegisterForm from '@components/Authentication/RegisterForm'
 const page = async () => {
 
   const session = await getServerSession(options)
-  if(session) redirect("/home")
+  if(session) redirect("/customers")
   
   return <RegisterForm />
 }
