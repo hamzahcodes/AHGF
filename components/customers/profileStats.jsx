@@ -5,18 +5,30 @@ import AddWhatsAppReminder from "@components/customers/addWhatsAppReminder";
 
 const ProfileStats = ({ customerData, total, recieved, id }) => {
   console.log(total);
+  console.log(customerData);
   const [isGenerated, setIsGenerated] = useState(false);
   const pdfRef = useRef();
   const CustomerReport = dynamic(
     () => import("../../components/documents/pdf"),
     {
       loading: () => (
-        <button className="bg-[seagreen]  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]">
+        <button className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]">
           Loading...
         </button>
       ),
     }
   );
+  
+  const OnboardingForm = dynamic(
+    () => import("../../components/OnboardingForm/OnboardingFormPdf"),
+    {
+      loading: () => (
+        <button className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]">
+          Loading...
+        </button>
+      )
+    }
+  )
 
   return (
     <>
@@ -60,7 +72,23 @@ const ProfileStats = ({ customerData, total, recieved, id }) => {
                   }}
                   className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                 >
-                  Delivery Note
+                  Report
+                </button>
+              )}
+            </div>
+
+            <div className="my-1 w-[48.5%]">
+              {isGenerated ? (
+                <OnboardingForm boardingDetails={customerData.basic_details} goatArray={customerData.goat_details} boardingTypeArray={{}} />
+                // <></>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsGenerated(true);
+                  }}
+                  className="bg-primary text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+                >
+                  Onboarding Form
                 </button>
               )}
             </div>
@@ -90,22 +118,7 @@ const ProfileStats = ({ customerData, total, recieved, id }) => {
                   }}
                   className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                 >
-                  On boarding Form
-                </button>
-              )}
-            </div>
-
-            <div className="my-1 w-[48.5%]">
-              {isGenerated ? (
-                <CustomerReport customerData={customerData} total={total} />
-              ) : (
-                <button
-                  onClick={() => {
-                    setIsGenerated(true);
-                  }}
-                  className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
-                >
-                  Report
+                  Delivery Report
                 </button>
               )}
             </div>

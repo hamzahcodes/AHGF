@@ -124,7 +124,7 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
 
     <View style={{ margin: '5 0', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: "row", gap: "30", padding: '0 10' }}>
         <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Boarding Number: {boardingDetails?.boardingNumber}</Text>
-        <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Date: {boardingDetails?.boardingDate.toString().split("-").reverse().join("/")}</Text>
+        <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Date: {`${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`}</Text>
     </View>
 
     <View style={{ margin: '15 0' }}>
@@ -132,8 +132,8 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
     </View>
 
     <View style={{ margin: '5 0', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: "row", gap: "30", padding: '0 10' }}>
-        <Text style={{  fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Owner Name: {boardingDetails?.ownerName}</Text>
-        <Text style={{  fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Phone No.: {boardingDetails?.ownerPhone}</Text>
+        <Text style={{  fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Owner Name: {boardingDetails?.username}</Text>
+        <Text style={{  fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Phone No.: {boardingDetails?.phone_no}</Text>
     </View>
     <View style={{ margin: '5 0', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: "row", gap: "30", padding: '0 10' }}>
         <Text style={{ fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Address: {boardingDetails?.ownerAddress}</Text>
@@ -142,7 +142,7 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
         <Text style={{  fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Email: {boardingDetails?.ownerEmail}</Text>
     </View>
 
-    <View style={{ margin: '15 0' }}>
+    {/* <View style={{ margin: '15 0' }}>
         <Text style={{ ...styles.content_2, fontSize: '18', fontWeight: '900', textAlign: 'center', textTransform: 'uppercase', textDecoration: 'underline' }}>In Absence of Owner Details</Text>
     </View>
     <View style={{ margin: '5 0', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: "row", gap: "30", padding: '0 10' }}>
@@ -152,7 +152,7 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
     <View style={{ margin: '5 0', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: "row", gap: "30", padding: '0 10' }}>
         <Text style={{  fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Name: {boardingDetails?.absentOwner2Name}</Text>
         <Text style={{  fontSize: '12', fontWeight: '900', textAlign: 'center' }}>Phone No.: {boardingDetails?.absentOwner2Phone}</Text>
-    </View>
+    </View> */}
 
     <View style={styles.table}>
 
@@ -175,7 +175,7 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
                 <Text style={{  ...styles.headerText }}>Gender</Text>
             </View>
              <View style={{ ...styles.cell }}>
-                <Text style={{  ...styles.headerText, width: '60%' }}>Type</Text>
+                <Text style={{  ...styles.headerText }}>Type</Text>
             </View>
              <View style={{ ...styles.cell }}>
                 <Text style={{  ...styles.headerText }}>Weight</Text>
@@ -190,7 +190,7 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
 
                 <View style={{ ...styles.cell }}>
 
-                    <Text style={{ ...styles.text, textAlign: 'center' }}>{data.goatDate}</Text>
+                    <Text style={{ ...styles.text, textAlign: 'center' }}>{`${new Date(data.on_boarding).getDate()}/${new Date(data.on_boarding).getMonth()}/${new Date(data.on_boarding).getFullYear()}`}</Text>
                 </View>
                 <View style={{ ...styles.cell }}>
                     <Text style={{ ...styles.text, textAlign: 'center' }}>{data.quantity}</Text>
@@ -201,14 +201,17 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
                 <View style={{ ...styles.cell }}>
                     <Text style={{ ...styles.text, textAlign: 'center' }}>{data.gender}</Text>
                 </View>
-                <View style={{ ...styles.cell, width: '60%' }}>
-                    <Text style={{ ...styles.text, textAlign: 'center' }}>{data.type}</Text>
+                <View style={{ ...styles.cell }}>
+                    <Text style={{ ...styles.text, textAlign: 'center' }}>{data.goat_type}</Text>
                 </View>
                 <View style={{ ...styles.cell }}>
                     <Text style={{ ...styles.text, textAlign: 'center' }}>{data.weight}</Text>
                 </View>
                 <View style={{ ...styles.cell }}>
                     <Text style={{ ...styles.text, textAlign: 'center' }}>{data.height}</Text>
+                </View>
+                <View style={{ ...styles.cell }}>
+                    <Text style={{ ...styles.text, textAlign: 'center' }}>{data.total_amount}</Text>
                 </View>
 
             </View>
@@ -330,7 +333,7 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
         </View>
         <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', flexDirection: 'row', paddingHorizontal: '10', margin: '5 0' }}>
             <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', textAlign: 'left' }}>Date: </Text>
-            <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', borderBottom: '1', borderBottomColor: '#000', borderBottomStyle: 'solid', width: '100' }}>{boardingDetails?.boardingDate.toString().split("-").reverse().join("/")}</Text>
+            <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', borderBottom: '1', borderBottomColor: '#000', borderBottomStyle: 'solid', width: '100' }}>{`${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`}</Text>
         </View>
     </View>
 
@@ -338,7 +341,7 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
         <Text style={{ ...styles.content_2, fontSize: '16', fontWeight: '900', textAlign: 'left', margin: '15 0' }}>Owner's Reference</Text>
         <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', flexDirection: 'row', paddingHorizontal: '10', margin: '5 0' }}>
             <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', textAlign: 'left' }}>Name: </Text>
-            <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', borderBottom: '1', borderBottomColor: '#000', borderBottomStyle: 'solid', width: '20%' }}>{boardingDetails?.ownerName}</Text>
+            <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', borderBottom: '1', borderBottomColor: '#000', borderBottomStyle: 'solid', width: '20%' }}>{boardingDetails?.username}</Text>
         </View>
         <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', flexDirection: 'row', paddingHorizontal: '10', margin: '5 0' }}>
             <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', textAlign: 'left' }}>Address: </Text>
@@ -346,7 +349,7 @@ const OnboardingFormPdfTemp = ({ boardingDetails, goatArray, boardingTypeArray})
         </View>
         <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', flexDirection: 'row', paddingHorizontal: '10', margin: '5 0' }}>
             <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', textAlign: 'left' }}>Contact: </Text>
-            <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', borderBottom: '1', borderBottomColor: '#000', borderBottomStyle: 'solid', width: '20%' }}>{boardingDetails?.ownerPhone}</Text>
+            <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', borderBottom: '1', borderBottomColor: '#000', borderBottomStyle: 'solid', width: '20%' }}>{boardingDetails?.phone_no}</Text>
         </View>
         <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', flexDirection: 'row', paddingHorizontal: '10', margin: '5 0' }}>
             <Text style={{ ...styles.content_2, fontSize: '12', fontWeight: '900', textAlign: 'left' }}>Signature: </Text>
@@ -374,10 +377,10 @@ const OnboardingFormPdf = ({
           boardingTypeArray={boardingTypeArray}
         />
       }
-      fileName={`${boardingDetails.ownerName}_OnboardingForm.pdf`}
+      fileName={`${boardingDetails?.username}_OnboardingForm.pdf`}
     >
       {({ blob, url, loading, error }) =>
-        loading ? "Loading document..." : "Download OnBoarding Form"
+        loading ? "Loading document..." : "OnBoarding Form"
       }
     </PDFDownloadLink>
   );
