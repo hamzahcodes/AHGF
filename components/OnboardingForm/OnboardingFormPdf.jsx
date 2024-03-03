@@ -369,7 +369,7 @@ const OnboardingFormPdf = ({
 }) => {
   return (
     <PDFDownloadLink
-      className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] my-10"
+      className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-2 text-sm 2xl:text-[0.5vw] inline-block w-full h-full"
       document={
         <OnboardingFormPdfTemp
           boardingDetails={boardingDetails}

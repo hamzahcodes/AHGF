@@ -252,12 +252,12 @@ const CustomerReport = ({ customerData,total }) => {
 
     return (
       <PDFDownloadLink
-        className="bg-[seagreen]  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]"
+        className="bg-[seagreen] text-[#fff] rounded-xl py-2 px-2 text-sm 2xl:text-[0.5vw] inline-block w-full h-full"
         document={<Pdf customerData={customerData} total={total} />}
         fileName={`${customerData.basic_details.username}.pdf`}
       >
         {({ blob, url, loading, error }) =>
-          loading ? "Loading..." : "Download"
+          loading ? "Loading..." : "Customer Report"
         }
       </PDFDownloadLink>
     );

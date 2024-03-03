@@ -1,22 +1,49 @@
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import AddWhatsAppReminder from "@components/customers/addWhatsAppReminder";
+import { useRouter } from "next/navigation";
 
 
 const ProfileStats = ({ customerData, total, recieved, id }) => {
   console.log(total);
   const [isGenerated, setIsGenerated] = useState(false);
-  const pdfRef = useRef();
+  const [isGeneratedOnboardingForm, setIsGeneratedOnboardingForm] = useState(false);
+  const router = useRouter();
+
+  const OnboardingForm = dynamic(
+    () => import("../../components/OnboardingForm/OnboardingFormPdf"),
+    {
+      loading: () => (
+        <div className="my-1 w-[48.5%]">
+          <button className="bg-primary text-[#fff] rounded-xl py-2 px-3 text-sm 2xl:text-[0.5vw] w-full">
+            Loading...
+          </button>
+        </div>
+      )
+    }
+  )
   const CustomerReport = dynamic(
     () => import("../../components/documents/pdf"),
     {
       loading: () => (
-        <button className="bg-[seagreen]  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw]">
-          Loading...
-        </button>
+        <div className="my-1 w-[48.5%] text-center">
+          <button className="bg-primary text-[#fff] rounded-xl py-2 px-3 text-sm 2xl:text-[0.5vw] w-full">
+            Loading...
+          </button>
+        </div>
       ),
     }
   );
+
+  const deliveryNotePage = (e) => {
+    e.preventDefault();
+    router.push('/deliverynote')
+  }
+
+  const invoicePage = (e) => {
+    e.preventDefault();
+    router.push('/invoice')
+  }
 
   return (
     <>
@@ -38,7 +65,6 @@ const ProfileStats = ({ customerData, total, recieved, id }) => {
                 <div className="stat-value text-accent text-xl">
                   ₹{total - recieved}
                 </div>
-                {/* <div className="stat-desc">21% more than last month</div> */}
               </div>
 
               <div className="flex justify-center items-center flex-col p-2 ">
@@ -47,7 +73,6 @@ const ProfileStats = ({ customerData, total, recieved, id }) => {
                 <div className="stat-value text-[#47BB78] text-xl">
                   + ₹{recieved}
                 </div>
-                {/* <div className="stat-desc">21% more than last month</div> */}
               </div>
 
               <div className="flex justify-center items-center flex-col p-2 ">
@@ -57,57 +82,44 @@ const ProfileStats = ({ customerData, total, recieved, id }) => {
                   {" "}
                   ₹{total}
                 </div>
-                {/* <div className="stat-desc">21% more than last month</div> */}
               </div>
             </div>
 
             <div className="flex justify-between items-center flex-wrap w-full gap-x-1 mx-2 my-2">
               <div className="my-1 w-[48.5%]">
-                {isGenerated ? (
-                  <CustomerReport customerData={customerData} total={total} />
-                ) : (
                   <button
-                    onClick={() => {
-                      setIsGenerated(true);
-                    }}
-                    className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+                    className="bg-primary text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+                    onClick={deliveryNotePage}
                   >
                     Delivery Note
                   </button>
-                )}
               </div>
 
               <div className="my-1 w-[48.5%]">
-                {isGenerated ? (
-                  <CustomerReport customerData={customerData} total={total} />
-                ) : (
                   <button
-                    onClick={() => {
-                      setIsGenerated(true);
-                    }}
                     className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+                    onClick={invoicePage}
                   >
                     Invoice
                   </button>
-                )}
               </div>
 
-              <div className="my-1 w-[48.5%]">
-                {isGenerated ? (
-                  <CustomerReport customerData={customerData} total={total} />
+              <div className="my-1 w-[48.5%] text-center">
+                {isGeneratedOnboardingForm ? (
+                  <OnboardingForm boardingDetails={customerData.basic_details} goatArray={customerData.goat_details} boardingTypeArray={null} />
                 ) : (
                   <button
                     onClick={() => {
-                      setIsGenerated(true);
+                      setIsGeneratedOnboardingForm(true);
                     }}
-                    className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+                    className="bg-primary text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                   >
                     On boarding Form
                   </button>
                 )}
               </div>
 
-              <div className="my-1 w-[48.5%]">
+              <div className="my-1 w-[48.5%] text-center">
                 {isGenerated ? (
                   <CustomerReport customerData={customerData} total={total} />
                 ) : (
@@ -115,7 +127,7 @@ const ProfileStats = ({ customerData, total, recieved, id }) => {
                     onClick={() => {
                       setIsGenerated(true);
                     }}
-                    className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+                    className="bg-primary text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                   >
                     Report
                   </button>
@@ -123,24 +135,12 @@ const ProfileStats = ({ customerData, total, recieved, id }) => {
               </div>
 
               <div className="my-1 w-[48.5%]">
-                {/* {isGenerated ? (
-                <CustomerReport customerData={customerData} total={total} />
-              ) : (
-                <button
-                  onClick={() => {
-                    setIsGenerated(true);
-                  }}
-                  className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
-                >
-                  Delivery Note
-                </button>
-              )} */}
                 <button
                   onClick={() =>
                     document.getElementById("send_whatsapp").showModal()
                   }
                   type="submit"
-                  className="bg-primary  text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
+                  className="bg-primary text-[#fff] rounded-xl py-2 px-3 text-sm  2xl:text-[0.5vw] w-full"
                 >
                   Send
                 </button>

@@ -26,7 +26,7 @@ const addWhatsAppReminder = ({ custId }) => {
         console.log(custId);
         mutate({ reminderAmount: reminder, id: custId });
 
-        const paymentLink = `http://192.168.0.104:3000/reminder/?custID=${custId}%26userID=${session?.user?.id}`
+        const paymentLink = `https://ahgf.vercel.app/reminder/?custID=${custId}%26userID=${session?.user?.id}`
         const whatsappMessage = `Hello there, here's a small reminder. Your payment of ${reminder} is pending at Al-Hadi Goat Farm. You can view the payment details here. %0A%0A${paymentLink}`
         window.open(`https://wa.me/+918268201182?text=${whatsappMessage}`);
       };   
