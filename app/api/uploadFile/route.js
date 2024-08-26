@@ -4,11 +4,11 @@ import { Readable } from "node:stream";
 import { google } from "googleapis";
 
 const CLIENT_ID =
-  "844988512004-9kb817k70e8otj240ugvlds4ondfclb5.apps.googleusercontent.com";
-const CLIENT_SECRET = "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";
+  process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REFRESH_TOKEN =
-  "1//04MqbheenxcD6CgYIARAAGAQSNwF-L9Irn2osB8TPz1ppcPn1z1MqZXjk2KaXly7sHOqSdVekxMonbe39AAAQzdPaCOSfOlqb9gg";
-  const REDIRECT_URI = "https://developers.google.com/oauthplayground";
+  process.env.REFRESH_TOKEN;
+  const REDIRECT_URI = process.env.REDIRECT_URI;
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
